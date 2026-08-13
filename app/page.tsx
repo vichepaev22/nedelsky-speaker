@@ -60,12 +60,12 @@ const programs = [
 ];
 
 const partners = [
-  "СБЕР",
-  "ДЕЛОВАЯ СРЕДА",
-  "ПСБ",
-  "ГАЗПРОМ НЕФТЬ",
-  "ФОНД РАЗВИТИЯ ДАЛЬНЕГО ВОСТОКА И АРКТИКИ",
-  "МОЙ БИЗНЕС",
+  { name: "Сбер", logo: "/logos/sber.png", href: "https://sberbank.promo.page/", tone: "sber" },
+  { name: "Деловая среда", logo: "/logos/delovaya-sreda.svg", href: "https://dasreda.ru/", tone: "dasreda" },
+  { name: "ПСБ", logo: "/logos/psb.png", href: "https://www.psbank.ru/bank/style", tone: "psb" },
+  { name: "Газпром нефть", logo: "/logos/gazprom-neft.svg", href: "https://www.gazprom-neft.ru/", tone: "gazprom" },
+  { name: "Корпорация развития Дальнего Востока и Арктики", logo: "/logos/krdv.svg", href: "https://erdc.ru/", tone: "krdv" },
+  { name: "Мой бизнес", logo: "/logos/moy-biznes.svg", href: "https://moibiz93.ru/", tone: "moybiznes" },
 ];
 
 export default function Home() {
@@ -123,12 +123,25 @@ export default function Home() {
 
       <section className="trust-strip" aria-labelledby="trust-title">
         <div className="trust-heading">
-          <p className="eyebrow eyebrow-dark" id="trust-title">Среди партнёров и площадок</p>
+          <p className="eyebrow eyebrow-dark" id="trust-title">Партнёры и площадки</p>
+          <h2>Мне доверяют<br />сильные команды</h2>
           <p>Опыт работы с бизнесом, институтами развития и профессиональными сообществами.</p>
         </div>
         <div className="partner-list" aria-label="Партнёры">
-          {partners.map((partner) => <span key={partner}>{partner}</span>)}
+          {partners.map((partner) => (
+            <a
+              className={`partner-logo partner-${partner.tone}`}
+              href={partner.href}
+              target="_blank"
+              rel="noreferrer"
+              key={partner.name}
+              aria-label={`Официальный сайт: ${partner.name}`}
+            >
+              <img src={partner.logo} alt={partner.name} />
+            </a>
+          ))}
         </div>
+        <p className="logo-note">Логотипы размещены в исходном виде и принадлежат соответствующим правообладателям.</p>
       </section>
 
       <section className="programs-section" id="content">
