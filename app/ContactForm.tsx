@@ -1,9 +1,22 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+
+const topicsByProgram: Record<string, string> = {
+  "ai-business": "ИИ для роста бизнеса",
+  "service-design": "Сервис-дизайн и клиентский опыт",
+  partnership: "Партнёрство как основа взаимодействия",
+  procurement: "Госзакупки как инструмент развития бизнеса",
+};
 
 export function ContactForm() {
   const [status, setStatus] = useState<string>("");
+  const searchParams = useSearchParams();
+  const selectedTopic = topicsByProgram[searchParams.get("program") ?? ""] ?? "ИИ для роста бизнеса";
+  const [topic, setTopic] = useState(selectedTopic);
+
+  useEffect(() => setTopic(selectedTopic), [selectedTopic]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,7 +49,7 @@ export function ContactForm() {
         <div className="field"><label htmlFor="lead-name">Ваше имя</label><input id="lead-name" name="name" required autoComplete="name" placeholder="Как к вам обращаться" /></div>
         <div className="field"><label htmlFor="lead-contact">Контакт</label><input id="lead-contact" name="contact" required placeholder="VK или e-mail" /></div>
         <div className="field field-full"><label htmlFor="lead-company">Компания или событие</label><input id="lead-company" name="company" placeholder="Например: форум для предпринимателей" /></div>
-        <div className="field field-full"><label htmlFor="lead-topic">Интересующая тема</label><select id="lead-topic" name="topic" defaultValue="ИИ для экспертов"><option>ИИ для экспертов</option><option>Сервис-дизайн и клиентский опыт</option><option>Партнёрство как основа взаимодействия</option><option>Госзакупки как инструмент развития бизнеса</option><option>Нужна консультация по выбору темы</option></select></div>
+        <div className="field field-full"><label htmlFor="lead-topic">Интересующая тема</label><select id="lead-topic" name="topic" value={topic} onChange={(event) => setTopic(event.currentTarget.value)}><option>ИИ для роста бизнеса</option><option>Сервис-дизайн и клиентский опыт</option><option>Партнёрство как основа взаимодействия</option><option>Госзакупки как инструмент развития бизнеса</option><option>Нужна консультация по выбору темы</option></select></div>
         <div className="field field-full"><label htmlFor="lead-details">Что хотите получить</label><textarea id="lead-details" name="details" placeholder="Аудитория, дата, город, формат и задача мероприятия" /></div>
       </div>
       <button className="button form-submit" type="submit">Скопировать заявку и написать в VK <span>↗</span></button>

@@ -1,63 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
 import { ContactForm } from "./ContactForm";
+import { programs } from "./programs-data";
 
 export const metadata: Metadata = {
   title: "Максим Недельский — бизнес-тренер и спикер",
   description:
     "Практические выступления и корпоративные семинары об ИИ, сервис-дизайне, партнёрстве и развитии бизнеса.",
 };
-
-const programs = [
-  {
-    number: "01",
-    tag: "ИИ и цифровые решения",
-    title: "ИИ для экспертов",
-    lead: "Как превратить нейросети в помощника для бизнеса, контента, аналитики и новых продуктов.",
-    points: [
-      "Промпты и работа с контекстом",
-      "Сервис-дизайн и тренд-вотчинг",
-      "Презентации, MVP и вайб-кодинг",
-    ],
-    tone: "coral",
-  },
-  {
-    number: "02",
-    tag: "Клиентский опыт",
-    title: "Сервис-дизайн и клиентский опыт",
-    lead: "Как находить точки роста в пути клиента и создавать ценность, эмоции и инновации.",
-    points: [
-      "Карта клиентского пути",
-      "Эмоция = реальность − ожидание",
-      "Модель сервиса для команды",
-    ],
-    tone: "lime",
-  },
-  {
-    number: "03",
-    tag: "Команды и сообщества",
-    title: "Партнёрство как основа взаимодействия",
-    lead: "Как превращать общую идею в устойчивый проект, доверие и понятные договорённости.",
-    points: [
-      "Честность, договорённости, гибкость",
-      "Исполнитель, эксперт и партнёр",
-      "Конфликтология и дорожная карта",
-    ],
-    tone: "blue",
-  },
-  {
-    number: "04",
-    tag: "Предпринимательство",
-    title: "Госзакупки как инструмент развития бизнеса",
-    lead: "Как увидеть в закупках не разовый тендер, а системный канал развития компании.",
-    points: [
-      "Логика 44-ФЗ и 223-ФЗ",
-      "Бюджетный и закупочный циклы",
-      "Стратегия работы с заказчиком",
-    ],
-    tone: "violet",
-  },
-];
 
 const partners = [
   { name: "Сбер", logo: "/logos/sber.png", href: "https://sberbank.promo.page/", tone: "sber" },
@@ -109,10 +59,10 @@ export default function Home() {
           <div className="hero-visual" aria-label="Максим Недельский выступает перед аудиторией">
             <div className="hero-stamp">MAXIM<br />NEDELSKY<span>●</span></div>
             <figure className="hero-main-photo">
-              <img src="/images/speaker/speaker-stage-wide.jpg" alt="Максим Недельский выступает на сцене с микрофоном" width="1440" height="960" />
+              <img src="/images/speaker/maxim-navy.png" alt="Максим Недельский выступает с микрофоном" width="1023" height="1537" />
             </figure>
             <figure className="hero-side-photo">
-              <img src="/images/speaker/speaker-flags.jpg" alt="Максим Недельский ведёт выступление" width="720" height="1080" />
+              <img src="/images/speaker/maxim-coral.png" alt="Максим Недельский ведёт выступление" width="1023" height="1537" />
             </figure>
             <p className="hero-caption">выступления,<br />которые запускают изменения</p>
             <span className="hero-orbit orbit-one" aria-hidden="true" />
@@ -165,9 +115,12 @@ export default function Home() {
               <h3>{program.title}</h3>
               <p className="program-lead">{program.lead}</p>
               <ul>
-                {program.points.map((point) => <li key={point}>{point}</li>)}
+                {program.modules.slice(0, 3).map((module) => <li key={module.number}>{module.title}</li>)}
               </ul>
-              <a href="#contact" className="program-link">Запросить программу <span>↗</span></a>
+              <div className="program-card-actions">
+                <a href={`/programs/${program.slug}`} className="program-link">Подробнее <span>→</span></a>
+                <a href={`/?program=${program.slug}#contact`} className="program-request">Запросить программу <span>↗</span></a>
+              </div>
             </article>
           ))}
         </div>
@@ -205,7 +158,7 @@ export default function Home() {
 
       <section className="about-section" id="about">
         <div className="about-photo">
-          <img src="/images/speaker/speaker-talk.jpg" alt="Максим Недельский во время делового выступления" width="720" height="1080" loading="lazy" />
+          <img src="/images/speaker/maxim-coral.png" alt="Максим Недельский во время делового выступления" width="1023" height="1537" loading="lazy" />
           <p>Максим<br />Недельский</p>
         </div>
         <div className="about-copy">
