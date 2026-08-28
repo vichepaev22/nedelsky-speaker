@@ -1,0 +1,19 @@
+/*
+ * CSS — визуальная система GitHub Pages-версии сайта.
+ * Разметка находится в index.html и React-компонентах, интерактивность — в main.tsx.
+ */
+@import "../app/globals.css";
+
+:root {
+  color-scheme: light;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .program-card,
+  .format-card,
+  .partner-logo,
+  .vk-card,
+  .button {
+    will-change: transform;
+  }
+}

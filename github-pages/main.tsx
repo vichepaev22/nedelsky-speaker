@@ -1,9 +1,8 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import { hydrateRoot } from "react-dom/client";
 import Home from "../app/page";
 import { ProgramPage } from "../app/ProgramPage";
 import { getProgram, programs } from "../app/programs-data";
-import "../app/globals.css";
+import "./site.css";
 
 const baseSegments = import.meta.env.BASE_URL.split("/").filter(Boolean);
 const pathSegments = window.location.pathname.split("/").filter(Boolean);
@@ -19,8 +18,6 @@ if (knownProgram) {
     ?.setAttribute("content", knownProgram.description);
 }
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    {knownProgram ? <ProgramPage program={getProgram(knownProgram.slug)} /> : <Home />}
-  </StrictMode>,
-);
+const page = knownProgram ? <ProgramPage program={getProgram(knownProgram.slug)} /> : <Home />;
+
+hydrateRoot(document.getElementById("root")!, page);

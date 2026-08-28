@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 
 const topicsByProgram: Record<string, string> = {
   "ai-business": "ИИ для роста бизнеса",
@@ -11,11 +11,16 @@ const topicsByProgram: Record<string, string> = {
 
 export function ContactForm() {
   const [status, setStatus] = useState<string>("");
-  const [topic, setTopic] = useState(() => {
-    if (typeof window === "undefined") return "ИИ для роста бизнеса";
+  const [topic, setTopic] = useState("ИИ для роста бизнеса");
+
+  useEffect(() => {
     const program = new URLSearchParams(window.location.search).get("program") ?? "";
-    return topicsByProgram[program] ?? "ИИ для роста бизнеса";
-  });
+    const nextTopic = topicsByProgram[program];
+    if (!nextTopic) return;
+
+    const updateTopic = window.setTimeout(() => setTopic(nextTopic), 0);
+    return () => window.clearTimeout(updateTopic);
+  }, []);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

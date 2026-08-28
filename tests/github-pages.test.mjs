@@ -11,6 +11,9 @@ test("builds a complete GitHub Pages artifact", async () => {
     access(new URL("404.html", outputRoot)),
     access(new URL("images/speaker/maxim-navy.png", outputRoot)),
     access(new URL("logos/sber.png", outputRoot)),
+    access(new URL("robots.txt", outputRoot)),
+    access(new URL("sitemap.xml", outputRoot)),
+    access(new URL("llms.txt", outputRoot)),
   ]);
 
   const assets = await readdir(new URL("assets/", outputRoot));
@@ -23,6 +26,10 @@ test("uses the repository base path for scripts and styles", async () => {
   assert.match(html, /\/nedelsky-speaker\/assets\/.+\.js/);
   assert.match(html, /\/nedelsky-speaker\/assets\/.+\.css/);
   assert.ok(html.includes(`${siteUrl}/`));
+  assert.match(html, /<h1>Знания, которые/);
+  assert.match(html, /application\/ld\+json/);
+  assert.match(html, /"@type":"Person"/);
+  assert.match(html, /href="\/nedelsky-speaker\/programs\/ai-business\//);
 });
 
 for (const [slug, title] of [
@@ -39,5 +46,8 @@ for (const [slug, title] of [
     assert.ok(html.includes(`<title>${title}`));
     assert.ok(html.includes(`${siteUrl}/programs/${slug}/`));
     assert.match(html, /property="og:image"/);
+    assert.match(html, /<h1>/);
+    assert.match(html, /"@type":"Course"/);
+    assert.match(html, /"@type":"BreadcrumbList"/);
   });
 }
