@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Program } from "./programs-data";
+import { sitePath } from "./site-paths";
 
 function ThemeVisual({ type }: { type: Program["visual"] }) {
   if (type === "service") {
@@ -15,12 +16,12 @@ function ThemeVisual({ type }: { type: Program["visual"] }) {
 }
 
 export function ProgramPage({ program }: { program: Program }) {
-  const contactUrl = `/?program=${program.slug}#contact`;
+  const contactUrl = sitePath(`/?program=${program.slug}#contact`);
 
   return (
     <main className={`program-detail detail-${program.tone}`}>
       <header className="site-header detail-header">
-        <a className="brand" href="/#top" aria-label="Максим Недельский — на главную">
+        <a className="brand" href={sitePath("/#top")} aria-label="Максим Недельский — на главную">
           <span className="brand-mark" aria-hidden="true">N</span>
           <span>Максим<br />Недельский</span>
         </a>
@@ -34,7 +35,7 @@ export function ProgramPage({ program }: { program: Program }) {
 
       <section className="program-hero">
         <div className="program-hero-copy">
-          <a className="back-link" href="/#programs">← Все программы</a>
+          <a className="back-link" href={sitePath("/#programs")}>← Все программы</a>
           <p className="eyebrow eyebrow-dark">{program.tag} · программа {program.number}</p>
           <h1>{program.title}</h1>
           <p className="program-hero-lead">{program.lead}</p>
@@ -45,7 +46,7 @@ export function ProgramPage({ program }: { program: Program }) {
           </div>
         </div>
         <figure className={`program-hero-photo ${program.imageWide ? "is-wide" : ""}`}>
-          <img src={program.image} alt={program.imageAlt} width={program.imageWide ? 1537 : 1023} height={program.imageWide ? 1023 : 1537} />
+          <img src={sitePath(program.image)} alt={program.imageAlt} width={program.imageWide ? 1537 : 1023} height={program.imageWide ? 1023 : 1537} />
         </figure>
       </section>
 
@@ -107,7 +108,7 @@ export function ProgramPage({ program }: { program: Program }) {
       </section>
 
       <footer>
-        <a className="brand brand-footer" href="/#top"><span className="brand-mark">N</span><span>Максим<br />Недельский</span></a>
+        <a className="brand brand-footer" href={sitePath("/#top")}><span className="brand-mark">N</span><span>Максим<br />Недельский</span></a>
         <p>Бизнес-тренер · Предприниматель · Спикер</p>
         <a href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">ВКонтакте ↗</a>
       </footer>

@@ -1,7 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { FormEvent, useState } from "react";
 
 const topicsByProgram: Record<string, string> = {
   "ai-business": "ИИ для роста бизнеса",
@@ -12,11 +11,11 @@ const topicsByProgram: Record<string, string> = {
 
 export function ContactForm() {
   const [status, setStatus] = useState<string>("");
-  const searchParams = useSearchParams();
-  const selectedTopic = topicsByProgram[searchParams.get("program") ?? ""] ?? "ИИ для роста бизнеса";
-  const [topic, setTopic] = useState(selectedTopic);
-
-  useEffect(() => setTopic(selectedTopic), [selectedTopic]);
+  const [topic, setTopic] = useState(() => {
+    if (typeof window === "undefined") return "ИИ для роста бизнеса";
+    const program = new URLSearchParams(window.location.search).get("program") ?? "";
+    return topicsByProgram[program] ?? "ИИ для роста бизнеса";
+  });
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

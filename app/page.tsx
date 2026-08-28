@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { ContactForm } from "./ContactForm";
 import { programs } from "./programs-data";
+import { sitePath } from "./site-paths";
 
 export const metadata: Metadata = {
   title: "Максим Недельский — бизнес-тренер и спикер",
@@ -10,12 +11,12 @@ export const metadata: Metadata = {
 };
 
 const partners = [
-  { name: "Сбер", logo: "/logos/sber.png", href: "https://sberbank.promo.page/", tone: "sber" },
-  { name: "Деловая среда", logo: "/logos/delovaya-sreda.svg", href: "https://dasreda.ru/", tone: "dasreda" },
-  { name: "ПСБ", logo: "/logos/psb.png", href: "https://www.psbank.ru/bank/style", tone: "psb" },
-  { name: "Газпром нефть", logo: "/logos/gazprom-neft.svg", href: "https://www.gazprom-neft.ru/", tone: "gazprom" },
-  { name: "Корпорация развития Дальнего Востока и Арктики", logo: "/logos/krdv.svg", href: "https://erdc.ru/", tone: "krdv" },
-  { name: "Мой бизнес", logo: "/logos/moy-biznes.svg", href: "https://moibiz93.ru/", tone: "moybiznes" },
+  { name: "Сбер", logo: sitePath("/logos/sber.png"), href: "https://sberbank.promo.page/", tone: "sber" },
+  { name: "Деловая среда", logo: sitePath("/logos/delovaya-sreda.svg"), href: "https://dasreda.ru/", tone: "dasreda" },
+  { name: "ПСБ", logo: sitePath("/logos/psb.png"), href: "https://www.psbank.ru/bank/style", tone: "psb" },
+  { name: "Газпром нефть", logo: sitePath("/logos/gazprom-neft.svg"), href: "https://www.gazprom-neft.ru/", tone: "gazprom" },
+  { name: "Корпорация развития Дальнего Востока и Арктики", logo: sitePath("/logos/krdv.svg"), href: "https://erdc.ru/", tone: "krdv" },
+  { name: "Мой бизнес", logo: sitePath("/logos/moy-biznes.svg"), href: "https://moibiz93.ru/", tone: "moybiznes" },
 ];
 
 export default function Home() {
@@ -59,10 +60,10 @@ export default function Home() {
           <div className="hero-visual" aria-label="Максим Недельский выступает перед аудиторией">
             <div className="hero-stamp">MAXIM<br />NEDELSKY<span>●</span></div>
             <figure className="hero-main-photo">
-              <img src="/images/speaker/maxim-navy.png" alt="Максим Недельский выступает с микрофоном" width="1023" height="1537" />
+              <img src={sitePath("/images/speaker/maxim-navy.png")} alt="Максим Недельский выступает с микрофоном" width="1023" height="1537" />
             </figure>
             <figure className="hero-side-photo">
-              <img src="/images/speaker/maxim-coral.png" alt="Максим Недельский ведёт выступление" width="1023" height="1537" />
+              <img src={sitePath("/images/speaker/maxim-coral.png")} alt="Максим Недельский ведёт выступление" width="1023" height="1537" />
             </figure>
             <p className="hero-caption">выступления,<br />которые запускают изменения</p>
             <span className="hero-orbit orbit-one" aria-hidden="true" />
@@ -118,8 +119,8 @@ export default function Home() {
                 {program.modules.slice(0, 3).map((module) => <li key={module.number}>{module.title}</li>)}
               </ul>
               <div className="program-card-actions">
-                <a href={`/programs/${program.slug}`} className="program-link">Подробнее <span>→</span></a>
-                <a href={`/?program=${program.slug}#contact`} className="program-request">Запросить программу <span>↗</span></a>
+                <a href={sitePath(`/programs/${program.slug}/`)} className="program-link">Подробнее <span>→</span></a>
+                <a href={sitePath(`/?program=${program.slug}#contact`)} className="program-request">Запросить программу <span>↗</span></a>
               </div>
             </article>
           ))}
@@ -158,7 +159,7 @@ export default function Home() {
 
       <section className="about-section" id="about">
         <div className="about-photo">
-          <img src="/images/speaker/maxim-coral.png" alt="Максим Недельский во время делового выступления" width="1023" height="1537" loading="lazy" />
+          <img src={sitePath("/images/speaker/maxim-coral.png")} alt="Максим Недельский во время делового выступления" width="1023" height="1537" loading="lazy" />
           <p>Максим<br />Недельский</p>
         </div>
         <div className="about-copy">

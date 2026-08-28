@@ -21,6 +21,7 @@
 # misc
 .DS_Store
 *.pem
+*.tsbuildinfo
 
 # debug
 npm-debug.log*
@@ -37,6 +38,7 @@ preview.err.log
 .vercel
 
 /dist/
+/pages-dist/
 /.wrangler/
 /outputs/
 /work/
