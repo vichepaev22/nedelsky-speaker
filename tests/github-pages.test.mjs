@@ -11,6 +11,9 @@ test("builds a complete GitHub Pages artifact", async () => {
     access(new URL("404.html", outputRoot)),
     access(new URL("images/speaker/maxim-navy.png", outputRoot)),
     access(new URL("logos/sber.png", outputRoot)),
+    access(new URL("logos/nash-buduschee.jfif", outputRoot)),
+    access(new URL("logos/rosmolodezh-granty.jfif", outputRoot)),
+    access(new URL("logos/moy-biznes.jpg", outputRoot)),
     access(new URL("robots.txt", outputRoot)),
     access(new URL("sitemap.xml", outputRoot)),
     access(new URL("llms.txt", outputRoot)),
@@ -30,6 +33,8 @@ test("uses the repository base path for scripts and styles", async () => {
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /"@type":"Person"/);
   assert.match(html, /href="\/nedelsky-speaker\/programs\/ai-business\//);
+  assert.match(html, /Фонд «Наше Будущее»/);
+  assert.match(html, /Росмолодёжь\.Гранты/);
 });
 
 for (const [slug, title] of [

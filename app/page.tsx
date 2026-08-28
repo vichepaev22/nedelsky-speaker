@@ -16,7 +16,9 @@ const partners = [
   { name: "ПСБ", logo: sitePath("/logos/psb.png"), href: "https://www.psbank.ru/bank/style", tone: "psb" },
   { name: "Газпром нефть", logo: sitePath("/logos/gazprom-neft.svg"), href: "https://www.gazprom-neft.ru/", tone: "gazprom" },
   { name: "Корпорация развития Дальнего Востока и Арктики", logo: sitePath("/logos/krdv.svg"), href: "https://erdc.ru/", tone: "krdv" },
-  { name: "Мой бизнес", logo: sitePath("/logos/moy-biznes.svg"), href: "https://moibiz93.ru/", tone: "moybiznes" },
+  { name: "Фонд «Наше Будущее»", logo: sitePath("/logos/nash-buduschee.jfif"), href: "https://nb-fund.ru/", tone: "nashbuduschee" },
+  { name: "Росмолодёжь.Гранты", logo: sitePath("/logos/rosmolodezh-granty.jfif"), href: "https://fadm.gov.ru/directions/grant/", tone: "rosmolodezh" },
+  { name: "Мой бизнес", logo: sitePath("/logos/moy-biznes.jpg"), href: "https://moibiz93.ru/", tone: "moybiznes" },
 ];
 
 export default function Home() {
