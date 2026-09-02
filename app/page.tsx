@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { ContactForm } from "./ContactForm";
 import { programs } from "./programs-data";
+import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
 
 export const metadata: Metadata = {
@@ -26,18 +27,15 @@ export default function Home() {
     <main>
       <a className="skip-link" href="#content">Перейти к содержанию</a>
 
-      <header className="site-header">
-        <a className="brand" href="#top" aria-label="Максим Недельский — на главную">
-          <span className="brand-mark" aria-hidden="true">N</span>
-          <span>Максим<br />Недельский</span>
-        </a>
-        <nav aria-label="Основная навигация">
-          <a href="#programs">Программы</a>
-          <a href="#about">О спикере</a>
-          <a href="#cases">Формат работы</a>
-        </nav>
-        <a className="button button-dark header-cta" href="#contact">Обсудить выступление <span>↗</span></a>
-      </header>
+      <SiteHeader
+        brandHref="#top"
+        contactHref="#contact"
+        navigation={[
+          { href: "#programs", label: "Программы" },
+          { href: "#about", label: "О спикере" },
+          { href: "#organizers", label: "Организаторам" },
+        ]}
+      />
 
       <section className="hero" id="top">
         <div className="hero-grid">
@@ -74,29 +72,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="trust-strip" aria-labelledby="trust-title">
-        <div className="trust-heading">
-          <p className="eyebrow eyebrow-dark" id="trust-title">Партнёры и площадки</p>
-          <h2>Мне доверяют<br />сильные команды</h2>
-          <p>Опыт работы с бизнесом, институтами развития и профессиональными сообществами.</p>
-        </div>
-        <div className="partner-list" aria-label="Партнёры">
-          {partners.map((partner) => (
-            <a
-              className={`partner-logo partner-${partner.tone}`}
-              href={partner.href}
-              target="_blank"
-              rel="noreferrer"
-              key={partner.name}
-              aria-label={`Официальный сайт: ${partner.name}`}
-            >
-              <img src={partner.logo} alt={partner.name} />
-            </a>
-          ))}
-        </div>
-        <p className="logo-note">Логотипы размещены в исходном виде и принадлежат соответствующим правообладателям.</p>
-      </section>
-
       <section className="programs-section" id="content">
         <div className="section-intro" id="programs">
           <p className="eyebrow eyebrow-dark">Программы</p>
@@ -112,21 +87,49 @@ export default function Home() {
             <article className={`program-card tone-${program.tone}`} key={program.number}>
               <div className="program-card-top">
                 <span className="program-number">{program.number}</span>
-                <span className="program-duration">от 2 часов</span>
+                <span className="program-duration">3 формата</span>
               </div>
               <p className="program-tag">{program.tag}</p>
               <h3>{program.title}</h3>
               <p className="program-lead">{program.lead}</p>
+              <div className="program-format-preview" aria-label="Доступные форматы">
+                {program.formats.map((format) => (
+                  <span key={format.duration}><b>{format.duration}</b>{format.type}</span>
+                ))}
+              </div>
               <ul>
                 {program.modules.slice(0, 3).map((module) => <li key={module.number}>{module.title}</li>)}
               </ul>
               <div className="program-card-actions">
                 <a href={sitePath(`/programs/${program.slug}/`)} className="program-link">Подробнее <span>→</span></a>
-                <a href={sitePath(`/?program=${program.slug}#contact`)} className="program-request">Запросить программу <span>↗</span></a>
+                <a href={sitePath(`/?program=${program.slug}#contact`)} className="program-request">Подобрать формат <span>↗</span></a>
               </div>
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="trust-strip" id="partners" aria-labelledby="trust-title">
+        <div className="trust-heading">
+          <p className="eyebrow eyebrow-dark" id="trust-title">Партнёры и площадки</p>
+          <h2>Опыт работы<br />с сильными командами</h2>
+          <p>Бизнес, институты развития и профессиональные сообщества — площадки, с которыми связан опыт Максима.</p>
+        </div>
+        <div className="partner-list" aria-label="Партнёры и площадки">
+          {partners.map((partner) => (
+            <a
+              className={`partner-logo partner-${partner.tone}`}
+              href={partner.href}
+              target="_blank"
+              rel="noreferrer"
+              key={partner.name}
+              aria-label={`Официальный сайт: ${partner.name}`}
+            >
+              <img src={partner.logo} alt={partner.name} />
+            </a>
+          ))}
+        </div>
+        <p className="logo-note">Логотипы размещены в исходном виде и принадлежат соответствующим правообладателям.</p>
       </section>
 
       <section className="method-section" id="cases">
@@ -201,6 +204,21 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="organizer-section" id="organizers" aria-labelledby="organizer-title">
+        <div className="organizer-intro">
+          <p className="eyebrow eyebrow-dark">Организаторам и HR-командам</p>
+          <h2 id="organizer-title">Быстро собрать<br /><em>подходящий формат</em></h2>
+          <p>Чтобы подготовить предложение, достаточно пяти ориентиров: задача, аудитория, дата, город и желаемая глубина работы.</p>
+          <a className="button button-dark" href="#contact">Подобрать программу <span>↘</span></a>
+        </div>
+        <div className="organizer-grid">
+          <article><span>01</span><strong>4 темы</strong><p>ИИ, клиентский опыт, партнёрство и госзакупки.</p></article>
+          <article><span>02</span><strong>3 формата</strong><p>Семинар 2 часа, тренинг 4–6 часов или практикум 8 часов.</p></article>
+          <article><span>03</span><strong>Под задачу</strong><p>Программа адаптируется под отрасль, уровень участников и контекст события.</p></article>
+          <article><span>04</span><strong>Практический результат</strong><p>Участники работают со своими кейсами и фиксируют следующий применимый шаг.</p></article>
+        </div>
+      </section>
+
       <section className="faq-section" aria-labelledby="faq-title">
         <div>
           <p className="eyebrow eyebrow-dark">Ответы на частые вопросы</p>
@@ -246,7 +264,7 @@ export default function Home() {
             <span><small>Написать напрямую</small><strong>vk.ru/ndlsky</strong></span>
             <b>↗</b>
           </a>
-          <p className="contact-note">Для e-mail-заявок достаточно будет добавить адрес получателя — форма уже подготовлена.</p>
+          <p className="contact-note">ВКонтакте — самый быстрый способ обсудить задачу, аудиторию и формат события.</p>
         </div>
         <ContactForm />
       </section>

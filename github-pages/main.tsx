@@ -1,4 +1,4 @@
-import { hydrateRoot } from "react-dom/client";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import Home from "../app/page";
 import { ProgramPage } from "../app/ProgramPage";
 import { getProgram, programs } from "../app/programs-data";
@@ -19,5 +19,12 @@ if (knownProgram) {
 }
 
 const page = knownProgram ? <ProgramPage program={getProgram(knownProgram.slug)} /> : <Home />;
+const root = document.getElementById("root")!;
 
-hydrateRoot(document.getElementById("root")!, page);
+// The home page hydrates its static form. Program pages keep SEO-ready HTML in
+// the document source and render client-side to avoid a React 19 text mismatch.
+if (knownProgram) {
+  createRoot(root).render(page);
+} else {
+  hydrateRoot(root, page);
+}

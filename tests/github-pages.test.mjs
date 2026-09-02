@@ -35,6 +35,15 @@ test("uses the repository base path for scripts and styles", async () => {
   assert.match(html, /href="\/nedelsky-speaker\/programs\/ai-business\//);
   assert.match(html, /Фонд «Наше Будущее»/);
   assert.match(html, /Росмолодёжь\.Гранты/);
+  assert.match(html, /Организаторам/);
+  assert.match(html, /Подобрать формат/);
+  assert.match(html, /4–6 часов/);
+  assert.match(html, /class="mobile-menu"/);
+  assert.doesNotMatch(html, /Для e-mail-заявок достаточно/);
+  assert.ok(
+    html.indexOf('id="programs"') < html.indexOf('id="partners"'),
+    "programs should appear before the partner block",
+  );
 });
 
 for (const [slug, title] of [

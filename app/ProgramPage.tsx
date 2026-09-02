@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Program } from "./programs-data";
+import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
 
 function ThemeVisual({ type }: { type: Program["visual"] }) {
@@ -20,18 +21,15 @@ export function ProgramPage({ program }: { program: Program }) {
 
   return (
     <main className={`program-detail detail-${program.tone}`}>
-      <header className="site-header detail-header">
-        <a className="brand" href={sitePath("/#top")} aria-label="Максим Недельский — на главную">
-          <span className="brand-mark" aria-hidden="true">N</span>
-          <span>Максим<br />Недельский</span>
-        </a>
-        <nav aria-label="Навигация по странице программы">
-          <a href="#formats">Форматы</a>
-          <a href="#content">Программа</a>
-          <a href="#result">Результат</a>
-        </nav>
-        <a className="button button-dark header-cta" href={contactUrl}>Обсудить выступление <span>↗</span></a>
-      </header>
+      <SiteHeader
+        brandHref={sitePath("/#top")}
+        contactHref={contactUrl}
+        navigation={[
+          { href: "#formats", label: "Форматы" },
+          { href: "#content", label: "Программа" },
+          { href: "#result", label: "Результат" },
+        ]}
+      />
 
       <section className="program-hero">
         <div className="program-hero-copy">
@@ -41,7 +39,7 @@ export function ProgramPage({ program }: { program: Program }) {
           <p className="program-hero-lead">{program.lead}</p>
           <p className="program-hero-description">{program.description}</p>
           <div className="program-hero-actions">
-            <a className="button button-coral" href={contactUrl}>Запросить программу <span>↗</span></a>
+            <a className="button button-coral" href={contactUrl}>Подобрать формат <span>↗</span></a>
             <a className="text-link" href="#formats">Выбрать формат <span>↓</span></a>
           </div>
         </div>
@@ -68,7 +66,7 @@ export function ProgramPage({ program }: { program: Program }) {
               <h3>{format.label}</h3>
               <p>{format.description}</p>
               <ul>{format.outcomes.map((outcome) => <li key={outcome}>{outcome}</li>)}</ul>
-              <a className="format-link" href={contactUrl}>Запросить программу <span>↗</span></a>
+              <a className="format-link" href={contactUrl}>Выбрать этот формат <span>↗</span></a>
             </article>
           ))}
         </div>
@@ -103,7 +101,7 @@ export function ProgramPage({ program }: { program: Program }) {
       <section className="detail-contact">
         <p className="eyebrow">Нужен формат под вашу аудиторию?</p>
         <h2>Адаптирую программу<br /><em>под задачу команды.</em></h2>
-        <a className="button button-coral" href={contactUrl}>Запросить программу <span>↗</span></a>
+        <a className="button button-coral" href={contactUrl}>Подобрать формат <span>↗</span></a>
         <a className="detail-vk" href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">Или написать Максиму в VK ↗</a>
       </section>
 
