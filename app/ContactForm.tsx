@@ -9,8 +9,13 @@ const topicsByProgram: Record<string, string> = {
   procurement: "Госзакупки как инструмент развития бизнеса",
 };
 
+type FormStatus = {
+  tone: "success" | "attention";
+  message: string;
+};
+
 export function ContactForm() {
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<FormStatus | null>(null);
   const [draft, setDraft] = useState<string>("");
   const [topic, setTopic] = useState("ИИ для роста бизнеса");
 
@@ -40,21 +45,26 @@ export function ContactForm() {
     ].filter(Boolean).join("\n");
 
     setDraft(message);
-    const vkWindow = window.open("https://vk.ru/ndlsky", "_blank", "noopener,noreferrer");
+    window.open("https://vk.ru/ndlsky", "_blank", "noopener,noreferrer");
 
     if (!navigator.clipboard) {
-      setStatus("ВКонтакте открыт. Скопируйте подготовленный текст ниже и вставьте его в сообщение.");
+      setStatus({
+        tone: "success",
+        message: "Текст готов ниже. Скопируйте его и вставьте в сообщение ВКонтакте.",
+      });
       return;
     }
 
     void navigator.clipboard.writeText(message).then(
-      () => setStatus("Текст скопирован. Вставьте его в открывшееся сообщение ВКонтакте."),
-      () => setStatus("Не удалось скопировать автоматически. Скопируйте подготовленный текст ниже."),
+      () => setStatus({
+        tone: "success",
+        message: "Готово: текст скопирован. ВКонтакте откроется в новой вкладке; если нет — используйте кнопку выше.",
+      }),
+      () => setStatus({
+        tone: "attention",
+        message: "Текст подготовлен ниже, но не скопирован автоматически. Выделите и скопируйте его вручную.",
+      }),
     );
-
-    if (!vkWindow) {
-      setStatus("Браузер заблокировал новую вкладку. Скопируйте текст ниже и откройте ВКонтакте по ссылке.");
-    }
   }
 
   return (
@@ -69,8 +79,10 @@ export function ContactForm() {
         <div className="field field-full"><label htmlFor="lead-topic">Интересующая тема</label><select id="lead-topic" name="topic" value={topic} onChange={(event) => setTopic(event.currentTarget.value)}><option>ИИ для роста бизнеса</option><option>Сервис-дизайн и клиентский опыт</option><option>Партнёрство как основа взаимодействия</option><option>Госзакупки как инструмент развития бизнеса</option><option>Нужна консультация по выбору темы</option></select></div>
         <div className="field field-full"><label htmlFor="lead-details">Что хотите получить</label><textarea id="lead-details" name="details" placeholder="Аудитория, дата, город, формат и задача мероприятия" /></div>
       </div>
-      <button className="button form-submit" type="submit">Подготовить текст и открыть VK <span>↗</span></button>
-      <p className="form-status" aria-live="polite">{status}</p>
+      <button className={`button form-submit ${status?.tone === "success" ? "is-success" : ""}`} type="submit">{status?.tone === "success" ? "Текст готов — открыть VK" : "Подготовить текст и открыть VK"} <span>{status?.tone === "success" ? "✓" : "↗"}</span></button>
+      <output className={`form-status ${status ? `is-${status.tone}` : ""}`} aria-live="polite">
+        {status && <><span aria-hidden="true">{status.tone === "success" ? "✓" : "!"}</span>{status.message}</>}
+      </output>
       {draft && (
         <div className="draft-fallback">
           <label htmlFor="lead-draft">Подготовленный текст</label>

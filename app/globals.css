@@ -239,4 +239,26 @@ footer { display: grid; grid-template-columns: 1fr 1fr auto; gap: 25px; align-it
   .lab-readout p { font-size: 13px; }
 }
 
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.button, .partner-logo, .vk-card, nav a, .program-card, .program-link, .program-link span, .lab-node, .lab-cursor { transition: none; }.button:hover, .partner-logo:hover, .vk-card:hover, .program-card:hover, .program-link:hover, .program-link:hover span { transform: none; }.lab-network line { animation: none; }.lab-cursor { display: none; } }
+/* Small responses make actions feel tangible without competing with the content. */
+.button:active, .program-link:active, .program-request:active, .form-vk-direct:active { transform: translateY(1px) scale(.975); }
+.form-vk-direct { transition: transform .18s ease, background .18s ease, box-shadow .18s ease; }
+.form-vk-direct:hover { background: #166fd7; box-shadow: 0 9px 20px rgba(39,135,245,.22); transform: translateY(-2px); }
+.form-submit.is-success { background: #1e7a45; }
+.form-status { display: flex; align-items: flex-start; gap: 9px; padding: 0; border-radius: 9px; opacity: 0; transform: translateY(-4px); transition: opacity .2s ease, transform .2s ease, padding .2s ease; }
+.form-status.is-success, .form-status.is-attention { padding: 11px 12px; opacity: 1; transform: translateY(0); animation: status-pop .34s ease-out; }
+.form-status.is-success { background: #e4f5e9; color: #175d33 !important; }
+.form-status.is-attention { background: #fff1dc; color: #7a4512 !important; }
+.form-status > span { display: grid; flex: 0 0 20px; width: 20px; height: 20px; place-items: center; border-radius: 50%; background: currentColor; color: white; font-size: 12px; font-weight: 900; line-height: 1; }
+@keyframes status-pop { 0% { opacity: 0; transform: translateY(-7px) scale(.98); } 65% { transform: translateY(1px) scale(1.01); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
+
+.hero-orbit { will-change: transform; }
+.orbit-one { animation: orbit-drift-one 16s ease-in-out infinite alternate; }
+.orbit-two { animation: orbit-drift-two 20s ease-in-out infinite alternate; }
+.hero-stamp { animation: stamp-drift 8s ease-in-out infinite alternate; }
+.hero-main-photo img { transition: transform .7s cubic-bezier(.2,.75,.25,1); }
+.hero-visual:hover .hero-main-photo img { transform: scale(1.018); }
+@keyframes orbit-drift-one { from { transform: translate3d(-1%, -1%, 0) rotate(-2deg); } to { transform: translate3d(2%, 2%, 0) rotate(2deg); } }
+@keyframes orbit-drift-two { from { transform: translate3d(1%, 2%, 0) rotate(2deg); } to { transform: translate3d(-2%, -1%, 0) rotate(-2deg); } }
+@keyframes stamp-drift { from { transform: translateY(-2px) rotate(9deg); } to { transform: translateY(4px) rotate(15deg); } }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; }.button, .partner-logo, .vk-card, nav a, .program-card, .program-link, .program-link span, .form-vk-direct, .form-status, .lab-node, .lab-cursor, .hero-main-photo img { transition: none; }.button:hover, .partner-logo:hover, .vk-card:hover, .program-card:hover, .program-link:hover, .program-link:hover span, .form-vk-direct:hover, .hero-visual:hover .hero-main-photo img { transform: none; }.lab-network line, .orbit-one, .orbit-two, .hero-stamp, .form-status.is-success, .form-status.is-attention { animation: none; }.lab-cursor { display: none; } }
