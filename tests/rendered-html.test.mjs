@@ -43,6 +43,8 @@ for (const [slug, heading] of [
   test(`server-renders program ${slug}`, async () => {
     const response = await render(`/programs/${slug}`);
     assert.equal(response.status, 200);
-    assert.match(await response.text(), new RegExp(heading));
+    const html = await response.text();
+    assert.match(html, new RegExp(heading));
+    assert.match(html, /class="lab-board"/);
   });
 }

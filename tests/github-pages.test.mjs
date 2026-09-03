@@ -36,7 +36,8 @@ test("uses the repository base path for scripts and styles", async () => {
   assert.match(html, /Фонд «Наше Будущее»/);
   assert.match(html, /Росмолодёжь\.Гранты/);
   assert.match(html, /Организаторам/);
-  assert.match(html, /Подобрать формат/);
+  assert.match(html, /Смотреть программу/);
+  assert.match(html, /Уточнить формат/);
   assert.match(html, /4–6 часов/);
   assert.match(html, /class="mobile-menu"/);
   assert.doesNotMatch(html, /Для e-mail-заявок достаточно/);
@@ -61,6 +62,8 @@ for (const [slug, title] of [
     assert.ok(html.includes(`${siteUrl}/programs/${slug}/`));
     assert.match(html, /property="og:image"/);
     assert.match(html, /<h1>/);
+    assert.match(html, /Интерактивная (?:модель|схема)|Карта клиентского пути|Система партнёрства|Маршрут закупки/);
+    assert.match(html, /class="lab-board"/);
     assert.match(html, /"@type":"Course"/);
     assert.match(html, /"@type":"BreadcrumbList"/);
   });

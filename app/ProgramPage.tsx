@@ -1,7 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Program } from "./programs-data";
+import { ProgramInteraction } from "./ProgramInteraction";
 import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
+
+function ProgramTitle({ title }: { title: string }) {
+  const longWord = "взаимодействия";
+  const wordIndex = title.indexOf(longWord);
+  if (wordIndex === -1) return title;
+
+  return <>{title.slice(0, wordIndex)}взаимо<wbr />действия{title.slice(wordIndex + longWord.length)}</>;
+}
 
 function ThemeVisual({ type }: { type: Program["visual"] }) {
   if (type === "service") {
@@ -35,7 +44,7 @@ export function ProgramPage({ program }: { program: Program }) {
         <div className="program-hero-copy">
           <a className="back-link" href={sitePath("/#programs")}>← Все программы</a>
           <p className="eyebrow eyebrow-dark">{program.tag} · программа {program.number}</p>
-          <h1>{program.title}</h1>
+          <h1><ProgramTitle title={program.title} /></h1>
           <p className="program-hero-lead">{program.lead}</p>
           <p className="program-hero-description">{program.description}</p>
           <div className="program-hero-actions">
@@ -52,6 +61,8 @@ export function ProgramPage({ program }: { program: Program }) {
         <p className="eyebrow eyebrow-dark" id="audience-title">Для кого</p>
         <div>{program.audiences.map((audience, index) => <p key={audience}><span>0{index + 1}</span>{audience}</p>)}</div>
       </section>
+
+      <ProgramInteraction type={program.visual} />
 
       <section className="detail-formats" id="formats" aria-labelledby="formats-title">
         <div className="detail-section-heading">

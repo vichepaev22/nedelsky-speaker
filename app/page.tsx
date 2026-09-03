@@ -101,8 +101,8 @@ export default function Home() {
                 {program.modules.slice(0, 3).map((module) => <li key={module.number}>{module.title}</li>)}
               </ul>
               <div className="program-card-actions">
-                <a href={sitePath(`/programs/${program.slug}/`)} className="program-link">Подробнее <span>→</span></a>
-                <a href={sitePath(`/?program=${program.slug}#contact`)} className="program-request">Подобрать формат <span>↗</span></a>
+                <a href={sitePath(`/programs/${program.slug}/`)} className="program-link">Смотреть программу <span>→</span></a>
+                <a href={sitePath(`/?program=${program.slug}#contact`)} className="program-request">Уточнить формат <span>↗</span></a>
               </div>
             </article>
           ))}
