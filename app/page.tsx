@@ -187,6 +187,7 @@ export default function Home() {
           <div className="credentials">
             <div><strong>Федеральный эксперт</strong><span>Росмолодёжь.Гранты</span></div>
             <div><strong>Учредитель</strong><span>Федерации триатлона Ямала</span></div>
+            <div><strong>Федеральный спикер</strong><span>Методолог образовательных программ</span></div>
           </div>
         </div>
       </section>
