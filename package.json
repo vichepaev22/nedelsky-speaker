@@ -17,9 +17,11 @@
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@remotion/player": "4.0.521",
     "drizzle-orm": "0.45.2",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "remotion": "4.0.521"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",

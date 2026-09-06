@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Program } from "./programs-data";
 import { ProgramInteraction } from "./ProgramInteraction";
+import { FormatExplorer } from "./FormatExplorer";
 import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
 
@@ -34,6 +35,7 @@ export function ProgramPage({ program }: { program: Program }) {
         brandHref={sitePath("/#top")}
         contactHref={contactUrl}
         navigation={[
+          { href: "#interactive", label: "В деталях" },
           { href: "#formats", label: "Форматы" },
           { href: "#content", label: "Программа" },
           { href: "#result", label: "Результат" },
@@ -69,6 +71,7 @@ export function ProgramPage({ program }: { program: Program }) {
           <p className="eyebrow eyebrow-dark">Длительность и глубина</p>
           <h2 id="formats-title">Одна тема —<br /><em>три формата.</em></h2>
         </div>
+        <FormatExplorer formats={program.formats} />
         <div className="format-grid">
           {program.formats.map((format) => (
             <article className="format-card" key={format.label}>

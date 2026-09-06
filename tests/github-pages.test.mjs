@@ -22,6 +22,7 @@ test("builds a complete GitHub Pages artifact", async () => {
   const assets = await readdir(new URL("assets/", outputRoot));
   assert.ok(assets.some((file) => file.endsWith(".js")));
   assert.ok(assets.some((file) => file.endsWith(".css")));
+  assert.ok(assets.some((file) => /^ProgramMotionPlayer-.+\.js$/.test(file)), "animation should be a separate lazy-loaded asset");
 });
 
 test("uses the repository base path for scripts and styles", async () => {
@@ -38,6 +39,7 @@ test("uses the repository base path for scripts and styles", async () => {
   assert.match(html, /Организаторам/);
   assert.match(html, /Смотреть программу/);
   assert.match(html, /Уточнить формат/);
+  assert.doesNotMatch(html, /<link[^>]+(?:preload|modulepreload)[^>]+ProgramMotionPlayer/, "the homepage must not preload the animation runtime");
   assert.match(html, /4–6 часов/);
   assert.match(html, /class="mobile-menu"/);
   assert.doesNotMatch(html, /Для e-mail-заявок достаточно/);
@@ -64,6 +66,11 @@ for (const [slug, title] of [
     assert.match(html, /<h1>/);
     assert.match(html, /Интерактивная (?:модель|схема)|Карта клиентского пути|Система партнёрства|Маршрут закупки/);
     assert.match(html, /class="lab-board"/);
+    assert.match(html, /class="lab-poster-compact"/, "mobile poster must exist before animation loads");
+    assert.match(html, /Повторить анимацию/);
+    assert.match(html, /class="lab-readout-panels"/);
+    assert.equal((html.match(/aria-controls="lab-stage-description"/g) || []).length, 4);
+    assert.equal((html.match(/aria-controls="format-depth-result"/g) || []).length, 3);
     assert.match(html, /"@type":"Course"/);
     assert.match(html, /"@type":"BreadcrumbList"/);
   });
