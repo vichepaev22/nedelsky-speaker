@@ -39,6 +39,7 @@ preview.err.log
 
 /dist/
 /pages-dist/
+/cloudflare-dist/
 /.seo-cache/
 /.wrangler/
 /outputs/

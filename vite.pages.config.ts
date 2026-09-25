@@ -8,11 +8,13 @@ import Home from "./app/page";
 import { ProgramPage } from "./app/ProgramPage";
 import { programs } from "./app/programs-data";
 
-const siteOrigin = "https://vichepaev22.github.io/nedelsky-speaker";
-const outputDirectory = resolve("pages-dist");
+const githubOrigin = "https://vichepaev22.github.io/nedelsky-speaker";
+let siteOrigin = githubOrigin;
+let siteBase = "/nedelsky-speaker/";
+let outputDirectory = resolve("pages-dist");
 const siteName = "Максим Недельский — бизнес-тренер и спикер";
 const siteDescription = "Практические выступления и корпоративные семинары об ИИ, сервис-дизайне, партнёрстве и развитии бизнеса.";
-const personId = `${siteOrigin}/#maxim-nedelsky`;
+let personId = `${siteOrigin}/#maxim-nedelsky`;
 const updatedAt = "2026-08-28";
 
 function escapeAttribute(value: string): string {
@@ -164,7 +166,7 @@ function metaBlock({
 }
 
 function withSiteBase(content: string): string {
-  return content.replace(/\b(src|href)="\/(?!\/)/g, `$1="/nedelsky-speaker/`);
+  return content.replace(/\b(src|href)="\/(?!\/)/g, `$1="${siteBase}`);
 }
 
 function staticMarkup(content: string): { preloads: string; root: string } {
@@ -188,7 +190,7 @@ function renderStaticPage(template: string, meta: string, content: string): stri
 
 function generateStaticRoutes(): Plugin {
   return {
-    name: "generate-github-pages-routes",
+    name: "generate-static-pages-routes",
     closeBundle() {
       const rootIndexPath = resolve(outputDirectory, "index.html");
       const rootHtml = readFileSync(rootIndexPath, "utf8");
@@ -230,17 +232,31 @@ function generateStaticRoutes(): Plugin {
 
       writeFileSync(resolve(outputDirectory, "404.html"), homeHtml, "utf8");
       writeFileSync(resolve(outputDirectory, ".nojekyll"), "", "utf8");
+
+      for (const fileName of ["robots.txt", "sitemap.xml", "llms.txt"]) {
+        const filePath = resolve(outputDirectory, fileName);
+        const content = readFileSync(filePath, "utf8");
+        writeFileSync(filePath, content.replaceAll(githubOrigin, siteOrigin), "utf8");
+      }
     },
   };
 }
 
-export default defineConfig({
-  root: "github-pages",
-  base: "/nedelsky-speaker/",
-  publicDir: resolve("public"),
-  plugins: [react(), generateStaticRoutes()],
-  build: {
-    outDir: outputDirectory,
-    emptyOutDir: true,
-  },
+export default defineConfig(({ mode }) => {
+  const isCloudflare = mode === "cloudflare";
+  siteOrigin = isCloudflare ? "https://nedelsky.pages.dev" : githubOrigin;
+  personId = `${siteOrigin}/#maxim-nedelsky`;
+  siteBase = isCloudflare ? "/" : "/nedelsky-speaker/";
+  outputDirectory = resolve(isCloudflare ? "cloudflare-dist" : "pages-dist");
+
+  return {
+    root: "github-pages",
+    base: siteBase,
+    publicDir: resolve("public"),
+    plugins: [react(), generateStaticRoutes()],
+    build: {
+      outDir: outputDirectory,
+      emptyOutDir: true,
+    },
+  };
 });

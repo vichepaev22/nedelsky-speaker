@@ -10,9 +10,11 @@
     "dev:pages": "vite --config vite.pages.config.ts",
     "build": "vinext build",
     "build:pages": "vite build --config vite.pages.config.ts",
+    "build:cloudflare": "vite build --config vite.pages.config.ts --mode cloudflare",
     "start": "vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "test:pages": "npm run build:pages && node --test tests/github-pages.test.mjs",
+    "test:cloudflare": "npm run build:cloudflare && node --test tests/cloudflare-pages.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
