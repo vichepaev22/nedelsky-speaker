@@ -38,7 +38,7 @@ test("server-renders the AI for business product page", async () => {
   const response = await render("/ai-for-business");
   assert.equal(response.status, 200);
   const html = await response.text();
-  assert.match(html, /ИИ для вашего бизнеса/);
+  assert.match(html, /ИИ для бизнеса —/);
   assert.match(html, /ИИ-старт: инструменты и план действий/);
   assert.match(html, /ИИ-практика: от запросов до агентов/);
   assert.match(html, /ИИ-трансформация: процессы, упаковка, команда/);

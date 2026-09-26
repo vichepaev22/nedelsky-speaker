@@ -30,7 +30,7 @@ test("generates the AI services route for GitHub Pages", async () => {
   const html = await readFile(new URL("ai-for-business/index.html", outputRoot), "utf8");
   assert.match(html, /<title>ИИ для бизнеса — индивидуальные программы/);
   assert.ok(html.includes(`${siteUrl}/ai-for-business/`));
-  assert.match(html, /href="\/nedelsky-speaker\/ai-for-business\/\?product=ai-start#ai-contact"/);
+  assert.match(html, /href="\/nedelsky-speaker\/ai-for-business\/\?product=ai-start#details-ai-start"/);
   assert.match(html, /ИИ-старт: инструменты и план действий/);
   assert.match(html, /ИИ-трансформация: процессы, упаковка, команда/);
   assert.match(html, /"@type":"Service"/);

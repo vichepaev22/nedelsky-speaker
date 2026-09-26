@@ -1,5 +1,10 @@
 {
-  "task": "Add the AI for business product page",
+  "task": "Improve AI landing conversion and align all product-card rows within the existing design",
+  "current_delta": {
+    "modify": ["app/ai-products-data.ts", "app/AiInquiryForm.tsx", "app/AiBusinessPage.tsx", "app/SiteHeader.tsx", "app/globals.css", "tests/cloudflare-pages.test.mjs", "tests/github-pages.test.mjs", "tests/rendered-html.test.mjs"],
+    "create": [".smol/validation.md"],
+    "acceptance": ["Preserve program facts and prices", "Outcomes before delivery", "Direct verified VK contact without required inputs or clipboard", "URL selection, deep links and browser history work", "All card rows aligned", "No overflow at seven requested widths", "Mobile CTA respects safe area and footer"]
+  },
   "files": [
     {"path":"app/ai-products-data.ts","action":"create","purpose":"Store confirmed product copy, pricing, stages and boundaries","depends_on":[],"acceptance":["All three products and confirmed prices are represented"]},
     {"path":"app/AiPromoPrice.tsx","action":"create","purpose":"Render date-aware promotion states with a standard-price fallback","depends_on":["app/ai-products-data.ts"],"acceptance":["Promotion is active only on 2026-09-28 in Asia/Yekaterinburg"]},

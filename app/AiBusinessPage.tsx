@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { AiInquiryForm } from "./AiInquiryForm";
+import { AiContactLink, AiInquiryForm, AiProductLink } from "./AiInquiryForm";
 import { AiPromoNotice, AiPromoPrice } from "./AiPromoPrice";
-import { aiProducts } from "./ai-products-data";
+import { aiProducts, aiVkContact } from "./ai-products-data";
 import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
 
@@ -19,7 +19,7 @@ const faqs = [
   ["Можно участвовать командой?", "«ИИ-старт» рассчитан на одного участника. В «ИИ-практике» и «ИИ-трансформации» может участвовать одна команда до трёх человек. Больший состав согласовывается отдельно."],
   ["Что означает прототип ИИ-агента?", "Это учебная или прикладная модель помощника с ролью, инструкциями, источниками и правилами контроля. Прототип не равен промышленной системе и не работает без ответственности человека."],
   ["Потребуются ли платные подписки?", "Это зависит от выбранной задачи и инструмента. Необходимые подписки, API и дополнительные сервисы обсуждаются до начала и не включаются автоматически."],
-  ["Почему сейчас нет кнопки оплаты?", "Сначала важно выбрать подходящий формат и убедиться, что он соответствует задаче. Платёжные ссылки будут подключены отдельно; сейчас заявка формируется для обсуждения во ВКонтакте."],
+  ["Как начать работу?", "Напишите Максиму во ВКонтакте о своей задаче. Вместе выберем подходящий формат, согласуем объём, сроки, условия и порядок оплаты до начала работы."],
   ["Гарантирует ли программа рост выручки?", "Нет. Работа даёт знания, материалы, прототипы и план действий. Практический эффект зависит от исходной ситуации, качества внедрения и дальнейшего использования решений."],
 ];
 
@@ -30,10 +30,11 @@ export function AiBusinessPage() {
 
       <SiteHeader
         brandHref={sitePath("/#top")}
-        contactHref="#ai-contact"
-        contactLabel="Выбрать формат"
+        contactHref={aiVkContact}
+        contactLabel="Обсудить задачу"
+        contactTarget="_blank"
         navigation={[
-          { href: "#ai-products", label: "Форматы" },
+          { href: "#ai-fit", label: "Подобрать формат" },
           { href: "#ai-compare", label: "Сравнить" },
           { href: "#ai-details", label: "Программа" },
           { href: "#ai-faq", label: "FAQ" },
@@ -43,12 +44,15 @@ export function AiBusinessPage() {
       <section className="ai-hero" id="top">
         <div className="ai-hero-copy">
           <a className="back-link" href={sitePath("/#programs")}>← Сайт спикера</a>
-          <p className="eyebrow eyebrow-dark">Индивидуально и для команд до 3 человек</p>
-          <h1>ИИ для вашего бизнеса: <em>от первых шагов</em> до работающих решений</h1>
-          <p className="ai-hero-lead">Помогаю освоить AI-инструменты, разобраться в задачах бизнеса и спроектировать улучшения — от ежедневной работы до процессов и информационных систем.</p>
+          <p className="eyebrow eyebrow-dark">Для предпринимателей и команд до 3 человек</p>
+          <h1>ИИ для бизнеса — <em>от задачи</em> до рабочего решения</h1>
+          <p className="ai-hero-lead">Помогаю предпринимателям найти, где искусственный интеллект действительно экономит время, снижает ручную работу и усиливает процессы — от обучения до прототипирования и дорожной карты внедрения.</p>
+          <ol className="ai-hero-path" aria-label="Путь работы с ИИ">
+            <li>Обучение</li><li>Разбор процессов</li><li>Прототип</li><li>Дорожная карта</li>
+          </ol>
           <div className="hero-actions">
-            <a className="button button-coral" href="#ai-products">Выбрать формат <span>↓</span></a>
-            <a className="text-link" href="#ai-contact">Обсудить задачу <span>↗</span></a>
+            <a className="button button-coral" href="#ai-fit">Подобрать формат <span aria-hidden="true">↓</span></a>
+            <AiContactLink className="text-link">Обсудить задачу <span aria-hidden="true">↗</span></AiContactLink>
           </div>
           <AiPromoNotice />
         </div>
@@ -66,6 +70,25 @@ export function AiBusinessPage() {
           <div><dt>1–3</dt><dd>участника в работе</dd></div>
           <div><dt>Практика</dt><dd>на ваших задачах</dd></div>
         </dl>
+      </section>
+
+      <section className="ai-fit" id="ai-fit" aria-labelledby="ai-fit-title">
+        <div className="ai-section-heading">
+          <p className="eyebrow eyebrow-dark">Где вы сейчас?</p>
+          <h2 id="ai-fit-title">Какой формат<br /><em>вам подходит?</em></h2>
+          <p>Выберите близкую ситуацию — перейдёте к результатам, стоимости и программе нужного формата.</p>
+        </div>
+        <div className="ai-fit-grid">
+          {aiProducts.map((product) => (
+            <article key={product.slug}>
+              <span className="ai-fit-number">{product.number}</span>
+              <h3>{product.situation.title}</h3>
+              <p>{product.situation.description}</p>
+              <span className="ai-fit-product">{product.shortTitle}</span>
+              <AiProductLink className="button ai-fit-link" productSlug={product.slug} targetId={`product-${product.slug}`}>{product.situation.cta} <span aria-hidden="true">↓</span></AiProductLink>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="ai-situations" id="ai-content" aria-labelledby="ai-situations-title">
@@ -89,18 +112,24 @@ export function AiBusinessPage() {
         </div>
         <div className="ai-product-grid">
           {aiProducts.map((product, index) => (
-            <article className={`ai-product-card ${index === 1 ? "is-accent" : ""}`} key={product.slug}>
+            <article className={`ai-product-card ${index === 1 ? "is-accent" : ""}`} id={`product-${product.slug}`} tabIndex={-1} aria-labelledby={`title-${product.slug}`} key={product.slug}>
               <div className="ai-product-top"><span>{product.number}</span><small>{product.eyebrow}</small></div>
-              <h3>{product.title}</h3>
-              <p className="ai-product-description">{product.description}</p>
+              <h3 id={`title-${product.slug}`}>{product.title}</h3>
+              <p className="ai-product-description">{product.positioning}</p>
+              <AiPromoPrice basePrice={product.basePrice} promoPrice={product.promoPrice} />
+              <div className="ai-product-outcomes">
+                <h4>Что вы получите</h4>
+                <ul>{product.outcomes.map((item) => <li key={item}>{item}</li>)}</ul>
+              </div>
               <dl className="ai-product-facts">
                 <div><dt>Кому</dt><dd>{product.audience}</dd></div>
                 <div><dt>Цикл</dt><dd>{product.cycle}</dd></div>
               </dl>
-              <ul>{product.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
-              <AiPromoPrice basePrice={product.basePrice} promoPrice={product.promoPrice} />
-              <a className="button button-dark ai-product-cta" href={sitePath(`/ai-for-business/?product=${product.slug}#ai-contact`)}>{product.cta} <span>↗</span></a>
-              <a className="ai-detail-link" href={`#details-${product.slug}`}>Посмотреть программу <span>↓</span></a>
+              <ul className="ai-product-includes" aria-label="Как проходит работа">{product.highlights.map((item) => <li key={item}>{item}</li>)}</ul>
+              <div className="ai-card-actions">
+                <AiContactLink className="button button-dark ai-product-cta" productSlug={product.slug}>{product.cta} <span aria-hidden="true">↗</span></AiContactLink>
+                <AiProductLink className="ai-detail-link" productSlug={product.slug} targetId={`details-${product.slug}`}>Посмотреть программу <span aria-hidden="true">↓</span></AiProductLink>
+              </div>
             </article>
           ))}
         </div>
@@ -136,7 +165,7 @@ export function AiBusinessPage() {
             <details id={`details-${product.slug}`} open={productIndex === 0} key={product.slug}>
               <summary><span>{product.number}</span><strong>{product.title}</strong><i aria-hidden="true">+</i></summary>
               <div className="ai-detail-body">
-                <div className="ai-detail-intro"><p>{product.goal}</p><dl><div><dt>С экспертом</dt><dd>{product.expertTime}</dd></div><div><dt>Практика</dt><dd>{product.practiceTime}</dd></div></dl></div>
+                <div className="ai-detail-intro"><div><p>{product.description}</p><p>{product.goal}</p></div><dl><div><dt>С экспертом</dt><dd>{product.expertTime}</dd></div><div><dt>Практика</dt><dd>{product.practiceTime}</dd></div></dl></div>
                 <div className="ai-stage-table" role="table" aria-label={`Этапы продукта ${product.title}`}>
                   <div className="ai-stage-head" role="row"><span role="columnheader">Этап</span><span role="columnheader">Что делаем</span><span role="columnheader">Результат</span><span role="columnheader">Время</span></div>
                   {product.stages.map((stage, stageIndex) => (
@@ -149,7 +178,10 @@ export function AiBusinessPage() {
                   ))}
                 </div>
                 <p className="ai-boundary"><strong>Граница продукта</strong>{product.boundary}</p>
-                <a className="button button-coral" href={sitePath(`/ai-for-business/?product=${product.slug}#ai-contact`)}>{product.cta} <span>↗</span></a>
+                <div className="ai-detail-actions">
+                  <AiContactLink className="button button-coral" productSlug={product.slug}>{product.cta} <span aria-hidden="true">↗</span></AiContactLink>
+                  <a className="text-link" href="#ai-fit">Подобрать формат <span aria-hidden="true">↑</span></a>
+                </div>
               </div>
             </details>
           ))}
@@ -207,9 +239,9 @@ export function AiBusinessPage() {
       <section className="ai-contact" id="ai-contact" aria-labelledby="ai-contact-title">
         <div className="ai-contact-copy">
           <p className="eyebrow">Следующий шаг</p>
-          <h2 id="ai-contact-title">Выберите формат и <em>обсудите задачу.</em></h2>
-          <p>Платёжные ссылки появятся позже. Сейчас форма подготовит точное сообщение, скопирует его и откроет страницу Максима во ВКонтакте.</p>
-          <a className="ai-vk-direct" href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer"><span>vk</span><strong>Написать сразу<br /><small>vk.ru/ndlsky</small></strong><b>↗</b></a>
+          <h2 id="ai-contact-title">Обсудим задачу.<br /><em>Определим следующий шаг.</em></h2>
+          <p>Можно прийти с конкретным процессом или с вопросом, с чего начать. До начала работы согласуем формат, объём, сроки и стоимость.</p>
+          <p className="ai-contact-person">Максим Недельский<br /><span>ВКонтакте · ndlsky</span></p>
         </div>
         <AiInquiryForm />
       </section>
@@ -217,7 +249,7 @@ export function AiBusinessPage() {
       <footer>
         <a className="brand brand-footer" href={sitePath("/#top")}><span className="brand-mark">N</span><span>Максим<br />Недельский</span></a>
         <p>ИИ для бизнеса · обучение · прототипирование<br />Условия и объём фиксируются до начала работы</p>
-        <a href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">ВКонтакте ↗</a>
+        <AiContactLink>Обсудить задачу ↗</AiContactLink>
       </footer>
     </main>
   );

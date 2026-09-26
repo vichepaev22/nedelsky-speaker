@@ -33,7 +33,7 @@ test("generates the AI services route at the Cloudflare domain root", async () =
   const html = await readFile(new URL("ai-for-business/index.html", outputRoot), "utf8");
   assert.match(html, /<title>ИИ для бизнеса — индивидуальные программы/);
   assert.ok(html.includes(`${siteUrl}/ai-for-business/`));
-  assert.match(html, /href="\/ai-for-business\/\?product=ai-practice#ai-contact"/);
+  assert.match(html, /href="\/ai-for-business\/\?product=ai-practice#details-ai-practice"/);
   assert.match(html, /ИИ-старт: инструменты и план действий/);
   assert.match(html, /ИИ-практика: от запросов до агентов/);
   assert.match(html, /ИИ-трансформация: процессы, упаковка, команда/);
@@ -41,6 +41,22 @@ test("generates the AI services route at the Cloudflare domain root", async () =
   assert.match(html, /"@type":"Service"/);
   assert.match(html, /vk\.ru\/ndlsky/);
   assert.doesNotMatch(html, /\/nedelsky-speaker\/|Заявка отправлена|Telegram|WhatsApp/i);
+});
+
+test("AI landing offers outcomes and working product anchors without a required inquiry form", async () => {
+  const html = await readFile(new URL("ai-for-business/index.html", outputRoot), "utf8");
+  assert.match(html, /ИИ для бизнеса —/);
+  assert.match(html, /Какой формат/);
+  assert.doesNotMatch(html, /<form\b|clipboard|Подготовить заявку/i);
+  for (const slug of ["ai-start", "ai-practice", "ai-transformation"]) {
+    const article = html.match(new RegExp(`<article[^>]*id="product-${slug}"[\\s\\S]*?</article>`))?.[0];
+    assert.ok(article, `Missing product ${slug}`);
+    assert.ok(article.indexOf("Что вы получите") < article.indexOf("ai-product-facts"));
+    assert.match(article, /href="https:\/\/vk\.ru\/ndlsky"/);
+    assert.ok(html.includes(`?product=${slug}#product-${slug}`));
+    assert.ok(html.includes(`id="details-${slug}"`));
+  }
+  assert.match(html, /class="ai-mobile-cta"/);
 });
 
 test("publishes Cloudflare-specific discovery files", async () => {

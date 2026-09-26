@@ -12,9 +12,10 @@ type SiteHeaderProps = {
   contactHref: string;
   navigation: NavigationItem[];
   contactLabel?: string;
+  contactTarget?: "_blank";
 };
 
-export function SiteHeader({ brandHref, contactHref, navigation, contactLabel = "Обсудить выступление" }: SiteHeaderProps) {
+export function SiteHeader({ brandHref, contactHref, navigation, contactLabel = "Обсудить выступление", contactTarget }: SiteHeaderProps) {
   function closeMobileMenu(event: MouseEvent<HTMLAnchorElement>) {
     event.currentTarget.closest("details")?.removeAttribute("open");
   }
@@ -41,7 +42,7 @@ export function SiteHeader({ brandHref, contactHref, navigation, contactLabel = 
         </nav>
       </details>
 
-      <a className="button button-dark header-cta" href={contactHref}>
+      <a className="button button-dark header-cta" href={contactHref} target={contactTarget} rel={contactTarget === "_blank" ? "noopener noreferrer" : undefined}>
         <span className="header-cta-full">{contactLabel}</span>
         <span className="header-cta-short">Связаться</span>
         <b aria-hidden="true">↗</b>

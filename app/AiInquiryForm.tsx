@@ -1,79 +1,104 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import { aiProducts, getAiProduct } from "./ai-products-data";
-import { formatRubles, getAiOfferPhase } from "./AiPromoPrice";
+import { useEffect, useSyncExternalStore, type AnchorHTMLAttributes, type MouseEvent } from "react";
+import { aiVkContact, getAiProduct } from "./ai-products-data";
+import { sitePath } from "./site-paths";
 
-type FormStatus = { tone: "success" | "attention"; message: string };
+const selectionEvent = "ai-product-change";
 
-export function AiInquiryForm() {
-  const [productSlug, setProductSlug] = useState(aiProducts[0].slug);
-  const [draft, setDraft] = useState("");
-  const [status, setStatus] = useState<FormStatus | null>(null);
+function subscribeToLocation(onChange: () => void) {
+  window.addEventListener("popstate", onChange);
+  window.addEventListener("hashchange", onChange);
+  window.addEventListener(selectionEvent, onChange);
+  return () => {
+    window.removeEventListener("popstate", onChange);
+    window.removeEventListener("hashchange", onChange);
+    window.removeEventListener(selectionEvent, onChange);
+  };
+}
 
-  useEffect(() => {
-    const requested = new URLSearchParams(window.location.search).get("product") ?? "";
-    if (!getAiProduct(requested)) return;
-    const updateProduct = window.setTimeout(() => setProductSlug(requested), 0);
-    return () => window.clearTimeout(updateProduct);
-  }, []);
+function readLocation() {
+  return window.location.search + window.location.hash;
+}
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+function selectedProduct() {
+  const requested = new URLSearchParams(window.location.search).get("product") ?? "";
+  return getAiProduct(requested);
+}
+
+function revealTarget(hash: string, behavior: ScrollBehavior, moveFocus = false) {
+  const id = hash.slice(1);
+  if (!/^(?:details-|product-)ai-(?:start|practice|transformation)$/.test(id) && id !== "ai-contact") return;
+  const target = document.getElementById(id);
+  if (!target) return;
+  if (target instanceof HTMLDetailsElement) target.open = true;
+  if (moveFocus) {
+    const focusTarget = target instanceof HTMLDetailsElement ? target.querySelector("summary") : target;
+    if (focusTarget instanceof HTMLElement) focusTarget.focus({ preventScroll: true });
+  }
+  target.scrollIntoView({ behavior, block: "start" });
+}
+
+type ProductLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & { productSlug: string; targetId: string };
+
+export function AiProductLink({ productSlug, targetId, children, ...props }: ProductLinkProps) {
+  function navigate(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const name = String(form.get("name") || "").trim();
-    const details = String(form.get("details") || "").trim();
-    const product = getAiProduct(String(form.get("product") || "")) ?? aiProducts[0];
-    const activePrice = getAiOfferPhase() === "active" ? product.promoPrice : product.basePrice;
-    const message = [
-      "Здравствуйте, Максим! Хочу обсудить формат работы с ИИ.",
-      `Имя: ${name}`,
-      `Продукт: ${product.title}`,
-      `Стоимость на дату обращения: ${formatRubles(activePrice)}`,
-      details && `Задача: ${details}`,
-    ].filter(Boolean).join("\n");
-
-    setDraft(message);
-    window.open("https://vk.ru/ndlsky", "_blank", "noopener,noreferrer");
-
-    if (!navigator.clipboard) {
-      setStatus({ tone: "attention", message: "Текст подготовлен ниже. Скопируйте его и вставьте в сообщение ВКонтакте." });
-      return;
-    }
-
-    void navigator.clipboard.writeText(message).then(
-      () => setStatus({ tone: "success", message: "Текст заявки подготовлен и скопирован. ВКонтакте открыт в новой вкладке." }),
-      () => setStatus({ tone: "attention", message: "ВКонтакте открыт. Скопируйте подготовленный текст вручную." }),
-    );
+    const destination = new URL(event.currentTarget.href);
+    if (destination.href !== window.location.href) window.history.pushState(null, "", destination);
+    window.dispatchEvent(new Event(selectionEvent));
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
+    revealTarget(destination.hash, behavior, true);
   }
 
+  return <a {...props} href={sitePath(`/ai-for-business/?product=${productSlug}#${targetId}`)} onClick={navigate}>{children}</a>;
+}
+
+export function AiContactLink({ productSlug, children, ...props }: AnchorHTMLAttributes<HTMLAnchorElement> & { productSlug?: string }) {
+  function rememberProduct(event: MouseEvent<HTMLAnchorElement>) {
+    if (!productSlug || !getAiProduct(productSlug)) return;
+    const location = new URL(window.location.href);
+    location.searchParams.set("product", productSlug);
+    location.hash = event.currentTarget.closest("details")?.id ?? `product-${productSlug}`;
+    window.history.replaceState(null, "", location);
+    window.dispatchEvent(new Event(selectionEvent));
+  }
+
+  return <a {...props} href={aiVkContact} target="_blank" rel="noopener noreferrer" onClick={rememberProduct}>{children}</a>;
+}
+
+// Keep URL selection in the existing inquiry module; no second product state or form is needed.
+export function AiInquiryForm() {
+  const location = useSyncExternalStore(subscribeToLocation, readLocation, () => "");
+  const product = location ? selectedProduct() : undefined;
+
+  useEffect(() => {
+    const restoreTarget = () => revealTarget(window.location.hash, "instant");
+    const frame = window.requestAnimationFrame(restoreTarget);
+    window.addEventListener("popstate", restoreTarget);
+    window.addEventListener("hashchange", restoreTarget);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("popstate", restoreTarget);
+      window.removeEventListener("hashchange", restoreTarget);
+    };
+  }, []);
+
   return (
-    <form className="ai-inquiry-form" onSubmit={submit}>
-      <div className="ai-field">
-        <label htmlFor="ai-lead-name">Ваше имя</label>
-        <input id="ai-lead-name" name="name" required autoComplete="name" placeholder="Как к вам обращаться" />
+    <>
+      <div className="ai-contact-panel">
+        <p className="eyebrow eyebrow-dark">Начнём с вашей задачи</p>
+        <p className="ai-contact-context" aria-live="polite">{product ? <>Выбранный формат: <strong>{product.shortTitle}</strong></> : <>Формат можно выбрать вместе</>}</p>
+        <p>Напишите, чем занимается ваш бизнес и какую задачу хотите решить. Обсудим, какой объём работы подойдёт.</p>
+        <AiContactLink className="button button-dark">Обсудить задачу <span aria-hidden="true">↗</span></AiContactLink>
+        <p className="ai-contact-hint">Откроется профиль Максима во ВКонтакте. Нажмите «Написать сообщение».</p>
+        <a className="ai-format-link" href="#ai-fit">Подобрать формат <span aria-hidden="true">↑</span></a>
       </div>
-      <div className="ai-field">
-        <label htmlFor="ai-lead-product">Выбранный формат</label>
-        <select id="ai-lead-product" name="product" value={productSlug} onChange={(event) => setProductSlug(event.currentTarget.value)}>
-          {aiProducts.map((product) => <option value={product.slug} key={product.slug}>{product.shortTitle}</option>)}
-        </select>
-      </div>
-      <div className="ai-field ai-field-wide">
-        <label htmlFor="ai-lead-details">Кратко опишите задачу <span>необязательно</span></label>
-        <textarea id="ai-lead-details" name="details" placeholder="Что хотите улучшить или научиться делать с помощью ИИ" />
-      </div>
-      <button className="button button-coral ai-inquiry-submit" type="submit">Подготовить заявку и открыть VK <span>↗</span></button>
-      <output className={`form-status ${status ? `is-${status.tone}` : ""}`} aria-live="polite">
-        {status && <><span aria-hidden="true">{status.tone === "success" ? "✓" : "!"}</span>{status.message}</>}
-      </output>
-      {draft && (
-        <div className="draft-fallback ai-draft">
-          <label htmlFor="ai-lead-draft">Подготовленный текст</label>
-          <textarea id="ai-lead-draft" readOnly value={draft} onFocus={(event) => event.currentTarget.select()} />
-        </div>
-      )}
-      <p className="ai-privacy-note">Сайт не отправляет и не сохраняет данные. Вы сами отправляете подготовленный текст Максиму во ВКонтакте.</p>
-    </form>
+      <nav className="ai-mobile-cta" aria-label="Быстрая связь">
+        <span>{product?.shortTitle ?? "ИИ для бизнеса"}</span>
+        <AiContactLink className="button button-dark">Обсудить задачу <span aria-hidden="true">↗</span></AiContactLink>
+      </nav>
+    </>
   );
 }
