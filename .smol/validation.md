@@ -15,6 +15,6 @@ Checks completed:
 - Mobile footer at 430px ends at y820, sticky CTA starts at y831 (900px viewport): content is not covered. Safe-area padding is implemented; physical iPhone/app handoff needs device verification.
 - Independent read-only reviewer: GPT-5.6 Terra; initial header-target inconsistency fixed, follow-up review found no further issues.
 
-Publication: build ready; Cloudflare CLI unauthenticated and existing-account browser sign-in timed out at Cloudflare identity endpoint. Chrome provider unavailable. User authentication requested; production Cloudflare update is not yet confirmed. GitHub publication is checked separately before final handoff.
+Publication: implementation commit `5d3847b` pushed to the existing GitHub main branch; workflow run `36261167572` completed successfully. Public GitHub Pages AI route returned HTTP 200 with the new hero and outcomes markup. Cloudflare archive: `outputs/nedelsky-ai-conversion-2026-09-26.zip`. Cloudflare CLI unauthenticated and existing-account browser sign-in timed out at Cloudflare identity endpoint. Chrome provider unavailable. User authentication requested; production Cloudflare update is not yet confirmed.
 
 Post-publication manual checks: refresh published page, open a product deep link, confirm VK account/app handoff on real phone, and check iPhone bottom safe area. No automatic message transmission or unverified VK prefill parameters.
