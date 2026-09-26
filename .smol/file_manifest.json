@@ -1,0 +1,22 @@
+{
+  "task": "Add the AI for business product page",
+  "files": [
+    {"path":"app/ai-products-data.ts","action":"create","purpose":"Store confirmed product copy, pricing, stages and boundaries","depends_on":[],"acceptance":["All three products and confirmed prices are represented"]},
+    {"path":"app/AiPromoPrice.tsx","action":"create","purpose":"Render date-aware promotion states with a standard-price fallback","depends_on":["app/ai-products-data.ts"],"acceptance":["Promotion is active only on 2026-09-28 in Asia/Yekaterinburg"]},
+    {"path":"app/AiInquiryForm.tsx","action":"create","purpose":"Prepare a VK inquiry without claiming server delivery","depends_on":["app/ai-products-data.ts"],"acceptance":["Selected product is prefilled and only VK is opened"]},
+    {"path":"app/AiBusinessPage.tsx","action":"create","purpose":"Render the complete responsive product page","depends_on":["app/ai-products-data.ts","app/AiPromoPrice.tsx","app/AiInquiryForm.tsx","app/SiteHeader.tsx","app/site-paths.ts"],"acceptance":["Page includes hero, products, comparison, detailed stages, method, boundaries, expert, FAQ and inquiry"]},
+    {"path":"app/ai-for-business/page.tsx","action":"create","purpose":"Expose the route in the application build","depends_on":["app/AiBusinessPage.tsx"],"acceptance":["Server route renders at /ai-for-business"]},
+    {"path":"app/layout.tsx","action":"modify","purpose":"Use the primary Cloudflare domain as metadata base","depends_on":[],"acceptance":["Application metadata resolves against nedelsky.pages.dev"]},
+    {"path":"app/SiteHeader.tsx","action":"modify","purpose":"Allow context-specific CTA labels","depends_on":[],"acceptance":["Existing headers keep their label and the new page can use its own"]},
+    {"path":"app/page.tsx","action":"modify","purpose":"Link the existing site to the new product page","depends_on":["app/site-paths.ts"],"acceptance":["New page is discoverable from the homepage"]},
+    {"path":"app/globals.css","action":"modify","purpose":"Add responsive, accessible product-page styling and motion","depends_on":["app/AiBusinessPage.tsx"],"acceptance":["No horizontal overflow at 320px and promotion states remain readable"]},
+    {"path":"github-pages/main.tsx","action":"modify","purpose":"Route the static client to the new page","depends_on":["app/AiBusinessPage.tsx"],"acceptance":["Direct static route mounts the correct component"]},
+    {"path":"vite.pages.config.ts","action":"modify","purpose":"Generate static HTML and SEO schema for the new route","depends_on":["app/AiBusinessPage.tsx","app/ai-products-data.ts"],"acceptance":["Both deployment targets output ai-for-business/index.html with target-specific canonical"]},
+    {"path":"public/sitemap.xml","action":"modify","purpose":"Expose the route to crawlers","depends_on":[],"acceptance":["Sitemap contains the new route"]},
+    {"path":"public/llms.txt","action":"modify","purpose":"Describe the commercial formats for answer engines","depends_on":[],"acceptance":["llms.txt links to and accurately summarizes the new page"]},
+    {"path":"tests/rendered-html.test.mjs","action":"modify","purpose":"Verify application SSR","depends_on":["app/ai-for-business/page.tsx"],"acceptance":["SSR test asserts new route and honest VK flow"]},
+    {"path":"tests/github-pages.test.mjs","action":"modify","purpose":"Verify GitHub static output","depends_on":["vite.pages.config.ts"],"acceptance":["GitHub artifact contains the route and repository base paths"]},
+    {"path":"tests/cloudflare-pages.test.mjs","action":"modify","purpose":"Verify Cloudflare static output","depends_on":["vite.pages.config.ts"],"acceptance":["Cloudflare artifact contains the route, root paths and Cloudflare canonical"]}
+    ,{"path":"package.json","action":"modify","purpose":"Keep generated deployment artifacts outside lint scope","depends_on":[],"acceptance":["Lint checks authored source rather than generated bundles"]}
+  ]
+}

@@ -5,6 +5,8 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { defineConfig, type Plugin } from "vite";
 import Home from "./app/page";
+import { AiBusinessPage } from "./app/AiBusinessPage";
+import { aiProducts } from "./app/ai-products-data";
 import { ProgramPage } from "./app/ProgramPage";
 import { programs } from "./app/programs-data";
 
@@ -15,7 +17,7 @@ let outputDirectory = resolve("pages-dist");
 const siteName = "Максим Недельский — бизнес-тренер и спикер";
 const siteDescription = "Практические выступления и корпоративные семинары об ИИ, сервис-дизайне, партнёрстве и развитии бизнеса.";
 let personId = `${siteOrigin}/#maxim-nedelsky`;
-const updatedAt = "2026-08-28";
+const updatedAt = "2026-09-26";
 
 function escapeAttribute(value: string): string {
   return value
@@ -126,6 +128,55 @@ function programSchema(program: (typeof programs)[number], url: string, image: s
   };
 }
 
+function aiBusinessSchema(url: string, image: string) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      personSchema(),
+      {
+        "@type": "WebPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: "ИИ для бизнеса — индивидуальные программы Максима Недельского",
+        description: "Три практических формата работы с ИИ: обучение, прототипирование и проектная трансформация бизнеса.",
+        inLanguage: "ru-RU",
+        dateModified: updatedAt,
+        primaryImageOfPage: image,
+        mainEntity: { "@id": `${url}#services` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#services`,
+        name: "Форматы работы с искусственным интеллектом",
+        itemListElement: aiProducts.map((product, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "Service",
+            name: product.title,
+            description: product.description,
+            provider: { "@id": personId },
+            offers: {
+              "@type": "Offer",
+              price: product.basePrice,
+              priceCurrency: "RUB",
+              availability: "https://schema.org/InStock",
+              url,
+            },
+          },
+        })),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Главная", item: `${siteOrigin}/` },
+          { "@type": "ListItem", position: 2, name: "ИИ для бизнеса", item: url },
+        ],
+      },
+    ],
+  };
+}
+
 function metaBlock({
   title,
   description,
@@ -209,6 +260,23 @@ function generateStaticRoutes(): Plugin {
       );
 
       writeFileSync(rootIndexPath, homeHtml, "utf8");
+
+      const aiBusinessDirectory = resolve(outputDirectory, "ai-for-business");
+      const aiBusinessUrl = `${siteOrigin}/ai-for-business/`;
+      const aiBusinessImage = `${siteOrigin}/images/speaker/maxim-navy.png`;
+      const aiBusinessHtml = renderStaticPage(
+        rootHtml,
+        metaBlock({
+          title: "ИИ для бизнеса — индивидуальные программы · Максим Недельский",
+          description: "Три практических формата: от первых шагов с нейросетями до прототипа ИИ-агента и проектной трансформации бизнеса.",
+          url: aiBusinessUrl,
+          image: aiBusinessImage,
+          schema: aiBusinessSchema(aiBusinessUrl, aiBusinessImage),
+        }),
+        renderToStaticMarkup(createElement(AiBusinessPage)),
+      );
+      mkdirSync(aiBusinessDirectory, { recursive: true });
+      writeFileSync(resolve(aiBusinessDirectory, "index.html"), aiBusinessHtml, "utf8");
 
       for (const program of programs) {
         const directory = resolve(outputDirectory, "programs", program.slug);

@@ -15,7 +15,7 @@
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "test:pages": "npm run build:pages && node --test tests/github-pages.test.mjs",
     "test:cloudflare": "npm run build:cloudflare && node --test tests/cloudflare-pages.test.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern pages-dist --ignore-pattern cloudflare-dist",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {

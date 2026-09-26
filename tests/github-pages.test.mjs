@@ -17,12 +17,25 @@ test("builds a complete GitHub Pages artifact", async () => {
     access(new URL("robots.txt", outputRoot)),
     access(new URL("sitemap.xml", outputRoot)),
     access(new URL("llms.txt", outputRoot)),
+    access(new URL("ai-for-business/index.html", outputRoot)),
   ]);
 
   const assets = await readdir(new URL("assets/", outputRoot));
   assert.ok(assets.some((file) => file.endsWith(".js")));
   assert.ok(assets.some((file) => file.endsWith(".css")));
   assert.ok(assets.some((file) => /^ProgramMotionPlayer-.+\.js$/.test(file)), "animation should be a separate lazy-loaded asset");
+});
+
+test("generates the AI services route for GitHub Pages", async () => {
+  const html = await readFile(new URL("ai-for-business/index.html", outputRoot), "utf8");
+  assert.match(html, /<title>ИИ для бизнеса — индивидуальные программы/);
+  assert.ok(html.includes(`${siteUrl}/ai-for-business/`));
+  assert.match(html, /href="\/nedelsky-speaker\/ai-for-business\/\?product=ai-start#ai-contact"/);
+  assert.match(html, /ИИ-старт: инструменты и план действий/);
+  assert.match(html, /ИИ-трансформация: процессы, упаковка, команда/);
+  assert.match(html, /"@type":"Service"/);
+  assert.match(html, /vk\.ru\/ndlsky/);
+  assert.doesNotMatch(html, /Заявка отправлена|Telegram|WhatsApp/i);
 });
 
 test("uses the repository base path for scripts and styles", async () => {

@@ -11,9 +11,10 @@ type SiteHeaderProps = {
   brandHref: string;
   contactHref: string;
   navigation: NavigationItem[];
+  contactLabel?: string;
 };
 
-export function SiteHeader({ brandHref, contactHref, navigation }: SiteHeaderProps) {
+export function SiteHeader({ brandHref, contactHref, navigation, contactLabel = "Обсудить выступление" }: SiteHeaderProps) {
   function closeMobileMenu(event: MouseEvent<HTMLAnchorElement>) {
     event.currentTarget.closest("details")?.removeAttribute("open");
   }
@@ -41,7 +42,7 @@ export function SiteHeader({ brandHref, contactHref, navigation }: SiteHeaderPro
       </details>
 
       <a className="button button-dark header-cta" href={contactHref}>
-        <span className="header-cta-full">Обсудить выступление</span>
+        <span className="header-cta-full">{contactLabel}</span>
         <span className="header-cta-short">Связаться</span>
         <b aria-hidden="true">↗</b>
       </a>

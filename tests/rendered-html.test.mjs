@@ -34,6 +34,19 @@ test("server-renders the speaker landing page", async () => {
   assert.doesNotMatch(html, /Your site is taking shape|Starter Project/i);
 });
 
+test("server-renders the AI for business product page", async () => {
+  const response = await render("/ai-for-business");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /ИИ для вашего бизнеса/);
+  assert.match(html, /ИИ-старт: инструменты и план действий/);
+  assert.match(html, /ИИ-практика: от запросов до агентов/);
+  assert.match(html, /ИИ-трансформация: процессы, упаковка, команда/);
+  assert.match(html, /7(?:\u00a0|\s)000 ₽/);
+  assert.match(html, /vk\.ru\/ndlsky/);
+  assert.doesNotMatch(html, /Заявка отправлена|Telegram|WhatsApp/i);
+});
+
 for (const [slug, heading] of [
   ["ai-business", "ИИ для роста бизнеса"],
   ["service-design", "Сервис-дизайн и клиентский опыт"],

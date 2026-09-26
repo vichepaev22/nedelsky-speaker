@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const siteUrl = "https://vichepaev22.github.io/nedelsky-speaker/";
+const siteUrl = "https://nedelsky.pages.dev/";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

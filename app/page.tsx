@@ -32,6 +32,7 @@ export default function Home() {
         contactHref="#contact"
         navigation={[
           { href: "#programs", label: "Программы" },
+          { href: sitePath("/ai-for-business/"), label: "ИИ для бизнеса" },
           { href: "#about", label: "О спикере" },
           { href: "#organizers", label: "Организаторам" },
         ]}
@@ -107,6 +108,10 @@ export default function Home() {
             </article>
           ))}
         </div>
+        <aside className="ai-services-bridge" aria-label="Индивидуальная работа с искусственным интеллектом">
+          <div><span>Новый формат</span><h3>Нужен не семинар, а работа с вашей задачей?</h3><p>Три индивидуальных и командных продукта: от первых шагов с ИИ до прототипа агента и трансформации процессов.</p></div>
+          <a className="button button-dark" href={sitePath("/ai-for-business/")}>ИИ для бизнеса <span>↗</span></a>
+        </aside>
       </section>
 
       <section className="trust-strip" id="partners" aria-labelledby="trust-title">
