@@ -8,6 +8,9 @@ Allow: /
 User-agent: YandexMobileBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
@@ -23,4 +26,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://vichepaev22.github.io/nedelsky-speaker/sitemap.xml
+Sitemap: https://nedelsky.pages.dev/sitemap.xml

@@ -11,6 +11,7 @@ import { ProgramPage } from "./app/ProgramPage";
 import { programs } from "./app/programs-data";
 
 const githubOrigin = "https://vichepaev22.github.io/nedelsky-speaker";
+const primaryOrigin = "https://nedelsky.pages.dev";
 let siteOrigin = githubOrigin;
 let siteBase = "/nedelsky-speaker/";
 let outputDirectory = resolve("pages-dist");
@@ -35,7 +36,7 @@ function jsonLd(data: Record<string, unknown>): string {
 }
 
 function schemaBlock(data: Record<string, unknown>): string {
-  return `<script type="application/ld+json">${jsonLd(data)}</script>`;
+  return `<script type="application/ld+json">${jsonLd(data).replaceAll(githubOrigin, primaryOrigin)}</script>`;
 }
 
 function personSchema() {
@@ -192,26 +193,28 @@ function metaBlock({
 }): string {
   const safeTitle = escapeAttribute(title);
   const safeDescription = escapeAttribute(description);
+  const primaryUrl = url.replace(githubOrigin, primaryOrigin);
+  const primaryImage = image.replace(githubOrigin, primaryOrigin);
 
   return `<!-- page-meta-start -->
     <title>${safeTitle}</title>
     <meta name="description" content="${safeDescription}" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <link rel="canonical" href="${url}" />
-    <link rel="alternate" hreflang="ru" href="${url}" />
-    <link rel="alternate" hreflang="x-default" href="${url}" />
-    <link rel="sitemap" type="application/xml" href="${siteOrigin}/sitemap.xml" />
+    <link rel="canonical" href="${primaryUrl}" />
+    <link rel="alternate" hreflang="ru" href="${primaryUrl}" />
+    <link rel="alternate" hreflang="x-default" href="${primaryUrl}" />
+    <link rel="sitemap" type="application/xml" href="${primaryOrigin}/sitemap.xml" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content="Максим Недельский — бизнес-тренер и спикер" />
     <meta property="og:title" content="${safeTitle}" />
     <meta property="og:description" content="${safeDescription}" />
-    <meta property="og:url" content="${url}" />
-    <meta property="og:image" content="${image}" />
+    <meta property="og:url" content="${primaryUrl}" />
+    <meta property="og:image" content="${primaryImage}" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${safeTitle}" />
     <meta name="twitter:description" content="${safeDescription}" />
-    <meta name="twitter:image" content="${image}" />
+    <meta name="twitter:image" content="${primaryImage}" />
     ${schemaBlock(schema)}
     <!-- page-meta-end -->`;
 }

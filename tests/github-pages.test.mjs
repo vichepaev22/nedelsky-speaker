@@ -3,7 +3,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 const outputRoot = new URL("../pages-dist/", import.meta.url);
-const siteUrl = "https://vichepaev22.github.io/nedelsky-speaker";
+const siteUrl = "https://nedelsky.pages.dev";
 
 test("builds a complete GitHub Pages artifact", async () => {
   await Promise.all([
@@ -24,6 +24,17 @@ test("builds a complete GitHub Pages artifact", async () => {
   assert.ok(assets.some((file) => file.endsWith(".js")));
   assert.ok(assets.some((file) => file.endsWith(".css")));
   assert.ok(assets.some((file) => /^ProgramMotionPlayer-.+\.js$/.test(file)), "animation should be a separate lazy-loaded asset");
+
+  const [robots, sitemap, llms] = await Promise.all([
+    readFile(new URL("robots.txt", outputRoot), "utf8"),
+    readFile(new URL("sitemap.xml", outputRoot), "utf8"),
+    readFile(new URL("llms.txt", outputRoot), "utf8"),
+  ]);
+  assert.match(robots, /User-agent: OAI-SearchBot\s+Allow: \//);
+  assert.match(robots, /Sitemap: https:\/\/nedelsky\.pages\.dev\/sitemap\.xml/);
+  assert.match(sitemap, /<loc>https:\/\/nedelsky\.pages\.dev\/ai-for-business\/<\/loc>/);
+  assert.doesNotMatch(sitemap, /vichepaev22\.github\.io/);
+  assert.match(llms, /https:\/\/nedelsky\.pages\.dev\/ai-for-business\//);
 });
 
 test("generates the AI services route for GitHub Pages", async () => {
@@ -36,6 +47,10 @@ test("generates the AI services route for GitHub Pages", async () => {
   assert.match(html, /"@type":"Service"/);
   assert.match(html, /vk\.ru\/ndlsky/);
   assert.doesNotMatch(html, /Заявка отправлена|Telegram|WhatsApp/i);
+  assert.match(html, /<link rel="canonical" href="https:\/\/nedelsky\.pages\.dev\/ai-for-business\/"/);
+  assert.match(html, /"@id":"https:\/\/nedelsky\.pages\.dev\/#maxim-nedelsky"/);
+  assert.match(html, /Как понять, где ИИ полезен именно моему бизнесу\?/);
+  assert.match(html, /Промышленная разработка и интеграции согласуются отдельно/);
 });
 
 test("uses the repository base path for scripts and styles", async () => {
@@ -43,6 +58,7 @@ test("uses the repository base path for scripts and styles", async () => {
   assert.match(html, /\/nedelsky-speaker\/assets\/.+\.js/);
   assert.match(html, /\/nedelsky-speaker\/assets\/.+\.css/);
   assert.ok(html.includes(`${siteUrl}/`));
+  assert.match(html, /<link rel="canonical" href="https:\/\/nedelsky\.pages\.dev\/"/);
   assert.match(html, /<h1>Знания, которые/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /"@type":"Person"/);
