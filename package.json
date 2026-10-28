@@ -18,7 +18,7 @@
     "test:cloudflare": "npm run build:cloudflare && node --test tests/cloudflare-pages.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern pages-dist --ignore-pattern cloudflare-dist",
     "db:generate": "drizzle-kit generate",
-    "test:quiz": "node --test tests/quiz-static.test.mjs tests/quiz-release.test.mjs"
+    "test:quiz": "node --test tests/quiz-static.test.mjs tests/quiz-release.test.mjs tests/quiz-consultation.test.mjs"
   },
   "dependencies": {
     "@remotion/player": "4.0.521",

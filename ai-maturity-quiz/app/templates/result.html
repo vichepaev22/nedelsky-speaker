@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block main_class %}result-shell{% endblock %}
 {% block styles %}<link rel="stylesheet" href="/static/offers.css"><link rel="stylesheet" href="/static/result-disclosure.css">{% endblock %}
-{% block scripts %}<script type="module" src="/static/result-disclosure.js"></script><script type="module" src="/static/result-offer.js"></script><script type="module" src="/static/offers-motion.js"></script>{% endblock %}
+{% block scripts %}<script type="module" src="/static/result-disclosure.js"></script><script type="module" src="/static/result-offer.js"></script><script type="module" src="/static/result-consultation.js"></script><script type="module" src="/static/offers-motion.js"></script>{% endblock %}
 {% block content %}
 <div class="result-heading"><div><p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Диагностика завершена</p><h1 tabindex="-1">Ваша карта работы с ИИ</h1><p>Вот ваша отправная точка. Дальше — шаги, которые можно попробовать уже на этой неделе.</p></div><a class="result-jump" href="#next-steps">К трём шагам <span aria-hidden="true">↓</span></a></div>
 <div class="result-grid" id="result-card" data-index="{{ result.index }}" data-level="{{ level.name }}">
@@ -38,19 +38,31 @@
       <p class="offer-summary">Получите слепок вашего бизнеса и план внедрения ИИ: что улучшать, с чего начать и как оценить результат.</p>
       <div class="offer-price"><strong data-roadmap-price>4 500 ₽</strong><s data-original-price hidden>4 500 ₽</s><span>за анализ бизнеса и дорожную карту</span></div>
       <div class="offer-promotion"><div class="offer-window" data-offer-window hidden><strong class="offer-saving">−1 600 ₽</strong><p>При оплате в течение 90 минут<br><span class="offer-countdown">Осталось <span data-offer-clock>01:30:00</span></span></p></div><p class="offer-regular-note" data-regular-note>Индивидуальный план под ваши задачи.</p></div>
-      <div class="offer-action-group">{% if settings.diagnostic_url or settings.consultation_url %}<a class="button offer-action offer-primary" data-roadmap-link href="{{ settings.diagnostic_url or settings.consultation_url }}" target="_blank" rel="noopener noreferrer"><span data-roadmap-label>Списаться по анализу</span><span class="offer-arrow" aria-hidden="true">↗</span></a><p class="offer-footnote">{% if settings.diagnostic_url %}Перейти к оформлению диагностики{% else %}Обсудить задачу и оформление во ВКонтакте{% endif %}</p>{% else %}<p class="offer-footnote">Запись на диагностику скоро откроется.</p>{% endif %}</div>
       <div class="offer-included"><h4>Что вы получите</h4><ul class="offer-deliverables"><li>Слепок бизнеса и текущих процессов.</li><li>Приоритеты внедрения под ваш уровень.</li><li>Дорожную карту: шаги, инструменты и критерии результата.</li></ul></div>
+      <div class="offer-action-group">{% if settings.diagnostic_url or settings.consultation_url %}<a class="button offer-action offer-primary" data-roadmap-link href="{{ settings.diagnostic_url or settings.consultation_url }}" target="_blank" rel="noopener noreferrer"><span data-roadmap-label>Списаться по анализу</span><span class="offer-arrow" aria-hidden="true">↗</span></a><p class="offer-footnote">{% if settings.diagnostic_url %}Перейти к оформлению диагностики{% else %}Обсудить задачу и оформление во ВКонтакте{% endif %}</p>{% else %}<p class="offer-footnote">Запись на диагностику скоро откроется.</p>{% endif %}</div>
       <p class="offer-timing">Срок подготовки согласуем по объёму задачи.</p>
     </article>
-    <article class="offer-card consultation-offer" aria-labelledby="consultation-title">
+    <article class="offer-card consultation-offer" data-consultation-offer aria-labelledby="consultation-title">
       <p class="offer-format">02 · Личный разбор</p>
       <h3 id="consultation-title">Индивидуальная консультация</h3>
-      <p class="offer-summary">Разберите вашу задачу с Максимом Недельским. За встречу определим, где ИИ поможет бизнесу и какие действия выбрать.</p>
-      <div class="offer-price"><strong class="offer-contact-heading">Личный разбор</strong><span>Запись через личные сообщения</span></div>
-      <div class="offer-session"><strong>90 минут</strong><span>на ваши вопросы и задачи</span></div>
-      <div class="offer-action-group">{% if settings.consultation_url %}<a class="button offer-action offer-secondary" href="{{ settings.consultation_url }}" target="_blank" rel="noopener noreferrer"><span>Записаться на консультацию</span><span class="offer-arrow" aria-hidden="true">↗</span></a><p class="offer-footnote">Согласовать время во ВКонтакте</p>{% else %}<p class="offer-footnote">Запись на консультацию скоро откроется.</p>{% endif %}</div>
-      <div class="offer-included"><h4>Что разберём</h4><ul class="offer-deliverables"><li>Вашу задачу, процесс или идею внедрения.</li><li>Вопросы по применению ИИ в бизнесе.</li><li>Ближайшие действия с учётом ваших ресурсов.</li></ul></div>
-      <p class="offer-timing">Время встречи согласуем в личной переписке.</p>
+      <p class="offer-summary">Обсудите вашу задачу, стадии роста и ближайшие действия с Максимом Недельским.</p>
+      <div class="offer-price"><strong class="offer-contact-heading" data-consultation-price>Бесплатно</strong><span data-consultation-subtitle>за подписку на два канала</span></div>
+      <div class="offer-session"><strong>45 минут</strong><span>на вашу задачу и следующие шаги</span></div>
+      <div class="offer-included" data-consultation-conditions>
+        <h4>Как получить консультацию</h4>
+        <p class="consultation-condition-copy">Подпишитесь на оба канала:</p>
+        <div class="consultation-channels"><a href="https://t.me/FutureDarkSide" target="_blank" rel="noopener noreferrer"><span>Канал 1 ↗</span><strong>@FutureDarkSide</strong></a><a href="https://t.me/nofuturenews" target="_blank" rel="noopener noreferrer"><span>Канал 2 ↗</span><strong>@nofuturenews</strong></a></div>
+        <label class="consultation-confirmation"><input type="checkbox" form="consultation-request" data-channel-confirmation required aria-describedby="consultation-confirmation-note"><span>Я подписан(а) на оба канала</span></label>
+        <p class="consultation-confirmation-note" id="consultation-confirmation-note">Подписку подтверждаете вы — автоматически она не проверяется.</p>
+      </div>
+      <form class="offer-action-group consultation-request" id="consultation-request" data-consultation-form action="https://t.me/nedelsky" method="get" target="_blank" rel="noopener noreferrer">
+        <p class="consultation-window" data-consultation-window>На подачу заявки — 90 минут после теста.<br>Предложение действует ещё <strong data-consultation-clock>01:30:00</strong></p>
+        <p class="consultation-expired" data-consultation-expired role="status" hidden></p>
+        <button class="button offer-action offer-secondary" data-consultation-submit type="submit" disabled><span>Подать заявку в Telegram</span><span class="offer-arrow" aria-hidden="true">↗</span></button>
+        <a class="button offer-action offer-secondary" data-consultation-ordinary href="https://t.me/nedelsky" target="_blank" rel="noopener noreferrer" hidden>Обсудить консультацию <span aria-hidden="true">↗</span></a>
+        <p class="offer-footnote">Напишите «Консультация» и ваш уровень из теста.</p>
+      </form>
+      <p class="offer-timing">Заявку нужно отправить за 90 минут. Саму встречу на 45 минут и её время согласуем в переписке.</p>
     </article>
   </div>
 </section>

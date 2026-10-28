@@ -9,6 +9,7 @@ import { mountChapter } from './chapter.mjs';
 import { mountDisclosure } from './disclosure.mjs';
 import { mountOffers } from './offers.mjs';
 import { mountOffer } from './offer.mjs';
+import { mountConsultation } from './consultation.mjs';
 
 const main=document.getElementById('main');
 let storage=null;try{storage=window.sessionStorage;}catch{/* In-memory navigation remains available. */}
@@ -41,7 +42,7 @@ function fillResult(result){
   text('.goal-example h2',ROLE_CONTEXT[session.answers.P1]);text('.goal-example>p:last-child',GOALS[session.answers.P2]);
   renderSwot(main.querySelector('[data-swot-grid]'),buildSwot(session.answers));
   text('#result-save-source',report(result));
-  const card=main.querySelector('[data-roadmap-offer]');card.dataset.completedAt=String(session.completedAt);
+  for(const card of main.querySelectorAll('[data-roadmap-offer],[data-consultation-offer]'))card.dataset.completedAt=String(session.completedAt);
   if(result.gate_gap){
     const note=document.createElement('aside');note.className='gate-note';
     const strong=document.createElement('strong');strong.textContent='Почему индекс и ступень могут отличаться?';
@@ -93,7 +94,7 @@ function render(){
     else main.querySelector('[data-action=restart]')?.remove();
   }
   window.scrollTo({top:0,behavior:'instant'});
-  cleanups.push(mountUI(),mountChapter(),mountDisclosure(),mountOffers(),mountOffer());
+  cleanups.push(mountUI(),mountChapter(),mountDisclosure(),mountOffers(),mountOffer(),mountConsultation());
   journalScreen(result);
 }
 function journalScreen(result=null){
