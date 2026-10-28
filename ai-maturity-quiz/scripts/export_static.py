@@ -16,7 +16,7 @@ from app.questions import ALL_QUESTIONS,QUESTIONS,CHAPTERS,public_question
 from app.content import LEVELS,DIMENSIONS,GATE_TEXT,GOALS,ROLE_CONTEXT,TRANSITIONS
 
 env=Environment(loader=FileSystemLoader(root/'app/templates'),autoescape=select_autoescape(['html']))
-settings=SimpleNamespace(site_url='../',consultation_url='https://vk.ru/ndlsky',diagnostic_url='',ttl_seconds=86400)
+settings=SimpleNamespace(site_url='..',consultation_url='https://vk.ru/ndlsky',diagnostic_url='',ttl_seconds=86400)
 base=dict(settings=settings,session={'csrf':'','started':False},focus=False)
 def render(name,**values):return env.get_template(name).render(**(base|values))
 def normalize(html):

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {evaluate,roundRatio,readSession,freshSession,persistSession,answerAt,firstMissing,SESSION_KEY,SESSION_TTL} from '../public/ai-quiz/static/domain.mjs';
+import {VIEWS} from '../public/ai-quiz/static/views.mjs';
 import {ALL_QUESTIONS} from '../public/ai-quiz/static/data.mjs';
 import {loadOffer,offerPrice,OFFER_KEY,OFFER_DURATION} from '../public/ai-quiz/static/roadmap-offer.mjs';
 
@@ -61,4 +62,14 @@ test('both outputs contain the exact same quiz and own-host hero entry',async()=
   assert.match(gh,/href="\/nedelsky-speaker\/ai-quiz\/"/);
   assert.match(cf,/href="\/ai-quiz\/"/);
   for(const html of [gh,cf])assert.match(html,/Где я в ИИ\?/);
+});
+
+test('result product links resolve inside the current mirror without a doubled slash',()=>{
+  for(const view of Object.values(VIEWS.results)){
+    assert.doesNotMatch(view.html,/href="\.\.\/\//);
+  }
+  for(const base of ['https://nedelsky.pages.dev/ai-quiz/','https://vichepaev22.github.io/nedelsky-speaker/ai-quiz/']){
+    const href=VIEWS.results[3].html.match(/href="([^" ]+ai-transformation#details-ai-transformation)"/)[1];
+    assert.equal(new URL(href,base).pathname,new URL('../ai-for-business/',base).pathname);
+  }
 });

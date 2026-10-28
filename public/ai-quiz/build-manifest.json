@@ -2,7 +2,7 @@
   "revision": "quiz-2026-10-28",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "index.html": "2face2f6471f44b3d7e49d17bfefd8618f2d4f69700370cda4baa5aa18c0a9a0",
+    "index.html": "e303027b9dd34e3bce644af0530a183ddf41d5756df4ecdee0b27e6dcabd72c3",
     "static/chapter-physics.mjs": "107114d98e3c237d9f08afc98579bd0c9b329d1a07a0d1206ec1518722a29dbc",
     "static/chapter.mjs": "3344be752f1bf53867c2335376e57a37bee14d8167eff275bab2e952a3a5a839",
     "static/data.mjs": "ec7eabb2a29aef32f24b0b35756c3f5faea114a1b5771a51aec6b09f7b220e27",
@@ -17,6 +17,6 @@
     "static/runtime.mjs": "f5477532e6bf5e9ec30afea258e2b261289520cb1400a86fb010d59ed121f157",
     "static/styles.css": "1bc3cac05da21ba6e477fb4a5c15860a4ce06fa3ac6d255bd2e75fa87c3c4f85",
     "static/ui.mjs": "41e87b64533ee4f71bec5f65176e6537bd312704e60521d44ce6a1b23b7c88a8",
-    "static/views.mjs": "c7fdcf01a7fa29c3d01030ce8f67cdf64ad31cc73795faa06b95f5e473caf686"
+    "static/views.mjs": "f927f4ba0fcf028d2fa4fb33a85ca3578c5031aba868c3a15f75600b46bfcd9f"
   }
 }
