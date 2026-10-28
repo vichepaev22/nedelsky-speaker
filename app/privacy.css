@@ -1,0 +1,40 @@
+.privacy-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; grid-column: 1 / -1; flex-basis: 100%; color: var(--ink-soft); font-size: 13px; }
+.privacy-links a, .privacy-links button { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-decoration: underline; text-underline-offset: 4px; }
+.privacy-links button { padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }
+.site-footer > .privacy-links { padding: 0 clamp(20px, 5.6vw, 92px) 18px; }
+.privacy-links :focus-visible, .privacy-notice :focus-visible { outline: 3px solid var(--ink); outline-offset: 4px; }
+.privacy-notice { position: fixed; z-index: 100; right: max(20px, env(safe-area-inset-right)); bottom: max(20px, env(safe-area-inset-bottom)); width: min(420px, calc(100vw - 40px)); max-height: calc(100dvh - 110px); overflow: auto; padding: 23px; border: 1px solid #cbc8c0; border-radius: 18px; background: #fbfaf7; color: #172039; box-shadow: 0 10px 40px #17203924; }
+.privacy-notice h2 { margin: 0 0 10px; font-size: 21px; letter-spacing: -.035em; line-height: 1.2; }
+.privacy-notice p { margin: 0; font-size: 14px; line-height: 1.55; color: #485069; }
+.privacy-notice-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-top: 17px; }
+.privacy-notice-actions a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: #172039; text-underline-offset: 4px; }
+.privacy-notice-actions button { min-height: 44px; padding: 11px 18px; border: 0; border-radius: 10px; background: #172039; color: white; font: inherit; font-size: 15px; font-weight: 650; cursor: pointer; }
+html:has(.privacy-notice) { scroll-padding-bottom: 300px; }
+.privacy-page { min-height: 100vh; background: var(--paper); color: var(--ink); }
+.privacy-document { max-width: 920px; margin: 0 auto; padding: 45px 24px 70px; }
+.privacy-back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 28px; color: var(--ink); text-underline-offset: 4px; font-size: 15px; }
+.privacy-document h1 { font-size: clamp(36px, 5.5vw, 66px); letter-spacing: -.05em; line-height: 1.05; overflow-wrap: anywhere; margin: 18px 0 24px; }
+.privacy-document h1 em { font-family: Georgia, serif; font-weight: 400; }
+.privacy-document .privacy-lead { font-size: 20px; color: var(--ink-soft); line-height: 1.6; }
+.privacy-summary { padding: 24px; margin: 28px 0; border-radius: 16px; background: #e9e6de; }
+.privacy-summary strong { font-size: 20px; }
+.privacy-summary p { margin: 8px 0 0; }
+.privacy-toc { display: flex; flex-wrap: wrap; gap: 8px 20px; padding-block: 10px 24px; border-bottom: 1px solid var(--line); }
+.privacy-document a { color: var(--ink); text-underline-offset: 4px; }
+.privacy-toc a { min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; }
+.privacy-document section { padding-top: 28px; scroll-margin-top: 24px; }
+.privacy-document h2 { font-size: clamp(23px, 3vw, 30px); letter-spacing: -.025em; line-height: 1.3; margin: 0 0 15px; }
+.privacy-document p, .privacy-document li { font-size: 17px; line-height: 1.75; }
+.privacy-document ul { padding-left: 23px; }
+.privacy-document li + li { margin-top: 12px; }
+.privacy-document code { font-size: .9em; overflow-wrap: anywhere; }
+.privacy-footer { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; padding: 24px max(24px, calc((100% - 872px) / 2)); border-top: 1px solid var(--line); color: var(--ink); }
+.privacy-footer > a { min-height: 44px; display: inline-flex; align-items: center; }
+@media (max-width: 620px) {
+  .privacy-notice { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); width: calc(100% - 24px); padding: 19px; }
+  body:has(.ai-offer-page) .privacy-notice { bottom: calc(90px + env(safe-area-inset-bottom)); max-height: calc(100dvh - 140px); }
+  .privacy-document { padding-inline: 20px; }
+  .privacy-document h1 { font-size: clamp(32px, 7.7vw, 45px); }
+  .privacy-document p, .privacy-document li { font-size: 16px; }
+  .privacy-summary { padding: 20px; }
+}

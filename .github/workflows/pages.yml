@@ -42,6 +42,9 @@ jobs:
       - name: Test GitHub Pages build
         run: npm run test:pages
 
+      - name: Test static quiz and mirror paths
+        run: npm run test:cloudflare && npm run test:quiz
+
       - name: Security audit
         run: npm audit --omit=dev --audit-level=high
 

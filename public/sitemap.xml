@@ -2,11 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://nedelsky.pages.dev/</loc>
-    <lastmod>2026-08-28</lastmod>
+    <lastmod>2026-10-14</lastmod>
   </url>
   <url>
     <loc>https://nedelsky.pages.dev/ai-for-business/</loc>
-    <lastmod>2026-09-26</lastmod>
+    <lastmod>2026-10-14</lastmod>
+  </url>
+  <url>
+    <loc>https://nedelsky.pages.dev/speaker-tools/</loc>
+    <lastmod>2026-10-14</lastmod>
   </url>
   <url>
     <loc>https://nedelsky.pages.dev/programs/ai-business/</loc>

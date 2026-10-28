@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import { sitePath } from "./site-paths";
 
 const topicsByProgram: Record<string, string> = {
   "ai-business": "ИИ для роста бизнеса",
@@ -31,17 +32,13 @@ export function ContactForm() {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const name = String(form.get("name") || "").trim();
-    const company = String(form.get("company") || "").trim();
     const topic = String(form.get("topic") || "").trim();
     const details = String(form.get("details") || "").trim();
 
     const message = [
-      "Здравствуйте, Максим! Хочу обсудить выступление.",
-      name && `Имя: ${name}`,
-      company && `Компания / событие: ${company}`,
+      "Здравствуйте, Максим! Хочу обсудить задачу.",
       topic && `Интересующая тема: ${topic}`,
-      details && `Задача: ${details}`,
+      details && `Вопрос / задача: ${details}`,
     ].filter(Boolean).join("\n");
 
     setDraft(message);
@@ -58,7 +55,7 @@ export function ContactForm() {
     void navigator.clipboard.writeText(message).then(
       () => setStatus({
         tone: "success",
-        message: "Готово: текст скопирован. ВКонтакте откроется в новой вкладке; если нет — используйте кнопку выше.",
+        message: "Готово: текст скопирован. ВКонтакте откроется в новой вкладке. Вставьте текст и отправьте его; если вкладка не открылась — используйте карточку «Написать напрямую».",
       }),
       () => setStatus({
         tone: "attention",
@@ -69,15 +66,11 @@ export function ContactForm() {
 
   return (
     <form className="contact-form" onSubmit={submit}>
-      <h3>Короткая заявка</h3>
-      <p>Можно написать сразу или за минуту подготовить структурированное сообщение.</p>
-      <a className="form-vk-direct" href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">Написать сразу в VK <span>↗</span></a>
-      <p className="form-divider"><span>или подготовить сообщение</span></p>
+      <h3>Короткая форма</h3>
+      <p>Выберите тему и опишите задачу — подготовим сообщение для ВКонтакте.</p>
       <div className="field-grid">
-        <div className="field"><label htmlFor="lead-name">Ваше имя</label><input id="lead-name" name="name" required autoComplete="name" placeholder="Как к вам обращаться" /></div>
-        <div className="field"><label htmlFor="lead-company">Компания или событие</label><input id="lead-company" name="company" placeholder="Например: бизнес-форум" /></div>
         <div className="field field-full"><label htmlFor="lead-topic">Интересующая тема</label><select id="lead-topic" name="topic" value={topic} onChange={(event) => setTopic(event.currentTarget.value)}><option>ИИ для роста бизнеса</option><option>Сервис-дизайн и клиентский опыт</option><option>Партнёрство как основа взаимодействия</option><option>Госзакупки как инструмент развития бизнеса</option><option>Нужна консультация по выбору темы</option></select></div>
-        <div className="field field-full"><label htmlFor="lead-details">Что хотите получить</label><textarea id="lead-details" name="details" placeholder="Аудитория, дата, город, формат и задача мероприятия" /></div>
+        <div className="field field-full"><label htmlFor="lead-details">Что хотите получить, какой вопрос хотите задать</label><textarea id="lead-details" name="details" required maxLength={4000} placeholder="Опишите задачу или задайте вопрос. Если речь о событии — добавьте аудиторию, дату и формат." /></div>
       </div>
       <button className={`button form-submit ${status?.tone === "success" ? "is-success" : ""}`} type="submit">{status?.tone === "success" ? "Текст готов — открыть VK" : "Подготовить текст и открыть VK"} <span>{status?.tone === "success" ? "✓" : "↗"}</span></button>
       <output className={`form-status ${status ? `is-${status.tone}` : ""}`} aria-live="polite">
@@ -89,7 +82,7 @@ export function ContactForm() {
           <textarea id="lead-draft" readOnly value={draft} onFocus={(event) => event.currentTarget.select()} />
         </div>
       )}
-      <p className="form-consent">Сайт не отправляет и не сохраняет данные: текст остаётся в вашем браузере, пока вы сами не отправите его во ВКонтакте.</p>
+      <p className="form-consent">Текст формы не отправляется на сервер сайта. Кнопка копирует его и открывает ВК — сообщение отправляете вы сами. <a href={sitePath("/legal/privacy/")}>Как обрабатываются данные</a>.</p>
     </form>
   );
 }

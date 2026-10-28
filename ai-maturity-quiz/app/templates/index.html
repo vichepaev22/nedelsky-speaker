@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% from "_companion.html" import companion %}
+{% block main_class %}cover-shell{% endblock %}
+{% block content %}
+{% if expired %}<p class="notice" role="status">Сессия завершилась. Можно начать заново — сохранённый вами результат остаётся в этом браузере.</p>{% endif %}
+<div class="cover-grid">
+  <section class="cover-copy">
+    <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Ваш личный AI-навигатор</p>
+    <h1>Вы уже в ИИ.<br><span>А где именно?</span></h1>
+    <p class="lead">Пользуетесь нейросетями, но не понимаете, куда двигаться дальше? Найдите свою точку на карте — от первых запросов до работы с агентами.</p>
+    <ul class="micro" aria-label="О тесте"><li>5–7 минут</li><li>Бесплатно</li><li>Без регистрации</li></ul>
+    <form action="/start" method="post"><input type="hidden" name="csrf" value="{{ session.csrf }}"><button class="button primary" type="submit">{% if session.started %}Продолжить диагностику{% else %}Узнать свой уровень{% endif %}<span aria-hidden="true">→</span></button></form>
+    <p class="cover-note">16 ситуаций из жизни и работы.<br>В конце — ваш уровень и три конкретных шага.</p>
+    {% if session.started %}<form action="/restart" method="post" class="inline-form"><input type="hidden" name="csrf" value="{{ session.csrf }}"><button class="text-button" type="submit">Начать новый тест</button></form>{% endif %}
+  </section>
+  <aside class="map-preview" aria-labelledby="preview-title">
+    <div class="preview-top"><span><span class="status-dot" aria-hidden="true"></span> Карта возможностей</span><span class="pill">4 ступени</span></div>
+    <h2 id="preview-title">У каждого свой<br>следующий шаг.</h2>
+    <ol class="preview-route">
+      <li><span class="map-node node-one" aria-hidden="true">01</span><div><strong>Первые запросы</strong><p>Информация, идеи, тексты и картинки</p></div></li>
+      <li><span class="map-node node-two" aria-hidden="true">02</span><div><strong>Рабочие задачи</strong><p>Документы, письма и презентации</p></div></li>
+      <li><span class="map-node node-three" aria-hidden="true">03</span><div><strong>Системы и процессы</strong><p>Повторяемые решения и автоматизации</p></div></li>
+      <li><span class="map-node node-four" aria-hidden="true">04</span><div><strong>ИИ-агенты</strong><p>Связанные инструменты и готовые решения</p></div></li>
+    </ol>
+    <div class="preview-companion"><div class="map-companion" aria-hidden="true">{{ companion() }}</div><p><strong>Начнём с вашей практики.</strong><span>Термины учить не придётся.</span></p><span class="preview-arrow" aria-hidden="true">↗</span></div>
+  </aside>
+</div>
+<section class="cover-outcomes" id="how-it-works" aria-label="Что даст диагностика"><div><span>01</span><h2>Понять, где вы сейчас</h2><p>Увидеть, как вы применяете ИИ, а не сколько сервисов знаете.</p></div><div><span>02</span><h2>Найти точку роста</h2><p>Разобраться в четырёх направлениях и выбрать приоритет.</p></div><div><span>03</span><h2>Начать действовать</h2><p>Получить три шага, которые можно попробовать за неделю.</p></div></section>
+<p class="storage-note">Не экзамен и не сертификат. Для прохождения используется техническая cookie с анонимным идентификатором. Прогресс хранится до {{ (settings.ttl_seconds / 3600)|round(1) }} часов в этом браузере; перезапуск локального сервера очищает сессии. Контакты не нужны.</p>
+<section id="saved-card" class="saved-card" hidden aria-label="Сохранённый результат"><p class="eyebrow">Можно вернуться к своей точке</p><h2>Ваша предыдущая карта</h2><p id="saved-date"></p><pre id="saved-text"></pre><button class="text-button" id="delete-saved" type="button">Удалить сохранённую карту</button><p id="saved-status" role="status"></p></section>
+{% endblock %}

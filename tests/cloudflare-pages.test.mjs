@@ -5,6 +5,31 @@ import test from "node:test";
 const outputRoot = new URL("../cloudflare-dist/", import.meta.url);
 const siteUrl = "https://nedelsky.pages.dev";
 
+test("privacy route describes the actual two-field VK workflow and is linked from every footer", async () => {
+  const policy = await readFile(new URL("legal/privacy/index.html", outputRoot), "utf8");
+  assert.match(policy, /Недельский Максим Владимирович/);
+  assert.match(policy, /nedelsky-privacy-notice/);
+  assert.match(policy, /180 дней/);
+  assert.match(policy, /Автоматической отправки сообщения нет/);
+  assert.doesNotMatch(policy, /Андрейский|ИНН|ОГРНИП|incube/i);
+  for (const path of ["index.html", "ai-for-business/index.html", "speaker-tools/index.html", ...["ai-business", "service-design", "partnership", "procurement"].map(slug => `programs/${slug}/index.html`)]) {
+    const html = await readFile(new URL(path, outputRoot), "utf8");
+    const footer = html.match(/<footer[\s\S]*?<\/footer>/)?.[0];
+    assert.ok(footer?.includes('href="/legal/privacy/"'), `Missing policy in ${path}`);
+    assert.match(footer, /О cookies/);
+  }
+});
+
+test("home contact has two fields on the left and compact two-row navigation", async () => {
+  const home = await readFile(new URL("index.html", outputRoot), "utf8");
+  const contact = home.match(/<section class="contact-section"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(contact.indexOf('<form') < contact.indexOf('class="contact-intro"'));
+  assert.deepEqual([...contact.matchAll(/name="([^"]+)"/g)].map(match => match[1]), ["topic", "details"]);
+  assert.match(contact, /Что хотите получить, какой вопрос хотите задать/);
+  assert.doesNotMatch(contact, /lead-name|lead-company|Написать сразу в VK|form-divider/);
+  assert.equal((home.match(/class="footer-nav-row"/g) || []).length, 2);
+});
+
 test("builds a complete Cloudflare Pages artifact at the domain root", async () => {
   await Promise.all([
     access(new URL("404.html", outputRoot)),
@@ -27,6 +52,17 @@ test("builds a complete Cloudflare Pages artifact at the domain root", async () 
   assert.match(html, /<h1>Знания, которые/);
   assert.match(html, /application\/ld\+json/);
   assert.doesNotMatch(html, /\/nedelsky-speaker\//);
+});
+
+test("homepage keeps section navigation and accessible headings in initial HTML", async () => {
+  const html = await readFile(new URL("index.html", outputRoot), "utf8");
+  assert.match(html, /aria-label="Основная навигация"/);
+  assert.match(html, /aria-label="Навигация по разделам сайта"/);
+  for (const anchor of ["partners", "projects", "programs", "cases", "about", "organizers", "contact", "top"]) {
+    assert.ok(html.includes(`href="#${anchor}"`), `Missing navigation to #${anchor}`);
+  }
+  assert.doesNotMatch(html, /работыс сильными|которыеуже стали|нужнопереходить|собратьподходящий/);
+  assert.match(html, /alt="Максим Недельский с микрофоном на макете сайта спикера"/);
 });
 
 test("generates the AI services route at the Cloudflare domain root", async () => {
@@ -70,6 +106,28 @@ test("publishes Cloudflare-specific discovery files", async () => {
     assert.ok(content.includes(siteUrl));
     assert.ok(!content.includes("vichepaev22.github.io"));
   }
+  assert.match(robots, /User-agent: OAI-SearchBot\s+Allow: \//);
+});
+
+test("AI page answers business-fit questions in initial HTML", async () => {
+  const html = await readFile(new URL("ai-for-business/index.html", outputRoot), "utf8");
+  assert.match(html, /Как понять, где ИИ полезен именно моему бизнесу\?/);
+  assert.match(html, /Вы внедряете готовую систему или учите пользоваться ИИ\?/);
+  assert.match(html, /Промышленная разработка и интеграции согласуются отдельно/);
+});
+
+test("speaker tools are a direct, discoverable route linked from the homepage", async () => {
+  const [home, tools, sitemap] = await Promise.all([
+    readFile(new URL("index.html", outputRoot), "utf8"),
+    readFile(new URL("speaker-tools/index.html", outputRoot), "utf8"),
+    readFile(new URL("sitemap.xml", outputRoot), "utf8"),
+  ]);
+  assert.match(home, /href="\/speaker-tools\/"[^>]*>Инструменты для спикера/);
+  assert.ok(tools.includes(`${siteUrl}/speaker-tools/`));
+  assert.match(tools, /role="timer"[^>]*>15:00/);
+  assert.match(tools, /Задание для группы/);
+  assert.match(tools, /Старт на весь экран/);
+  assert.match(sitemap, /\/speaker-tools\//);
 });
 
 for (const slug of ["ai-business", "service-design", "partnership", "procurement"]) {

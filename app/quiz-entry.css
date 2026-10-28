@@ -1,0 +1,7 @@
+.hero-quiz-entry { display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px; margin:22px 0 16px; }
+.hero-quiz-link { display:inline-flex; align-items:center; justify-content:space-between; gap:22px; padding:12px 14px 12px 22px; min-height:54px; border:1px solid #e2d6ec; border-radius:999px; background:linear-gradient(120deg,#f7effc,#edf1fb); color:#262133; font-size:18px; font-weight:700; text-decoration:none; box-shadow:0 5px 16px #211b3009,inset 0 1px 0 #fff; }
+.hero-quiz-link>span { display:grid; place-items:center; width:30px; height:30px; border:1px solid #d9cee4; border-radius:50%; background:#ffffffc9; font-size:18px; }
+.hero-quiz-link:focus-visible { outline:3px solid #73559a; outline-offset:4px; }
+.hero-quiz-caption { color:#625968; font-size:13px; line-height:1.5; }
+@media(hover:hover) and (pointer:fine) { .hero-quiz-link:hover { border-color:#bca8ce; } }
+@media(max-width:420px) { .hero-quiz-entry { align-items:flex-start; flex-direction:column; gap:8px; }.hero-quiz-link { max-width:100%; }.hero-quiz-caption { padding-left:6px; } }

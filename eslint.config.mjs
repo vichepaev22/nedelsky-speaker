@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "ai-maturity-quiz/.venv/**",
+    "ai-maturity-quiz/pytest-cache-files-*/**",
   ]),
   eslint.configs.recommended,
   ...tseslint.configs.recommended,

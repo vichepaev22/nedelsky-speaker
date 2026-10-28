@@ -4,6 +4,7 @@ import { ProgramInteraction } from "./ProgramInteraction";
 import { FormatExplorer } from "./FormatExplorer";
 import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
+import { PrivacyLinks } from "./PrivacyNotice";
 
 function ProgramTitle({ title }: { title: string }) {
   const longWord = "взаимодействия";
@@ -69,7 +70,7 @@ export function ProgramPage({ program }: { program: Program }) {
       <section className="detail-formats" id="formats" aria-labelledby="formats-title">
         <div className="detail-section-heading">
           <p className="eyebrow eyebrow-dark">Длительность и глубина</p>
-          <h2 id="formats-title">Одна тема —<br /><em>три формата.</em></h2>
+          <h2 id="formats-title">Одна тема —<br />{" "}<em>три формата.</em></h2>
         </div>
         <FormatExplorer formats={program.formats} />
         <div className="format-grid">
@@ -89,7 +90,7 @@ export function ProgramPage({ program }: { program: Program }) {
       <section className="detail-content" id="content" aria-labelledby="content-title">
         <div className="detail-content-heading">
           <p className="eyebrow">Содержание</p>
-          <h2 id="content-title">От понимания —<br /><em>к своей практике.</em></h2>
+          <h2 id="content-title">От понимания —<br />{" "}<em>к своей практике.</em></h2>
           <ThemeVisual type={program.visual} />
         </div>
         <div className="detail-modules">
@@ -114,7 +115,7 @@ export function ProgramPage({ program }: { program: Program }) {
 
       <section className="detail-contact">
         <p className="eyebrow">Нужен формат под вашу аудиторию?</p>
-        <h2>Адаптирую программу<br /><em>под задачу команды.</em></h2>
+        <h2>Адаптирую программу<br />{" "}<em>под задачу команды.</em></h2>
         <a className="button button-coral" href={contactUrl}>Подобрать формат <span>↗</span></a>
         <a className="detail-vk" href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">Или написать Максиму в VK ↗</a>
       </section>
@@ -123,6 +124,7 @@ export function ProgramPage({ program }: { program: Program }) {
         <a className="brand brand-footer" href={sitePath("/#top")}><span className="brand-mark">N</span><span>Максим<br />Недельский</span></a>
         <p>Бизнес-тренер · Предприниматель · Спикер</p>
         <a href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">ВКонтакте ↗</a>
+        <PrivacyLinks />
       </footer>
     </main>
   );

@@ -6,6 +6,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { defineConfig, type Plugin } from "vite";
 import Home from "./app/page";
 import { AiBusinessPage } from "./app/AiBusinessPage";
+import { SpeakerToolsPage } from "./app/SpeakerToolsPage";
+import { PrivacyPage } from "./app/PrivacyPage";
 import { aiProducts } from "./app/ai-products-data";
 import { ProgramPage } from "./app/ProgramPage";
 import { programs } from "./app/programs-data";
@@ -18,7 +20,7 @@ let outputDirectory = resolve("pages-dist");
 const siteName = "Максим Недельский — бизнес-тренер и спикер";
 const siteDescription = "Практические выступления и корпоративные семинары об ИИ, сервис-дизайне, партнёрстве и развитии бизнеса.";
 let personId = `${siteOrigin}/#maxim-nedelsky`;
-const updatedAt = "2026-09-26";
+const updatedAt = "2026-10-14";
 
 function escapeAttribute(value: string): string {
   return value
@@ -264,6 +266,18 @@ function generateStaticRoutes(): Plugin {
 
       writeFileSync(rootIndexPath, homeHtml, "utf8");
 
+      const privacyDirectory = resolve(outputDirectory, "legal", "privacy");
+      const privacyUrl = `${siteOrigin}/legal/privacy/`;
+      const privacyHtml = renderStaticPage(rootHtml, metaBlock({
+        title: "Политика конфиденциальности · Максим Недельский",
+        description: "Обработка данных на сайте Максима Недельского: форма, ВКонтакте, технические сведения и настройки cookies.",
+        url: privacyUrl,
+        image: homeImage,
+        schema: { "@context": "https://schema.org", "@type": "WebPage", name: "Политика конфиденциальности", url: privacyUrl, inLanguage: "ru-RU", dateModified: "2026-10-23" },
+      }), renderToStaticMarkup(createElement(PrivacyPage)));
+      mkdirSync(privacyDirectory, { recursive: true });
+      writeFileSync(resolve(privacyDirectory, "index.html"), privacyHtml, "utf8");
+
       const aiBusinessDirectory = resolve(outputDirectory, "ai-for-business");
       const aiBusinessUrl = `${siteOrigin}/ai-for-business/`;
       const aiBusinessImage = `${siteOrigin}/images/speaker/maxim-navy.png`;
@@ -280,6 +294,32 @@ function generateStaticRoutes(): Plugin {
       );
       mkdirSync(aiBusinessDirectory, { recursive: true });
       writeFileSync(resolve(aiBusinessDirectory, "index.html"), aiBusinessHtml, "utf8");
+
+      const toolsDirectory = resolve(outputDirectory, "speaker-tools");
+      const toolsUrl = `${siteOrigin}/speaker-tools/`;
+      const toolsHtml = renderStaticPage(
+        rootHtml,
+        metaBlock({
+          title: "Инструменты для спикера — таймер групповой работы · Максим Недельский",
+          description: "Таймер для групповых упражнений: время, крупное задание, цифровой отсчёт и полноэкранный показ.",
+          url: toolsUrl,
+          image: homeImage,
+          schema: {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            name: "Таймер групповой работы",
+            applicationCategory: "UtilitiesApplication",
+            operatingSystem: "Web browser",
+            url: toolsUrl,
+            inLanguage: "ru-RU",
+            isAccessibleForFree: true,
+            author: { "@type": "Person", name: "Максим Недельский" },
+          },
+        }),
+        renderToStaticMarkup(createElement(SpeakerToolsPage)),
+      );
+      mkdirSync(toolsDirectory, { recursive: true });
+      writeFileSync(resolve(toolsDirectory, "index.html"), toolsHtml, "utf8");
 
       for (const program of programs) {
         const directory = resolve(outputDirectory, "programs", program.slug);

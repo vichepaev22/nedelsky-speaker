@@ -4,6 +4,8 @@ import { AiPromoNotice, AiPromoPrice } from "./AiPromoPrice";
 import { aiProducts, aiVkContact } from "./ai-products-data";
 import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
+import { AiWorkflowVisual } from "./AiWorkflowVisual";
+import { PrivacyLinks } from "./PrivacyNotice";
 
 const situations = [
   ["01", "Непонятно, с чего начать", "Инструментов становится больше, а ясного первого шага всё ещё нет."],
@@ -56,16 +58,11 @@ export function AiBusinessPage() {
             <a className="button button-coral" href="#ai-fit">Подобрать формат <span aria-hidden="true">↓</span></a>
             <AiContactLink className="text-link">Обсудить задачу <span aria-hidden="true">↗</span></AiContactLink>
           </div>
+          <a className="ai-projects-link text-link" href={sitePath("/#projects")}>Посмотреть мои проекты <span aria-hidden="true">↗</span></a>
           <AiPromoNotice />
         </div>
 
-        <div className="ai-hero-visual" aria-label="Максим Недельский проводит практическое занятие по искусственному интеллекту">
-          <figure><img src={sitePath("/images/speaker/maxim-navy.png")} alt="Максим Недельский выступает с микрофоном" width="1023" height="1537" /></figure>
-          <div className="ai-signal-card ai-signal-one"><small>Задача</small><strong>→ контекст</strong></div>
-          <div className="ai-signal-card ai-signal-two"><small>Контекст</small><strong>→ решение</strong></div>
-          <div className="ai-signal-card ai-signal-three"><small>Решение</small><strong>→ процесс</strong></div>
-          <span className="ai-hero-ring" aria-hidden="true" />
-        </div>
+        <AiWorkflowVisual />
 
         <dl className="ai-hero-facts">
           <div><dt>3</dt><dd>формата глубины</dd></div>
@@ -77,7 +74,7 @@ export function AiBusinessPage() {
       <section className="ai-fit" id="ai-fit" aria-labelledby="ai-fit-title">
         <div className="ai-section-heading">
           <p className="eyebrow eyebrow-dark">Где вы сейчас?</p>
-          <h2 id="ai-fit-title">Какой формат<br /><em>вам подходит?</em></h2>
+          <h2 id="ai-fit-title">Какой формат<br />{" "}<em>вам подходит?</em></h2>
           <p>Выберите близкую ситуацию — перейдёте к результатам, стоимости и программе нужного формата.</p>
         </div>
         <div className="ai-fit-grid">
@@ -96,7 +93,7 @@ export function AiBusinessPage() {
       <section className="ai-situations" id="ai-content" aria-labelledby="ai-situations-title">
         <div className="ai-section-heading">
           <p className="eyebrow eyebrow-dark">Когда это может быть полезно</p>
-          <h2 id="ai-situations-title">ИИ уже рядом.<br /><em>Системы пока нет.</em></h2>
+          <h2 id="ai-situations-title">ИИ уже рядом.<br />{" "}<em>Системы пока нет.</em></h2>
           <p>Это не диагноз бизнеса, а ситуации, с которых чаще всего начинается предметная работа.</p>
         </div>
         <div className="ai-situation-grid">
@@ -140,7 +137,7 @@ export function AiBusinessPage() {
       <section className="ai-compare" id="ai-compare" aria-labelledby="ai-compare-title">
         <div className="ai-section-heading">
           <p className="eyebrow eyebrow-dark">Сравнить форматы</p>
-          <h2 id="ai-compare-title">Какой уровень<br /><em>подходит сейчас?</em></h2>
+          <h2 id="ai-compare-title">Какой уровень<br />{" "}<em>подходит сейчас?</em></h2>
           <p>Выбор зависит не от количества инструментов, а от задачи, участников и нужной глубины.</p>
         </div>
         <div className="ai-comparison" role="table" aria-label="Сравнение трёх форматов работы">
@@ -159,7 +156,7 @@ export function AiBusinessPage() {
       <section className="ai-details" id="ai-details" aria-labelledby="ai-details-title">
         <div className="ai-section-heading is-light">
           <p className="eyebrow">Подробная программа</p>
-          <h2 id="ai-details-title">Что происходит<br /><em>на каждом этапе.</em></h2>
+          <h2 id="ai-details-title">Что происходит<br />{" "}<em>на каждом этапе.</em></h2>
           <p>Каждый пункт связывает действие, практический результат и понятный объём времени.</p>
         </div>
         <div className="ai-detail-list">
@@ -193,7 +190,7 @@ export function AiBusinessPage() {
       <section className="ai-method" aria-labelledby="ai-method-title">
         <div className="ai-method-copy">
           <p className="eyebrow eyebrow-dark">Метод работы</p>
-          <h2 id="ai-method-title">От общей идеи —<br /><em>к проверяемому шагу.</em></h2>
+          <h2 id="ai-method-title">От общей идеи —<br />{" "}<em>к проверяемому шагу.</em></h2>
           <p>Нейросеть здесь не цель и не украшение. Она включается там, где помогает лучше решить конкретную задачу.</p>
         </div>
         <ol>
@@ -208,7 +205,7 @@ export function AiBusinessPage() {
       <section className="ai-scope" aria-labelledby="ai-scope-title">
         <div className="ai-section-heading">
           <p className="eyebrow eyebrow-dark">Границы большого проекта</p>
-          <h2 id="ai-scope-title">Комплексно —<br /><em>не значит безлимитно.</em></h2>
+          <h2 id="ai-scope-title">Комплексно —<br />{" "}<em>не значит безлимитно.</em></h2>
           <p>Для «ИИ-трансформации» объём фиксируется до оплаты, чтобы ожидания и результат оставались управляемыми.</p>
         </div>
         <div className="ai-scope-grid">
@@ -231,7 +228,7 @@ export function AiBusinessPage() {
       <section className="ai-faq" id="ai-faq" aria-labelledby="ai-faq-title">
         <div className="ai-section-heading">
           <p className="eyebrow eyebrow-dark">Вопросы и ожидания</p>
-          <h2 id="ai-faq-title">До начала работы<br /><em>всё должно быть ясно.</em></h2>
+          <h2 id="ai-faq-title">До начала работы<br />{" "}<em>всё должно быть ясно.</em></h2>
         </div>
         <div className="faq-list">
           {faqs.map(([question, answer], index) => <details open={index === 0} key={question}><summary>{question}</summary><p>{answer}</p></details>)}
@@ -241,7 +238,7 @@ export function AiBusinessPage() {
       <section className="ai-contact" id="ai-contact" aria-labelledby="ai-contact-title">
         <div className="ai-contact-copy">
           <p className="eyebrow">Следующий шаг</p>
-          <h2 id="ai-contact-title">Обсудим задачу.<br /><em>Определим следующий шаг.</em></h2>
+          <h2 id="ai-contact-title">Обсудим задачу.<br />{" "}<em>Определим следующий шаг.</em></h2>
           <p>Можно прийти с конкретным процессом или с вопросом, с чего начать. До начала работы согласуем формат, объём, сроки и стоимость.</p>
           <p className="ai-contact-person">Максим Недельский<br /><span>ВКонтакте · ndlsky</span></p>
         </div>
@@ -252,6 +249,7 @@ export function AiBusinessPage() {
         <a className="brand brand-footer" href={sitePath("/#top")}><span className="brand-mark">N</span><span>Максим<br />Недельский</span></a>
         <p>ИИ для бизнеса · обучение · прототипирование<br />Условия и объём фиксируются до начала работы</p>
         <AiContactLink>Обсудить задачу ↗</AiContactLink>
+        <PrivacyLinks />
       </footer>
     </main>
   );

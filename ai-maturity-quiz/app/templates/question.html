@@ -1,0 +1,49 @@
+{% extends "base.html" %}{% from "_companion.html" import companion %}
+{% block scripts %}{% if step == 3 and not selected %}<script type="module" src="/static/chapter-motion.js"></script>{% endif %}{% endblock %}
+{% block content %}
+{% if step == 3 and not selected %}
+<section class="chapter-intro first-chapter-intro" data-first-chapter>
+  <a class="back-link" data-ball-obstacle href="/quiz/2">← К вопросам о вас</a>
+  <p class="eyebrow" data-ball-obstacle>Глава 01 / 04 · Запросы</p>
+  <div class="chapter-playground" aria-hidden="true" data-ball-count="5">{% for i in range(5) %}<span></span>{% endfor %}</div>
+  <div class="chapter-stage-spacer" aria-hidden="true"></div>
+  <h2 tabindex="-1" data-ball-obstacle>Знакомство пройдено.<br>Теперь — ваша практика.</h2>
+  <p class="lead" data-ball-obstacle>Начнём с того, как вы ставите задачи нейросетям и проверяете ответы.</p>
+  <a class="button primary" data-ball-obstacle data-begin-chapter href="#question-stage">К первому вопросу <span aria-hidden="true">→</span></a>
+  <p class="chapter-play-hint" data-ball-obstacle><span aria-hidden="true">↗</span> Шарики реагируют на курсор. Проведите рядом — попробуйте!</p>
+</section>
+{% endif %}
+<div class="quiz-layout" id="question-stage">
+  <aside class="route-sidebar" aria-label="Ваш маршрут">
+    <a class="back-link route-home" href="/">← К началу</a><p class="eyebrow">Ваш маршрут</p>
+    {% if step >= 3 %}<ol class="chapter-track" aria-label="Главы диагностики">{% for code, name in chapters.items() %}<li class="{% if loop.index0 < chapter %}is-complete{% endif %}" {% if loop.index0 == chapter %}aria-current="step"{% endif %}><span>{{ '%02d'|format(loop.index) }}</span><div>{{ name }}<small>{% if loop.index0 < chapter %}Пройдено{% elif loop.index0 == chapter %}Вы здесь{% else %}Впереди{% endif %}</small></div></li>{% endfor %}</ol>{% else %}<ol class="chapter-track" aria-label="Этапы знакомства">{% for label in ['О вас','Ваша цель','Опыт с ИИ'] %}<li class="{% if loop.index0 < step %}is-complete{% endif %}" {% if loop.index0 == step %}aria-current="step"{% endif %}><span>{{ '%02d'|format(loop.index) }}</span><div>{{ label }}<small>{% if loop.index0 < step %}Готово{% elif loop.index0 == step %}Вы здесь{% else %}Впереди{% endif %}</small></div></li>{% endfor %}</ol>{% endif %}
+    <div class="route-tip"><span aria-hidden="true">✦</span><p>Здесь нет «плохих» уровней. У каждого есть свой следующий шаг.</p></div>
+  </aside>
+  <div class="question-column">
+    <section class="journey-panel" aria-label="Прогресс прохождения">
+      <div class="progress-heading"><span>{% if step < 3 %}Знакомство · {{ step+1 }} из 3{% else %}Вопрос {{ step-2 }} из 16{% endif %}</span><span>{% if step < 3 %}Без оценки{% else %}{{ chapters[q.chapter] }}{% endif %}</span></div>
+      {% set journey_done = step if step < 3 else progress %}{% set journey_total = 3 if step < 3 else 16 %}
+      <div class="journey-path" data-step="{{ journey_done }}" data-total="{{ journey_total }}">
+        <div class="journey-traveller" aria-hidden="true" hidden>{{ companion() }}</div>
+        <progress class="quiz-progress" max="{{ journey_total }}" value="{{ journey_done }}" aria-label="{% if step < 3 %}Пройдено вопросов знакомства{% else %}Пройдено оцениваемых вопросов{% endif %}">{{ journey_done }} из {{ journey_total }}</progress>
+        <span class="journey-finish" aria-hidden="true">✦</span>
+      </div>
+    </section>
+    <section class="question-card">
+      <p class="eyebrow">{% if q.kind == 'profile' %}Пара слов о вас{% elif q.kind == 'scenario' %}Ситуация из практики{% else %}Ваша реальная практика{% endif %}</p>
+      <h1 id="question-title" tabindex="-1">{{ q.text }}</h1>
+      <p id="question-hint" class="question-hint">{% if q.kind == 'profile' %}Это поможет подобрать пример для вас. Ответ не влияет на итоговый уровень.{% elif q.kind == 'scenario' %}Представьте ситуацию. Как бы вы поступили?{% else %}Выберите то, что ближе к вашей реальной практике за последние 30 дней, а не к тому, что теоретически умеете.{% endif %}</p>
+      <form class="answer-form" action="/answer/{{ step }}" method="post">
+        <input type="hidden" name="csrf" value="{{ session.csrf }}"><input type="hidden" name="question_id" value="{{ q.id }}">
+        <fieldset aria-labelledby="question-title" aria-describedby="question-hint answer-error"><legend class="sr-only">Выберите один ответ</legend>
+          {% for option in q.options %}<label class="answer-option"><input type="radio" name="option_id" value="{{ option.id }}" {% if selected == option.id %}checked{% endif %} required><span class="option-key" aria-hidden="true">{{ option.id }}</span><span class="option-copy">{{ option.text }}</span></label>{% endfor %}
+        </fieldset>
+        <p id="answer-error" class="error-text" role="alert">{{ error or '' }}</p>
+        <div class="question-actions"><a class="back-link" href="{% if step > 0 %}/quiz/{{ step-1 }}{% else %}/{% endif %}">← Назад</a><button class="button primary next-button" type="submit">{% if step == 18 %}Получить карту{% else %}Далее{% endif %} <span aria-hidden="true">→</span></button></div>
+        <p class="answer-save" aria-live="polite">{% if selected %}Ваш ответ сохранён. Его можно изменить.{% else %}Не знаете? Выберите вариант, который ближе всего к вам.{% endif %}</p>
+      </form>
+    </section>
+    <p class="method-note question-method">Выбирайте свою практику, а не самый красивый ответ. К предыдущим вопросам можно вернуться.</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,3 @@
+
+# Preserve the single exported quiz bundle byte-for-byte on both hosts.
+public/ai-quiz/** -text

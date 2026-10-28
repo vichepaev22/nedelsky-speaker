@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./project-refresh.css";
+import "./speaker-tools.css";
+import "./privacy.css";
+import "./quiz-entry.css";
+import { PrivacyNotice } from "./PrivacyNotice";
 
 const siteUrl = "https://nedelsky.pages.dev/";
 
@@ -31,7 +36,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
-      <body>{children}</body>
+      <body>{children}<PrivacyNotice /></body>
     </html>
   );
 }

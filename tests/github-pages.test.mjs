@@ -3,7 +3,18 @@ import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
 const outputRoot = new URL("../pages-dist/", import.meta.url);
-const siteUrl = "https://nedelsky.pages.dev";
+const primaryUrl = "https://nedelsky.pages.dev";
+
+test("privacy page and footer links preserve the repository base path", async () => {
+  const policy = await readFile(new URL("legal/privacy/index.html", outputRoot), "utf8");
+  assert.match(policy, /Недельский Максим Владимирович/);
+  assert.match(policy, /href="\/nedelsky-speaker\/legal\/privacy\/"/);
+  assert.match(policy, /href="https:\/\/nedelsky.pages.dev\/legal\/privacy\/"/);
+  for (const path of ["index.html", "ai-for-business/index.html", "speaker-tools/index.html", "programs/partnership/index.html"]) {
+    const html = await readFile(new URL(path, outputRoot), "utf8");
+    assert.match(html, /href="\/nedelsky-speaker\/legal\/privacy\/"/);
+  }
+});
 
 test("builds a complete GitHub Pages artifact", async () => {
   await Promise.all([
@@ -24,23 +35,12 @@ test("builds a complete GitHub Pages artifact", async () => {
   assert.ok(assets.some((file) => file.endsWith(".js")));
   assert.ok(assets.some((file) => file.endsWith(".css")));
   assert.ok(assets.some((file) => /^ProgramMotionPlayer-.+\.js$/.test(file)), "animation should be a separate lazy-loaded asset");
-
-  const [robots, sitemap, llms] = await Promise.all([
-    readFile(new URL("robots.txt", outputRoot), "utf8"),
-    readFile(new URL("sitemap.xml", outputRoot), "utf8"),
-    readFile(new URL("llms.txt", outputRoot), "utf8"),
-  ]);
-  assert.match(robots, /User-agent: OAI-SearchBot\s+Allow: \//);
-  assert.match(robots, /Sitemap: https:\/\/nedelsky\.pages\.dev\/sitemap\.xml/);
-  assert.match(sitemap, /<loc>https:\/\/nedelsky\.pages\.dev\/ai-for-business\/<\/loc>/);
-  assert.doesNotMatch(sitemap, /vichepaev22\.github\.io/);
-  assert.match(llms, /https:\/\/nedelsky\.pages\.dev\/ai-for-business\//);
 });
 
 test("generates the AI services route for GitHub Pages", async () => {
   const html = await readFile(new URL("ai-for-business/index.html", outputRoot), "utf8");
   assert.match(html, /<title>ИИ для бизнеса — индивидуальные программы/);
-  assert.ok(html.includes(`${siteUrl}/ai-for-business/`));
+  assert.ok(html.includes(`${primaryUrl}/ai-for-business/`));
   assert.match(html, /href="\/nedelsky-speaker\/ai-for-business\/\?product=ai-start#details-ai-start"/);
   assert.match(html, /ИИ-старт: инструменты и план действий/);
   assert.match(html, /ИИ-трансформация: процессы, упаковка, команда/);
@@ -49,18 +49,16 @@ test("generates the AI services route for GitHub Pages", async () => {
   assert.doesNotMatch(html, /Заявка отправлена|Telegram|WhatsApp/i);
   assert.match(html, /<link rel="canonical" href="https:\/\/nedelsky\.pages\.dev\/ai-for-business\/"/);
   assert.match(html, /"@id":"https:\/\/nedelsky\.pages\.dev\/#maxim-nedelsky"/);
-  assert.match(html, /Как понять, где ИИ полезен именно моему бизнесу\?/);
-  assert.match(html, /Промышленная разработка и интеграции согласуются отдельно/);
 });
 
 test("uses the repository base path for scripts and styles", async () => {
   const html = await readFile(new URL("index.html", outputRoot), "utf8");
   assert.match(html, /\/nedelsky-speaker\/assets\/.+\.js/);
   assert.match(html, /\/nedelsky-speaker\/assets\/.+\.css/);
-  assert.ok(html.includes(`${siteUrl}/`));
-  assert.match(html, /<link rel="canonical" href="https:\/\/nedelsky\.pages\.dev\/"/);
+  assert.ok(html.includes(`${primaryUrl}/`));
   assert.match(html, /<h1>Знания, которые/);
   assert.match(html, /application\/ld\+json/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/nedelsky\.pages\.dev\/"/);
   assert.match(html, /"@type":"Person"/);
   assert.match(html, /href="\/nedelsky-speaker\/programs\/ai-business\//);
   assert.match(html, /Фонд «Наше Будущее»/);
@@ -73,9 +71,21 @@ test("uses the repository base path for scripts and styles", async () => {
   assert.match(html, /class="mobile-menu"/);
   assert.doesNotMatch(html, /Для e-mail-заявок достаточно/);
   assert.ok(
-    html.indexOf('id="programs"') < html.indexOf('id="partners"'),
-    "programs should appear before the partner block",
+    html.indexOf('id="partners"') < html.indexOf('id="projects"') &&
+      html.indexOf('id="projects"') < html.indexOf('id="programs"'),
+    "partners and the project portfolio should precede programs",
   );
+});
+
+test("speaker tools preserve GitHub Pages base paths", async () => {
+  const [home, tools] = await Promise.all([
+    readFile(new URL("index.html", outputRoot), "utf8"),
+    readFile(new URL("speaker-tools/index.html", outputRoot), "utf8"),
+  ]);
+  assert.match(home, /href="\/nedelsky-speaker\/speaker-tools\/"/);
+  assert.ok(tools.includes(`${primaryUrl}/speaker-tools/`));
+  assert.match(tools, /role="timer"[^>]*>15:00/);
+  assert.match(tools, /href="\/nedelsky-speaker\/#top"/);
 });
 
 for (const [slug, title] of [
@@ -90,7 +100,7 @@ for (const [slug, title] of [
       "utf8",
     );
     assert.ok(html.includes(`<title>${title}`));
-    assert.ok(html.includes(`${siteUrl}/programs/${slug}/`));
+    assert.ok(html.includes(`${primaryUrl}/programs/${slug}/`));
     assert.match(html, /property="og:image"/);
     assert.match(html, /<h1>/);
     assert.match(html, /Интерактивная (?:модель|схема)|Карта клиентского пути|Система партнёрства|Маршрут закупки/);

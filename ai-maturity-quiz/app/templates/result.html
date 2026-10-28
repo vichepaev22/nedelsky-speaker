@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block main_class %}result-shell{% endblock %}
+{% block styles %}<link rel="stylesheet" href="/static/offers.css"><link rel="stylesheet" href="/static/result-disclosure.css">{% endblock %}
+{% block scripts %}<script type="module" src="/static/result-disclosure.js"></script><script type="module" src="/static/result-offer.js"></script><script type="module" src="/static/offers-motion.js"></script>{% endblock %}
+{% block content %}
+<div class="result-heading"><div><p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Диагностика завершена</p><h1 tabindex="-1">Ваша карта работы с ИИ</h1><p>Вот ваша отправная точка. Дальше — шаги, которые можно попробовать уже на этой неделе.</p></div><a class="result-jump" href="#next-steps">К трём шагам <span aria-hidden="true">↓</span></a></div>
+<div class="result-grid" id="result-card" data-index="{{ result.index }}" data-level="{{ level.name }}">
+  <section class="level-card"><div class="level-meta"><span class="level-number">{{ '%02d'|format(result.level) }}<small>/ 04</small></span><span class="pill">{{ level.name }}</span></div><h2>{{ level.title }}</h2><p class="metaphor">{{ level.metaphor }}</p><p>{{ level.description }}</p><div class="index-summary"><strong>{{ result.index }}<span>/100</span></strong><p>Индекс ответов<br><small>Не процент владения навыком</small></p></div></section>
+  <section class="skills-card"><p class="eyebrow">Четыре измерения</p><h2>Как складывается ваш результат</h2><div class="skill-bars">{% for code, value in result.blocks.items() %}<div class="skill-item skill-{{ code }}"><div><label for="bar-{{ code }}">{{ dimensions[code].name }}</label><strong>{{ value }}<span>/100</span></strong></div><progress id="bar-{{ code }}" max="100" value="{{ value }}">{{ value }} из 100</progress></div>{% endfor %}</div><p class="method-note">Первые три блока — ваша практика. Последний — решения в ситуациях, а не подтверждённый опыт внедрения.</p></section>
+</div>
+{% if result.gate_gap %}<aside class="gate-note"><strong>Почему индекс и ступень могут отличаться?</strong><p>Индекс ответов: {{ result.index }}/100. Текущая подтверждённая ступень: {{ level.name }}. {{ gate_text[result.gate_gap] }}</p><p>Ступень подтверждена только логикой ваших ответов, а не независимой проверкой навыков.</p></aside>{% endif %}
+{% set step_details = {
+1: [('Выберите задачу', 'Задача и критерий результата'), ('Составьте запрос', 'Запрос с контекстом и форматом'), ('Проверьте и сохраните', 'Один проверенный шаблон')],
+2: [('Найдите повторяемую задачу', 'Одна задача для рабочего сценария'), ('Опишите процесс', 'Входные данные, выход и критерии'), ('Проверьте шаблон', 'Сценарий, проверенный на трёх примерах')],
+3: [('Выберите процесс', 'Процесс и стоимость ручной работы'), ('Разделите решения', 'Границы автоматизации и контроля'), ('Проведите пилот', 'Оценка качества и экономии времени')],
+4: [('Определите границы', 'Процесс и понятные риски'), ('Задайте правила агенту', 'Полномочия, тесты и точки одобрения'), ('Измерьте эффект', 'Ошибки, стоимость и польза пилота')]
+} %}
+<details class="plan-disclosure" id="next-steps">
+  <summary class="plan-summary"><h2 id="plan-title"><span>Три шага на ближайшие 7 дней</span><svg class="plan-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h2></summary>
+  <div class="plan-content">
+<section class="next-steps" aria-labelledby="plan-title"><ol>{% for text in level.steps %}<li><span>Шаг {{ loop.index }}</span><h3 class="step-heading">{{ step_details[result.level][loop.index0][0] }}</h3><p>{{ text }}</p><p class="step-output"><strong>На выходе:</strong> {{ step_details[result.level][loop.index0][1] }}.</p></li>{% endfor %}</ol></section>
+<div class="insight-grid"><section><p class="eyebrow">Что у вас уже получается</p><h3>{{ dimensions[result.strength].name }}</h3><p>{% if result.blocks[result.strength] == 0 %}Вы обозначили начало пути. Этот блок можно взять за отправную точку, а не считать уже освоенным навыком.{% else %}{{ dimensions[result.strength].strength }}{% endif %}</p></section><section><p class="eyebrow">Следующая точка роста</p><h3>{{ dimensions[result.gate_gap or result.growth].name }}</h3><p>{{ dimensions[result.gate_gap or result.growth].growth }}</p></section></div>
+<aside class="goal-example"><p class="example-label">Попробуйте на своей задаче</p><h2>{{ role_context }}</h2><p>{{ goal }}</p></aside>
+  </div>
+</details>
+<p class="methodology">Результат — ориентировочная самооценка и оценка решений в ситуациях, а не формальная аттестация навыков. Авторская модель пока не прошла психометрическую валидацию.</p>
+<section class="result-offers" aria-labelledby="offers-title">
+  <header class="offers-heading"><div><p class="eyebrow">Два способа пойти дальше</p><h2 id="offers-title">Выберите следующий шаг</h2></div><p class="offers-context">С учётом вашего уровня: <strong>{{ level.name }}</strong></p></header>
+  <div class="offer-grid">
+    <article class="offer-card roadmap-offer" data-roadmap-offer aria-labelledby="roadmap-title">
+      <p class="offer-format">01 · Персональный план</p>
+      <h3 id="roadmap-title">Анализ бизнеса с ИИ</h3>
+      <p class="offer-summary">Получите слепок вашего бизнеса и план внедрения ИИ: что улучшать, с чего начать и как оценить результат.</p>
+      <div class="offer-price"><strong data-roadmap-price>4 500 ₽</strong><s data-original-price hidden>4 500 ₽</s><span>за анализ бизнеса и дорожную карту</span></div>
+      <div class="offer-promotion"><div class="offer-window" data-offer-window hidden><strong class="offer-saving">−1 600 ₽</strong><p>При оплате в течение 90 минут<br><span class="offer-countdown">Осталось <span data-offer-clock>01:30:00</span></span></p></div><p class="offer-regular-note" data-regular-note>Индивидуальный план под ваши задачи.</p></div>
+      <div class="offer-action-group">{% if settings.diagnostic_url or settings.consultation_url %}<a class="button offer-action offer-primary" data-roadmap-link href="{{ settings.diagnostic_url or settings.consultation_url }}" target="_blank" rel="noopener noreferrer"><span data-roadmap-label>Списаться по анализу</span><span class="offer-arrow" aria-hidden="true">↗</span></a><p class="offer-footnote">{% if settings.diagnostic_url %}Перейти к оформлению диагностики{% else %}Обсудить задачу и оформление во ВКонтакте{% endif %}</p>{% else %}<p class="offer-footnote">Запись на диагностику скоро откроется.</p>{% endif %}</div>
+      <div class="offer-included"><h4>Что вы получите</h4><ul class="offer-deliverables"><li>Слепок бизнеса и текущих процессов.</li><li>Приоритеты внедрения под ваш уровень.</li><li>Дорожную карту: шаги, инструменты и критерии результата.</li></ul></div>
+      <p class="offer-timing">Срок подготовки согласуем по объёму задачи.</p>
+    </article>
+    <article class="offer-card consultation-offer" aria-labelledby="consultation-title">
+      <p class="offer-format">02 · Личный разбор</p>
+      <h3 id="consultation-title">Индивидуальная консультация</h3>
+      <p class="offer-summary">Разберите вашу задачу с Максимом Недельским. За встречу определим, где ИИ поможет бизнесу и какие действия выбрать.</p>
+      <div class="offer-price"><strong class="offer-contact-heading">Личный разбор</strong><span>Запись через личные сообщения</span></div>
+      <div class="offer-session"><strong>90 минут</strong><span>на ваши вопросы и задачи</span></div>
+      <div class="offer-action-group">{% if settings.consultation_url %}<a class="button offer-action offer-secondary" href="{{ settings.consultation_url }}" target="_blank" rel="noopener noreferrer"><span>Записаться на консультацию</span><span class="offer-arrow" aria-hidden="true">↗</span></a><p class="offer-footnote">Согласовать время во ВКонтакте</p>{% else %}<p class="offer-footnote">Запись на консультацию скоро откроется.</p>{% endif %}</div>
+      <div class="offer-included"><h4>Что разберём</h4><ul class="offer-deliverables"><li>Вашу задачу, процесс или идею внедрения.</li><li>Вопросы по применению ИИ в бизнесе.</li><li>Ближайшие действия с учётом ваших ресурсов.</li></ul></div>
+      <p class="offer-timing">Время встречи согласуем в личной переписке.</p>
+    </article>
+  </div>
+</section>
+<div class="product-suggestion"><p>Возможный формат: <a href="{{ product_url }}">{{ level.product }} — {{ level.cta|lower }} ↗</a></p><p>Это вариант следующего шага, а не обязательная рекомендация купить обучение.{% if result.level == 3 %} Для комплексного изменения процессов можно также рассмотреть <a href="{{ settings.site_url }}/ai-for-business/?product=ai-transformation#details-ai-transformation">«ИИ-трансформацию»</a>.{% endif %}</p></div>
+<section class="result-save-panel" aria-labelledby="save-panel-title"><div><p class="eyebrow">Возьмите результат с собой</p><h2 id="save-panel-title">Сохраните свою карту</h2><p>Выберите удобный формат, чтобы вернуться к своим шагам позже.</p></div>
+<div class="result-actions"><button class="button primary" id="print-result" type="button" hidden>Печать / PDF <span aria-hidden="true">↓</span></button><button class="button outline-button" id="save-result" type="button" hidden>Сохранить в браузере <span aria-hidden="true">↓</span></button><button class="text-button" id="download-result" type="button" hidden>Скачать текстовую карту ↓</button></div>
+<p id="save-status" role="status" class="storage-note">В PDF — через диалог печати. Сохранение в браузере выполняется только по кнопке; синхронизации между устройствами нет.</p></section>
+<div class="result-revisit"><a class="text-button" href="/quiz/18">← Проверить ответы</a><form action="/restart" method="post"><input type="hidden" name="csrf" value="{{ session.csrf }}"><button class="text-button" type="submit">Пройти заново ↻</button></form></div>
+<noscript><p class="notice">Результат доступен без JavaScript. Для сохранения используйте печать или сохранение страницы в браузере.</p></noscript>
+<pre id="result-save-source" hidden>Максим Недельский · Ваша карта работы с ИИ
+Ступень: {{ level.name }} ({{ result.level }}/4)
+Индекс ответов: {{ result.index }}/100
+{{ level.metaphor }}
+{% for code,value in result.blocks.items() %}{{ dimensions[code].name }}: {{ value }}/100
+{% endfor %}{% if result.gate_gap %}{{ gate_text[result.gate_gap] }}{% endif %}
+Три шага на ближайшие 7 дней:
+{% for text in level.steps %}Шаг {{ loop.index }}. {{ step_details[result.level][loop.index0][0] }}
+{{ text }}
+На выходе: {{ step_details[result.level][loop.index0][1] }}.
+{% endfor %}
+Что у вас уже получается: {{ dimensions[result.strength].name }}
+{% if result.blocks[result.strength] == 0 %}Вы обозначили начало пути. Этот блок можно взять за отправную точку, а не считать уже освоенным навыком.{% else %}{{ dimensions[result.strength].strength }}{% endif %}
+Следующая точка роста: {{ dimensions[result.gate_gap or result.growth].name }}
+{{ dimensions[result.gate_gap or result.growth].growth }}
+{{ role_context }}
+{{ goal }}
+Это ориентировочная диагностика по ответам, а не экзамен или сертификат.</pre>
+{% endblock %}

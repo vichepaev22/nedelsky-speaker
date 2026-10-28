@@ -28,7 +28,7 @@ function selectedProduct() {
 
 function revealTarget(hash: string, behavior: ScrollBehavior, moveFocus = false) {
   const id = hash.slice(1);
-  if (!/^(?:details-|product-)ai-(?:start|practice|transformation)$/.test(id) && id !== "ai-contact") return;
+  if (!/^(?:details-|product-)ai-(?:start|practice|transformation)$/.test(id) && id !== "ai-contact" && id !== "ai-products") return;
   const target = document.getElementById(id);
   if (!target) return;
   if (target instanceof HTMLDetailsElement) target.open = true;

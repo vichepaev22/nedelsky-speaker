@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block scripts %}<script type="module" src="/static/chapter-motion.js"></script>{% endblock %}
+{% block main_class %}chapter-shell{% endblock %}
+{% block content %}
+<section class="chapter-intro">
+  <a class="back-link" data-ball-obstacle href="/quiz/{{ next_step-1 }}">← К предыдущему ответу</a>
+  <p class="eyebrow" data-ball-obstacle>Глава {{ '%02d'|format(number+1) }} / 04 · {{ transition[2] }}</p>
+  <div class="chapter-playground" aria-hidden="true" data-ball-count="{{ (number+1)*5 }}">{% for i in range((number+1)*5) %}<span></span>{% endfor %}</div>
+  <div class="chapter-stage-spacer" aria-hidden="true"></div>
+  <h1 tabindex="-1" data-ball-obstacle>{{ transition[0] }}</h1>
+  <p class="lead" data-ball-obstacle>{{ transition[1] }}</p>
+  <a class="button primary" data-ball-obstacle href="/quiz/{{ next_step }}">Продолжить <span aria-hidden="true">→</span></a>
+  <p class="method-note" data-ball-obstacle>{% if number == 3 %}Осталось четыре ситуации. Без технического экзамена.{% else %}Отвечайте по своей реальной практике. Здесь нет «плохих» уровней.{% endif %}</p>
+  <p class="chapter-play-hint" data-ball-obstacle><span aria-hidden="true">↗</span> Шарики реагируют на курсор. Проведите рядом — попробуйте!</p>
+</section>
+{% endblock %}

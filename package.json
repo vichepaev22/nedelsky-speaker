@@ -12,11 +12,13 @@
     "build:pages": "vite build --config vite.pages.config.ts",
     "build:cloudflare": "vite build --config vite.pages.config.ts --mode cloudflare",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs tests/speaker-timer.test.mjs",
+    "test:timer": "node --experimental-strip-types --test tests/speaker-timer.test.mjs",
     "test:pages": "npm run build:pages && node --test tests/github-pages.test.mjs",
     "test:cloudflare": "npm run build:cloudflare && node --test tests/cloudflare-pages.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern pages-dist --ignore-pattern cloudflare-dist",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "test:quiz": "node --test tests/quiz-static.test.mjs"
   },
   "dependencies": {
     "@remotion/player": "4.0.521",

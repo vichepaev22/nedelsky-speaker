@@ -47,6 +47,15 @@ test("server-renders the AI for business product page", async () => {
   assert.doesNotMatch(html, /Заявка отправлена|Telegram|WhatsApp/i);
 });
 
+test("server-renders speaker tools before JavaScript starts", async () => {
+  const response = await render("/speaker-tools");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Таймер/);
+  assert.match(html, /role="timer"[^>]*>15:00/);
+  assert.match(html, /Задание для группы/);
+});
+
 for (const [slug, heading] of [
   ["ai-business", "ИИ для роста бизнеса"],
   ["service-design", "Сервис-дизайн и клиентский опыт"],

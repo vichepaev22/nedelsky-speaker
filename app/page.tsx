@@ -4,6 +4,9 @@ import { ContactForm } from "./ContactForm";
 import { programs } from "./programs-data";
 import { SiteHeader } from "./SiteHeader";
 import { sitePath } from "./site-paths";
+import { ProjectPortfolio } from "./ProjectPortfolio";
+import { FooterNavigation } from "./FooterNavigation";
+import { PrivacyLinks } from "./PrivacyNotice";
 
 export const metadata: Metadata = {
   title: "Максим Недельский — бизнес-тренер и спикер",
@@ -12,19 +15,19 @@ export const metadata: Metadata = {
 };
 
 const partners = [
-  { name: "Сбер", logo: sitePath("/logos/sber.png"), href: "https://sberbank.promo.page/", tone: "sber" },
+  { name: "Сбер", logo: sitePath("/logos/sber-transparent.svg"), href: "https://sberbank.ru/", tone: "sber" },
   { name: "Деловая среда", logo: sitePath("/logos/delovaya-sreda.svg"), href: "https://dasreda.ru/", tone: "dasreda" },
   { name: "ПСБ", logo: sitePath("/logos/psb.png"), href: "https://www.psbank.ru/bank/style", tone: "psb" },
   { name: "Газпром нефть", logo: sitePath("/logos/gazprom-neft.svg"), href: "https://www.gazprom-neft.ru/", tone: "gazprom" },
   { name: "Корпорация развития Дальнего Востока и Арктики", logo: sitePath("/logos/krdv.svg"), href: "https://erdc.ru/", tone: "krdv" },
   { name: "Фонд «Наше Будущее»", logo: sitePath("/logos/nash-buduschee.jfif"), href: "https://nb-fund.ru/", tone: "nashbuduschee" },
   { name: "Росмолодёжь.Гранты", logo: sitePath("/logos/rosmolodezh-granty.jfif"), href: "https://fadm.gov.ru/directions/grant/", tone: "rosmolodezh" },
-  { name: "Мой бизнес", logo: sitePath("/logos/moy-biznes.jpg"), href: "https://moibiz93.ru/", tone: "moybiznes" },
+  { name: "Мой бизнес", logo: sitePath("/logos/moy-biznes-transparent.svg"), href: "https://мойбизнес.рф/", tone: "moybiznes" },
 ];
 
 export default function Home() {
   return (
-    <main>
+    <main className="speaker-page">
       <a className="skip-link" href="#content">Перейти к содержанию</a>
 
       <SiteHeader
@@ -33,6 +36,9 @@ export default function Home() {
         navigation={[
           { href: "#programs", label: "Программы" },
           { href: sitePath("/ai-for-business/"), label: "ИИ для бизнеса" },
+          { href: sitePath("/ai-for-business/#ai-products"), label: "Индивидуальная работа" },
+          { href: sitePath("/speaker-tools/"), label: "Инструменты для спикера" },
+          { href: "#projects", label: "Проекты" },
           { href: "#about", label: "О спикере" },
           { href: "#organizers", label: "Организаторам" },
         ]}
@@ -44,13 +50,15 @@ export default function Home() {
             <p className="eyebrow">Бизнес-тренер · Предприниматель · Спикер</p>
             <h1>Знания, которые <em>становятся</em> действиями</h1>
             <p className="hero-lead">
-              Помогаю предпринимателям и командам внедрять ИИ, находить точки роста
-              в сервисе и превращать идеи в работающие проекты.
+              Практические выступления для команд и работа с задачами бизнеса:
+              ИИ, клиентский опыт и проекты, которые можно применить на практике.
             </p>
             <div className="hero-actions">
               <a className="button button-coral" href="#contact">Пригласить спикера <span>↘</span></a>
-              <a className="text-link" href="#programs">Смотреть программы <span>↓</span></a>
+              <a className="button button-outline" href={sitePath("/ai-for-business/")}>Решить задачу с ИИ <span aria-hidden="true">↗</span></a>
             </div>
+            <div className="hero-quiz-entry"><a className="hero-quiz-link" href={sitePath("/ai-quiz/")}>Где я в ИИ?<span aria-hidden="true">↗</span></a><span className="hero-quiz-caption">Бесплатная диагностика · 5–7 минут</span></div>
+            <a className="hero-program-link text-link" href="#programs">Смотреть программы <span aria-hidden="true">↓</span></a>
             <dl className="hero-facts" aria-label="Ключевые факты">
               <div><dt>8+ лет</dt><dd>в бизнесе и общественных проектах</dd></div>
               <div><dt>4 темы</dt><dd>для команд, экспертов и предпринимателей</dd></div>
@@ -73,10 +81,35 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="trust-strip trust-strip-compact" id="partners" aria-labelledby="trust-title">
+        <div className="trust-heading">
+          <p className="eyebrow eyebrow-dark" id="trust-title">Партнёры и площадки</p>
+          <h2>Опыт работы<br />{" "}с сильными командами</h2>
+          <p>Бизнес, институты развития и профессиональные сообщества — площадки, с которыми связан опыт Максима.</p>
+        </div>
+        <div className="partner-list" aria-label="Партнёры и площадки">
+          {partners.map((partner) => (
+            <a
+              className={`partner-logo partner-${partner.tone}`}
+              href={partner.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={partner.name}
+              aria-label={`Официальный сайт: ${partner.name}`}
+            >
+              <img src={partner.logo} alt={partner.name} />
+            </a>
+          ))}
+        </div>
+        <p className="logo-note">Логотипы размещены в исходном виде и принадлежат соответствующим правообладателям.</p>
+      </section>
+
+      <ProjectPortfolio />
+
       <section className="programs-section" id="content">
         <div className="section-intro" id="programs">
           <p className="eyebrow eyebrow-dark">Программы</p>
-          <h2>Не «послушать».<br /><em>Разобраться и сделать.</em></h2>
+          <h2>Не «послушать».<br />{" "}<em>Разобраться и сделать.</em></h2>
           <p className="section-lead">
             Каждую тему можно адаптировать под вашу аудиторию, отрасль и задачу:
             от открытой лекции до практикума для команды.
@@ -92,15 +125,15 @@ export default function Home() {
               </div>
               <p className="program-tag">{program.tag}</p>
               <h3>{program.title}</h3>
-              <p className="program-lead">{program.lead}</p>
+              <dl className="program-preview-details">
+                <div><dt>Для кого</dt><dd>{program.audiences[0]}</dd></div>
+                <div><dt>Результат</dt><dd>{program.finalResult}</dd></div>
+              </dl>
               <div className="program-format-preview" aria-label="Доступные форматы">
                 {program.formats.map((format) => (
                   <span key={format.duration}><b>{format.duration}</b>{format.type}</span>
                 ))}
               </div>
-              <ul>
-                {program.modules.slice(0, 3).map((module) => <li key={module.number}>{module.title}</li>)}
-              </ul>
               <div className="program-card-actions">
                 <a href={sitePath(`/programs/${program.slug}/`)} className="program-link">Смотреть программу <span>→</span></a>
                 <a href={sitePath(`/?program=${program.slug}#contact`)} className="program-request">Уточнить формат <span>↗</span></a>
@@ -114,33 +147,11 @@ export default function Home() {
         </aside>
       </section>
 
-      <section className="trust-strip" id="partners" aria-labelledby="trust-title">
-        <div className="trust-heading">
-          <p className="eyebrow eyebrow-dark" id="trust-title">Партнёры и площадки</p>
-          <h2>Опыт работы<br />с сильными командами</h2>
-          <p>Бизнес, институты развития и профессиональные сообщества — площадки, с которыми связан опыт Максима.</p>
-        </div>
-        <div className="partner-list" aria-label="Партнёры и площадки">
-          {partners.map((partner) => (
-            <a
-              className={`partner-logo partner-${partner.tone}`}
-              href={partner.href}
-              target="_blank"
-              rel="noreferrer"
-              key={partner.name}
-              aria-label={`Официальный сайт: ${partner.name}`}
-            >
-              <img src={partner.logo} alt={partner.name} />
-            </a>
-          ))}
-        </div>
-        <p className="logo-note">Логотипы размещены в исходном виде и принадлежат соответствующим правообладателям.</p>
-      </section>
 
       <section className="method-section" id="cases">
         <div className="method-sticky">
           <p className="eyebrow">Подход</p>
-          <h2>Минимум<br />теории.<br /><em>Максимум<br />применения.</em></h2>
+          <h2>Минимум<br />{" "}теории.<br />{" "}<em>Максимум<br />{" "}применения.</em></h2>
           <p>Моя задача — не впечатлить списком инструментов, а дать участникам способ работать с ними самостоятельно.</p>
         </div>
         <div className="method-steps">
@@ -200,7 +211,7 @@ export default function Home() {
       <section className="audience-section">
         <div className="audience-intro">
           <p className="eyebrow eyebrow-dark">Кому подойдёт</p>
-          <h2>Когда нужно<br /><em>переходить от слов</em><br />к изменениям</h2>
+          <h2>Когда нужно<br />{" "}<em>переходить от слов</em><br />{" "}к изменениям</h2>
         </div>
         <div className="audience-list">
           <article><span>01</span><h3>Предпринимателям</h3><p>Которые ищут новые инструменты роста, не хотят отставать от технологий и ценят практические решения.</p></article>
@@ -213,7 +224,7 @@ export default function Home() {
       <section className="organizer-section" id="organizers" aria-labelledby="organizer-title">
         <div className="organizer-intro">
           <p className="eyebrow eyebrow-dark">Организаторам и HR-командам</p>
-          <h2 id="organizer-title">Быстро собрать<br /><em>подходящий формат</em></h2>
+          <h2 id="organizer-title">Быстро собрать<br />{" "}<em>подходящий формат</em></h2>
           <p>Чтобы подготовить предложение, достаточно пяти ориентиров: задача, аудитория, дата, город и желаемая глубина работы.</p>
           <a className="button button-dark" href="#contact">Подобрать программу <span>↘</span></a>
         </div>
@@ -228,7 +239,7 @@ export default function Home() {
       <section className="faq-section" aria-labelledby="faq-title">
         <div>
           <p className="eyebrow eyebrow-dark">Ответы на частые вопросы</p>
-          <h2 id="faq-title">Как проходит<br /><em>работа со спикером</em></h2>
+          <h2 id="faq-title">Как проходит<br />{" "}<em>работа со спикером</em></h2>
           <p>Программы можно адаптировать под задачу бизнеса, аудиторию и формат события — от открытого семинара до командного практикума.</p>
         </div>
         <div className="faq-list">
@@ -258,6 +269,7 @@ export default function Home() {
       </section>
 
       <section className="contact-section" id="contact">
+        <ContactForm />
         <div className="contact-intro">
           <p className="eyebrow">Пригласить спикера</p>
           <h2>Давайте обсудим вашу <em>задачу</em></h2>
@@ -266,19 +278,26 @@ export default function Home() {
             тему и логику выступления для вашей аудитории.
           </p>
           <a className="vk-card" href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">
-            <span className="vk-icon">vk</span>
-            <span><small>Написать напрямую</small><strong>vk.ru/ndlsky</strong></span>
+            <span className="vk-icon" aria-hidden="true">vk</span>
+            <span><strong>Написать напрямую</strong><small>ВКонтакте · ndlsky</small></span>
             <b>↗</b>
           </a>
           <p className="contact-note">ВКонтакте — самый быстрый способ обсудить задачу, аудиторию и формат события.</p>
         </div>
-        <ContactForm />
       </section>
 
-      <footer>
-        <a className="brand brand-footer" href="#top"><span className="brand-mark">N</span><span>Максим<br />Недельский</span></a>
-        <p>Бизнес-тренер · Предприниматель · Спикер<br /><time dateTime="2026-08-28">Материалы обновлены 28 августа 2026</time></p>
-        <a href="https://vk.ru/ndlsky" target="_blank" rel="noreferrer">ВКонтакте ↗</a>
+      <footer className="site-footer">
+        <div className="footer-nav-heading">
+          <h2>Навигация по сайту</h2>
+          <a className="footer-back-to-top" href="#top">Наверх <span aria-hidden="true">↑</span></a>
+        </div>
+        <FooterNavigation />
+        <div className="footer-bottom">
+          <a className="brand brand-footer" href="#top"><span className="brand-mark">N</span><span>Максим<br />Недельский</span></a>
+          <p>Бизнес-тренер · Предприниматель · Спикер<br /><time dateTime="2026-10-13">Материалы обновлены 13 октября 2026</time></p>
+          <a href="https://vk.ru/ndlsky" target="_blank" rel="noopener noreferrer">ВКонтакте ↗</a>
+        </div>
+        <PrivacyLinks />
       </footer>
     </main>
   );

@@ -1,0 +1,90 @@
+.speaker-tools-page { background: var(--paper); }
+.speaker-tools-intro { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 12px 36px; max-width: 1280px; margin: auto; padding: 30px 32px 26px; }
+.speaker-tools-intro .eyebrow { grid-column: 1 / -1; margin: 0; font-size: 10px; }
+.speaker-tools-intro h1 { margin: 0; font-size: clamp(32px, 3.2vw, 44px); letter-spacing: -.04em; line-height: 1.1; }
+.speaker-tools-intro h1 em { font-family: var(--serif); font-weight: 400; }
+.speaker-tools-intro > p:last-child { align-self: center; margin: 0; font-size: 13px; color: var(--ink-soft); }
+.timer-workspace { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 28px; max-width: 1280px; margin: auto; padding: 0 32px; }
+.timer-settings { display: grid; align-content: start; gap: 20px; padding: 4px 0; }
+.timer-field { min-width: 0; }
+.timer-field label, .timer-view-options legend { display: block; margin-bottom: 9px; font-size: 13px; font-weight: 800; }
+.timer-field label span { font-size: 11px; font-weight: 400; color: var(--ink-soft); }
+.timer-duration-input { display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--line); border-radius: 12px; background: var(--paper-white); padding: 8px 16px; }
+.timer-duration-input input { min-width: 0; width: 100%; border: 0; background: transparent; color: var(--ink); font-size: 34px; font-weight: 800; line-height: 1.3; }
+.timer-duration-input > span { font-size: 13px; color: var(--ink-soft); }
+.timer-field p { margin: 8px 0 0; font-size: 11px; color: var(--ink-soft); }
+.timer-presets { display: flex; gap: 7px; margin-top: 14px; }
+.timer-presets button { flex: 1; min-height: 44px; border: 1px solid var(--line); border-radius: 9px; background: transparent; color: var(--ink); font-size: 13px; font-weight: 700; cursor: pointer; }
+.timer-presets button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper-white); }
+.timer-field textarea { width: 100%; resize: vertical; min-height: 88px; border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; background: var(--paper-white); color: var(--ink); font-size: 14px; line-height: 1.5; }
+.timer-field textarea::placeholder { color: #737889; }
+.timer-view-options { display: flex; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.timer-view-options button { flex: 1; display: grid; justify-items: center; gap: 7px; padding: 12px 8px; min-height: 74px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--ink); font-size: 11px; font-weight: 700; cursor: pointer; }
+.timer-view-options button > span { display: grid; place-items: center; height: 25px; font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 15px; font-weight: 800; }
+.timer-view-options button[aria-pressed="true"] { border-color: var(--ink); background: var(--paper-white); box-shadow: inset 0 0 0 1px var(--ink); }
+.timer-present-button { justify-content: space-between; width: 100%; min-height: 52px; padding: 13px 19px; font-size: 13px; }
+.timer-settings button:disabled, .timer-controls button:disabled { opacity: .45; cursor: not-allowed; }
+.timer-shortcuts { margin: -14px 0 0; color: var(--ink-soft); font-size: 11px; line-height: 1.7; }
+.timer-stage { container-type: inline-size; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 24px; min-width: 0; min-height: 540px; padding: 30px; border: 1px solid var(--line); border-radius: 20px; background: var(--paper-white); color: var(--ink); text-align: center; outline-offset: -5px; }
+.timer-stage-heading { min-width: 0; }
+.timer-stage-label { margin: 0; color: var(--ink-soft); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.timer-task { max-width: 1100px; margin: 16px auto 0; font-size: clamp(24px, 4.8cqw, 48px); font-weight: 700; line-height: 1.14; letter-spacing: -.025em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.timer-stage[data-long-task="true"] .timer-task { font-size: clamp(20px, 3.7cqw, 36px); }
+.timer-visual { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 22px; min-height: 0; min-width: 0; }
+.timer-clock { position: relative; width: 100%; min-width: 0; }
+.timer-readout { font-family: ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", monospace; font-size: clamp(62px, min(22cqw, 36dvh), 250px); font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.065em; white-space: nowrap; }
+.timer-status { min-height: 20px; margin: 0; font-size: 13px; font-weight: 700; color: var(--ink-soft); }
+.timer-clock-ring { container-type: inline-size; width: min(85cqw, 350px); aspect-ratio: 1; flex-shrink: 0; display: grid; place-items: center; }
+.timer-clock-ring .timer-readout { position: absolute; font-size: 22cqw; }
+.timer-ring { display: block; width: 100%; height: 100%; fill: none; stroke-width: 7px; transform: rotate(-90deg); }
+.timer-ring-track { stroke: #e7e5de; }
+.timer-ring-progress { stroke: var(--ink); stroke-linecap: round; }
+.timer-progress-bar { height: 10px; width: min(92%, 700px); margin: 32px auto 0; border-radius: 20px; background: #e7e5de; overflow: hidden; }
+.timer-progress-bar > span { display: block; height: 100%; border-radius: inherit; background: var(--ink); }
+.timer-stage.is-urgent .timer-readout, .timer-stage.is-urgent .timer-status, .timer-stage.is-finished .timer-status { color: #b54430; }
+.timer-stage.is-urgent .timer-ring-progress { stroke: #b54430; }
+.timer-stage.is-urgent .timer-progress-bar > span { background: #b54430; }
+.timer-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.timer-controls button { min-height: 44px; border: 1px solid var(--line); border-radius: 50px; padding: 10px 17px; background: transparent; color: var(--ink); font-size: 12px; font-weight: 700; cursor: pointer; }
+.timer-controls .timer-toggle { background: var(--ink); color: var(--paper-white); border-color: var(--ink); }
+.timer-stage.is-presenting { position: fixed; inset: 0; z-index: 200; width: 100%; height: 100dvh; min-height: 0; max-width: none; padding: max(25px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left)); border: 0; border-radius: 0; gap: 20px; }
+.timer-stage.is-presenting .timer-stage-label { font-size: 12px; }
+.timer-stage.is-presenting .timer-task { font-size: clamp(24px, 5.5vmin, 68px); }
+.timer-stage.is-presenting[data-long-task="true"] .timer-task { font-size: clamp(19px, 4vmin, 46px); }
+.timer-stage.is-presenting .timer-readout { font-size: clamp(70px, min(23cqw, 37dvh), 320px); }
+.timer-stage.is-presenting .timer-clock-ring { width: min(75cqw, 48dvh, 680px); }
+.timer-stage.is-presenting .timer-clock-ring .timer-readout { font-size: 22cqw; }
+.timer-stage.is-presenting .timer-controls { opacity: .65; }
+.timer-stage.is-presenting .timer-controls:hover, .timer-stage.is-presenting .timer-controls:focus-within { opacity: 1; }
+.timer-page-note { max-width: 1280px; margin: 24px auto 60px; padding: 0 32px; font-size: 12px; color: var(--ink-soft); }
+.tools-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-size: 12px; }
+@media (max-width: 1000px) {
+  .speaker-tools-intro { grid-template-columns: 1fr; }
+  .timer-workspace { grid-template-columns: 270px minmax(0, 1fr); gap: 22px; }
+  .timer-stage { padding: 24px 18px; }
+  .timer-controls button { padding-inline: 13px; font-size: 11px; }
+}
+@media (max-width: 720px) {
+  .speaker-tools-intro { padding: 30px 20px 24px; }
+  .speaker-tools-intro > p:last-child { font-size: 15px; }
+  .timer-workspace { grid-template-columns: minmax(0, 1fr); padding: 0 20px; gap: 26px; }
+  .timer-stage { min-height: 420px; padding: 24px 16px; }
+  .timer-settings { gap: 22px; }
+  .timer-field textarea { min-height: 88px; }
+  .timer-clock-ring { width: min(78cqw, 270px); }
+  .timer-page-note { padding: 0 20px; margin-bottom: 40px; }
+  .timer-stage.is-presenting { padding-inline: max(16px, env(safe-area-inset-left)); }
+  .timer-stage.is-presenting .timer-stage-label { font-size: 10px; }
+  .timer-stage.is-presenting .timer-readout { font-size: clamp(62px, min(23cqw, 34dvh), 250px); }
+}
+@media (max-height: 500px) {
+  .timer-stage.is-presenting { padding-block: 12px; gap: 10px; }
+  .timer-stage.is-presenting .timer-task { margin-top: 8px; font-size: clamp(20px, 5vmin, 30px); }
+  .timer-stage.is-presenting[data-long-task="true"] .timer-task { font-size: 18px; }
+  .timer-stage.is-presenting .timer-stage-label { display: none; }
+  .timer-stage.is-presenting .timer-visual { gap: 8px; }
+  .timer-stage.is-presenting .timer-clock-ring { width: min(60cqw, 40dvh); }
+  .timer-stage.is-presenting .timer-readout { font-size: min(23cqw, 32dvh); }
+  .timer-stage.is-presenting .timer-clock-ring .timer-readout { font-size: 22cqw; }
+  .timer-stage.is-presenting .timer-status { font-size: 11px; min-height: 15px; }
+}
