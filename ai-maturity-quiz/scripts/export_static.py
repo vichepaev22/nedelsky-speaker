@@ -17,7 +17,7 @@ from app.content import LEVELS,DIMENSIONS,GATE_TEXT,GOALS,ROLE_CONTEXT,TRANSITIO
 
 env=Environment(loader=FileSystemLoader(root/'app/templates'),autoescape=select_autoescape(['html']))
 settings=SimpleNamespace(site_url='..',consultation_url='https://vk.ru/ndlsky',diagnostic_url='',ttl_seconds=86400)
-base=dict(settings=settings,session={'csrf':'','started':False},focus=False)
+base=dict(settings=settings,session={'csrf':'','started':False},focus=False,static_export=True)
 def render(name,**values):return env.get_template(name).render(**(base|values))
 def normalize(html):
     html=re.sub(r'<input\b[^>]*name="csrf"[^>]*>','',html)
@@ -98,17 +98,21 @@ effects=[('app.js','ui.mjs','mountUI','ui'),('chapter-motion.js','chapter.mjs','
 for original,target,function,kind in effects:
     source=(root/'app/static'/original).read_text(encoding='utf-8')
     (assets/target).write_text(scoped(source,function,kind),encoding='utf-8')
-for name in ['styles.css','offers.css','result-disclosure.css','favicon.svg','chapter-physics.mjs','roadmap-offer.mjs']:
+for name in ['styles.css','offers.css','result-disclosure.css','favicon.svg','chapter-physics.mjs','roadmap-offer.mjs','result-swot.css','journal.css']:
     (assets/name).write_bytes((root/'app/static'/name).read_bytes())
-for name in ['runtime.mjs','domain.mjs']:(assets/name).write_bytes((web/name).read_bytes())
+for name in ['runtime.mjs','domain.mjs','swot.mjs','swot-view.mjs','journal-core.mjs','journal.mjs','journal-config.mjs']:(assets/name).write_bytes((web/name).read_bytes())
 cover=re.sub(r'<script\b[^>]*>.*?</script>','',cover,flags=re.S)
-cover=cover.replace('</head>','<meta name="quiz-build" content="quiz-2026-10-28"><meta name="description" content="Бесплатная диагностика вашей практики работы с ИИ. 16 ситуаций, четыре направления и три шага на неделю."><link rel="stylesheet" href="static/offers.css"><link rel="stylesheet" href="static/result-disclosure.css"><script type="module" src="static/runtime.mjs"></script></head>')
-cover=cover.replace('</body>','<noscript><p class="notice">Для интерактивного теста включите JavaScript. Здесь нет регистрации и передачи ответов на сервер.</p></noscript></body>')
+cover=cover.replace('</head>','<meta name="quiz-build" content="quiz-2026-10-28-r18"><meta name="description" content="Бесплатная диагностика вашей практики работы с ИИ. 16 ситуаций, четыре направления и три шага на неделю."><link rel="stylesheet" href="static/offers.css"><link rel="stylesheet" href="static/result-disclosure.css"><link rel="stylesheet" href="static/result-swot.css"><link rel="stylesheet" href="static/journal.css"><script type="module" src="static/runtime.mjs"></script></head>')
+cover=cover.replace('</body>','<div data-journal-root></div></body>')
+cover=cover.replace('<span>Ваш следующий шаг начинается здесь.</span>','<span><button class="journal-settings" type="button" data-journal-settings>Статистика посещений</button> · <a href="privacy.html">О данных</a></span>')
+cover=cover.replace('</body>', '<noscript><p class="notice">Для интерактивного теста включите JavaScript. Здесь нет регистрации и передачи ответов на сервер.</p></noscript></body>')
+# Cover CTA is preserved.
 cover=cover.replace('<button class="button primary" type="submit">','<button class="button primary" type="submit">',1)
 (out/'index.html').write_text(cover,encoding='utf-8')
 (out/'.nojekyll').write_text('',encoding='utf-8')
+(out/'privacy.html').write_bytes((web/'privacy.html').read_bytes())
 manifest={str(p.relative_to(out)).replace('\\','/'):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(out.rglob('*')) if p.is_file() and p.name!='build-manifest.json'}
-(out/'build-manifest.json').write_text(json.dumps({'revision':'quiz-2026-10-28','files':manifest},indent=2),encoding='utf-8')
+(out/'build-manifest.json').write_text(json.dumps({'revision':'quiz-2026-10-28-r18','files':manifest},indent=2),encoding='utf-8')
 assert not any('/answer/' in v['html'] for v in views['questions'])
 assert not any('csrf' in v['html'] for v in views['questions'])
 print(f'Exported {len(manifest)} static files, 19 questions, 3 chapters and 4 result variants.')

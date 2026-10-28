@@ -80,3 +80,9 @@ export function inviteBalls(previous){
     vy:clamp(b.vy+Math.sin(i*2.4+.8)*110,-520,520)
   }));
 }
+
+export function scrollImpulse(previous,delta){
+ if(!Number.isFinite(delta)||Math.abs(delta)<.1)return previous;
+ const impulse=clamp(delta,-100,100)*3.2;
+ return previous.map((b,i)=>({...b,vx:clamp(b.vx+Math.sin(i*2.4+.5)*impulse*.24,-420,420),vy:clamp(b.vy+impulse*(.85+(i%3)*.1),-420,420)}));
+}

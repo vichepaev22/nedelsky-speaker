@@ -573,3 +573,5 @@ progress::-moz-progress-bar { background:var(--ink); border-radius:4px; }
 
 }
 
+
+@media(max-width:760px){.chapter-play-hint{display:block;font-size:13px;line-height:1.6;margin-top:28px;padding:10px 12px;}}

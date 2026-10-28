@@ -1,3 +1,6 @@
+import {buildSwot} from './swot.mjs';
+import {renderSwot,swotText} from './swot-view.mjs';
+import {initJournal} from './journal.mjs';
 import { ALL_QUESTIONS, LEVELS, DIMENSIONS, GATE_TEXT, GOALS, ROLE_CONTEXT, STEP_DETAILS } from './data.mjs';
 import { VIEWS } from './views.mjs';
 import { readSession, persistSession, freshSession, firstMissing, answerAt, evaluate } from './domain.mjs';
@@ -11,6 +14,7 @@ const main=document.getElementById('main');
 let storage=null;try{storage=window.sessionStorage;}catch{/* In-memory navigation remains available. */}
 let session=readSession(storage,Date.now()),cleanups=[],currentScreen='';
 const persist=()=>persistSession(storage,session);
+const journal=initJournal();
 function go(route){if(location.hash===`#/${route}`)render();else location.hash=`/${route}`;}
 function route(){
   const h=location.hash;
@@ -23,7 +27,7 @@ function report(result){
   const lines=['Максим Недельский · Ваша карта работы с ИИ',`Ступень: ${level.name} (${result.level}/4)`,`Индекс ответов: ${result.index}/100`,level.metaphor];
   for(const [c,n] of Object.entries(result.blocks))lines.push(`${DIMENSIONS[c].name}: ${n}/100`);
   if(result.gate_gap)lines.push(GATE_TEXT[result.gate_gap]);
-  lines.push('','Три шага на ближайшие 7 дней:');
+  lines.push('',swotText(buildSwot(session.answers)),'','Три шага на ближайшие 7 дней:');
   level.steps.forEach((step,i)=>lines.push(`Шаг ${i+1}. ${STEP_DETAILS[result.level][i][0]}`,step,`На выходе: ${STEP_DETAILS[result.level][i][1]}.`));
   lines.push('',`Что у вас уже получается: ${DIMENSIONS[result.strength].name}`,result.blocks[result.strength]===0?'Вы обозначили начало пути. Этот блок можно взять за отправную точку, а не считать уже освоенным навыком.':DIMENSIONS[result.strength].strength,`Следующая точка роста: ${DIMENSIONS[growth].name}`,DIMENSIONS[growth].growth,ROLE_CONTEXT[session.answers.P1],GOALS[session.answers.P2],'Это ориентировочная диагностика по ответам, а не экзамен или сертификат.');
   return lines.join('\n');
@@ -35,6 +39,7 @@ function fillResult(result){
   text('.insight-grid>section:last-child h3',DIMENSIONS[growth].name);
   text('.insight-grid>section:last-child p:last-child',DIMENSIONS[growth].growth);
   text('.goal-example h2',ROLE_CONTEXT[session.answers.P1]);text('.goal-example>p:last-child',GOALS[session.answers.P2]);
+  renderSwot(main.querySelector('[data-swot-grid]'),buildSwot(session.answers));
   text('#result-save-source',report(result));
   const card=main.querySelector('[data-roadmap-offer]');card.dataset.completedAt=String(session.completedAt);
   if(result.gate_gap){
@@ -42,7 +47,7 @@ function fillResult(result){
     const strong=document.createElement('strong');strong.textContent='Почему индекс и ступень могут отличаться?';
     const explanation=document.createElement('p');explanation.textContent=`Индекс ответов: ${result.index}/100. Текущая подтверждённая ступень: ${LEVELS[result.level].name}. ${GATE_TEXT[result.gate_gap]}`;
     const qualifier=document.createElement('p');qualifier.textContent='Ступень подтверждена только логикой ваших ответов, а не независимой проверкой навыков.';
-    note.append(strong,explanation,qualifier);main.querySelector('.plan-disclosure').before(note);
+    note.append(strong,explanation,qualifier);(main.querySelector('[data-swot]')||main.querySelector('.plan-disclosure')).before(note);
   }
 }
 function render(){
@@ -87,9 +92,26 @@ function render(){
     if(session.started)start.firstChild.textContent='Продолжить диагностику';
     else main.querySelector('[data-action=restart]')?.remove();
   }
-  cleanups.push(mountUI(),mountChapter(),mountDisclosure(),mountOffers(),mountOffer());
   window.scrollTo({top:0,behavior:'instant'});
+  cleanups.push(mountUI(),mountChapter(),mountDisclosure(),mountOffers(),mountOffer());
+  journalScreen(result);
 }
+function journalScreen(result=null){
+ const value=route(),question=/^q\/(\d+)$/.exec(value),chapter=/^chapter\/([1-3])$/.exec(value);
+ if(result){journal.view({stage:'result',step:19,level:result.level});return;}
+ if(chapter){journal.view({stage:'chapter',step:3+Number(chapter[1])*4,level:null});return;}
+ if(question){
+  const step=Number(question[1]),intro=main.querySelector('[data-first-chapter]');
+  if(intro&&!intro.hidden)journal.view({stage:'chapter',step:3,level:null});
+  else journal.view({stage:step<3?'profile':'question',step:step+1,level:null});
+  return;
+ }
+ journal.view({stage:'cover',step:0,level:null});
+}
+document.addEventListener('click',event=>{
+ if(event.target.closest('[data-begin-chapter]'))journal.view({stage:'question',step:4,level:null});
+});
+
 document.addEventListener('change',event=>{
   if(!event.target.matches('input[name=option_id]'))return;
   const form=event.target.closest('[data-step]');if(!form)return;
@@ -100,7 +122,7 @@ document.addEventListener('change',event=>{
 document.addEventListener('submit',event=>{
   const form=event.target,action=form.dataset.action;if(!action)return;
   event.preventDefault();
-  if(action==='restart'){session=freshSession(Date.now());persist();go('');return;}
+  if(action==='restart'){journal.newAttempt();session=freshSession(Date.now());persist();go('');return;}
   if(action==='start'){session.started=true;persist();const missing=firstMissing(session.answers);go(missing===-1?'result':`q/${missing}`);return;}
   if(action==='answer'){
     const step=Number(form.dataset.step),selected=form.querySelector('input[name=option_id]:checked');

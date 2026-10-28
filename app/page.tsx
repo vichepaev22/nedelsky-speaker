@@ -57,7 +57,7 @@ export default function Home() {
               <a className="button button-coral" href="#contact">Пригласить спикера <span>↘</span></a>
               <a className="button button-outline" href={sitePath("/ai-for-business/")}>Решить задачу с ИИ <span aria-hidden="true">↗</span></a>
             </div>
-            <div className="hero-quiz-entry"><a className="hero-quiz-link" href={sitePath("/ai-quiz/")}>Где я в ИИ?<span aria-hidden="true">↗</span></a><span className="hero-quiz-caption">Бесплатная диагностика · 5–7 минут</span></div>
+            <div className="hero-quiz-entry"><a className="hero-quiz-link" href="https://vichepaev22.github.io/nedelsky-speaker/ai-quiz/">Где я в ИИ?<span aria-hidden="true">↗</span></a><span className="hero-quiz-caption">Бесплатная диагностика · 5–7 минут</span></div>
             <a className="hero-program-link text-link" href="#programs">Смотреть программы <span aria-hidden="true">↓</span></a>
             <dl className="hero-facts" aria-label="Ключевые факты">
               <div><dt>8+ лет</dt><dd>в бизнесе и общественных проектах</dd></div>

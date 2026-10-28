@@ -51,7 +51,9 @@ test("builds a complete Cloudflare Pages artifact at the domain root", async () 
   assert.ok(html.includes(`${siteUrl}/`));
   assert.match(html, /<h1>Знания, которые/);
   assert.match(html, /application\/ld\+json/);
-  assert.doesNotMatch(html, /\/nedelsky-speaker\//);
+  // The quiz intentionally lives on GitHub; Cloudflare assets remain at its own root.
+  assert.doesNotMatch(html, /(?:src|href)="\/nedelsky-speaker\//);
+  assert.ok(html.includes('href="https://vichepaev22.github.io/nedelsky-speaker/ai-quiz/"'));
 });
 
 test("homepage keeps section navigation and accessible headings in initial HTML", async () => {

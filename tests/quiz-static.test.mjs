@@ -46,22 +46,23 @@ test('completion starts the new 4500/2900 window; refresh and another test do no
   assert.equal(offerPrice(loadOffer({getItem(){throw Error('blocked');}},now,completed),now).price,4500);
   storage.setItem(OFFER_KEY,'{');assert.equal(loadOffer(storage,now,completed),null);
 });
-test('export has no backend transport, localhost or cross-host asset dependencies',async()=>{
+test('export has no local/backend answer transport; only the optional own journal is external',async()=>{
   const manifest=JSON.parse(await readFile(new URL('../public/ai-quiz/build-manifest.json',import.meta.url),'utf8'));
   for(const path of Object.keys(manifest.files)){
     const content=await readFile(new URL('../public/ai-quiz/'+path,import.meta.url),'utf8');
-    assert.doesNotMatch(content,/127\.0\.0\.1|localhost|fetch\s*\(|XMLHttpRequest|action="\/(?:answer|start|restart)/,path);
+    assert.doesNotMatch(content,/127\.0\.0\.1|localhost|XMLHttpRequest|action="\/(?:answer|start|restart)/,path);
+    if(path!=='static/journal.mjs')assert.doesNotMatch(content,/fetch\s*\(/,path);
   }
 });
-
-test('both outputs contain the exact same quiz and own-host hero entry',async()=>{
-  const roots=['pages-dist','cloudflare-dist'];
-  const manifests=await Promise.all(roots.map(folder=>readFile(new URL('../'+folder+'/ai-quiz/build-manifest.json',import.meta.url),'utf8')));
-  assert.equal(manifests[0],manifests[1]);
-  const [gh,cf]=await Promise.all(roots.map(folder=>readFile(new URL('../'+folder+'/index.html',import.meta.url),'utf8')));
-  assert.match(gh,/href="\/nedelsky-speaker\/ai-quiz\/"/);
-  assert.match(cf,/href="\/ai-quiz\/"/);
-  for(const html of [gh,cf])assert.match(html,/Где я в ИИ\?/);
+test('the quiz is on GitHub only and both site entries link directly to it',async()=>{
+  const manifest=JSON.parse(await readFile(new URL('../pages-dist/ai-quiz/build-manifest.json',import.meta.url),'utf8'));
+  assert.ok(manifest.files['static/swot.mjs']);assert.ok(manifest.files['static/journal.mjs']);
+  await assert.rejects(readFile(new URL('../cloudflare-dist/ai-quiz/index.html',import.meta.url)),{code:'ENOENT'});
+  for(const folder of ['pages-dist','cloudflare-dist']){
+    const html=await readFile(new URL('../'+folder+'/index.html',import.meta.url),'utf8');
+    assert.match(html,/href="https:\/\/vichepaev22\.github\.io\/nedelsky-speaker\/ai-quiz\/"/);
+    assert.match(html,/Где я в ИИ\?/);
+  }
 });
 
 test('result product links resolve inside the current mirror without a doubled slash',()=>{

@@ -1,4 +1,4 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, readdirSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import react from "@vitejs/plugin-react";
 import { createElement } from "react";
@@ -248,6 +248,22 @@ function generateStaticRoutes(): Plugin {
   return {
     name: "generate-static-pages-routes",
     closeBundle() {
+      // The Cloudflare site links to the single GitHub quiz; never duplicate it.
+      if (siteOrigin === primaryOrigin) {
+        // Vite may already emit referenced public assets (for example favicon.svg).
+        // Overwrite bytes without unlinking the emitted file, which fails on Windows.
+        const copyPublicFiles = (source: string, destination: string) => {
+          mkdirSync(destination, { recursive: true });
+          for (const entry of readdirSync(source, { withFileTypes: true })) {
+            if (source === resolve("public") && entry.name === "ai-quiz") continue;
+            const from = resolve(source, entry.name);
+            const to = resolve(destination, entry.name);
+            if (entry.isDirectory()) copyPublicFiles(from, to);
+            else copyFileSync(from, to);
+          }
+        };
+        copyPublicFiles(resolve("public"), outputDirectory);
+      }
       const rootIndexPath = resolve(outputDirectory, "index.html");
       const rootHtml = readFileSync(rootIndexPath, "utf8");
       const homeUrl = `${siteOrigin}/`;
@@ -368,6 +384,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: outputDirectory,
       emptyOutDir: true,
+      copyPublicDir: !isCloudflare,
     },
   };
 });

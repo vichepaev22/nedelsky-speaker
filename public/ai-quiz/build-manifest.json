@@ -1,22 +1,30 @@
 {
-  "revision": "quiz-2026-10-28",
+  "revision": "quiz-2026-10-28-r18",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "index.html": "e303027b9dd34e3bce644af0530a183ddf41d5756df4ecdee0b27e6dcabd72c3",
-    "static/chapter-physics.mjs": "107114d98e3c237d9f08afc98579bd0c9b329d1a07a0d1206ec1518722a29dbc",
-    "static/chapter.mjs": "3344be752f1bf53867c2335376e57a37bee14d8167eff275bab2e952a3a5a839",
+    "index.html": "e2cfe01fce431152cdda017bfc4482d374dbda8afe330d2bc25f5979cef8c74a",
+    "privacy.html": "5f22c314297719facfed038a2e586ad19ff8f6e04920a3b986fc06afc067093b",
+    "static/chapter-physics.mjs": "6d5e2b258ddf0aac896eaf59428a2bf369aaa2aab46e61abe438ceba1fe88a96",
+    "static/chapter.mjs": "1436d729bab86b1699c0c4d62a754375d353c92b9ac0c8c31bb9848c4016e450",
     "static/data.mjs": "ec7eabb2a29aef32f24b0b35756c3f5faea114a1b5771a51aec6b09f7b220e27",
     "static/disclosure.mjs": "9687306cd2a00c928b224f62d2e5240ac232b8ae7abbdd5a45873bc076f50820",
     "static/domain.mjs": "b685065e7d4aa723abd06d636e36a8d0a559f39a7a4bca9f144f3b923640f1c2",
     "static/favicon.svg": "a992533bedcbf68dbc72aee7da437e1e22faf905dabe00ed0181af902204c65e",
+    "static/journal-config.mjs": "d2563a16c8002e952a26943d187d17c0254237c7bd8c7549ae52bdc84bbe1eb5",
+    "static/journal-core.mjs": "46460fe64b56469c955c2e317d4fb94a8093219622356c963f689a9cf6512711",
+    "static/journal.css": "617aa8b3db610c63455f33b298fe863524ce789a660148e02232d6b90e6987b5",
+    "static/journal.mjs": "9e6f707feb3a29e4b07b646cee54d45abfad6262dd66301990a8842cd3adbf42",
     "static/offer.mjs": "d0f187926e3f6062548082ae6bebc53de4eaebb6907eb0af9aaace106ddc35a1",
     "static/offers.css": "b755515d0fcb453e5327fa01d6192a12900e54f6839ba87ba77b83ed107829b5",
     "static/offers.mjs": "d0bfaf2b49d0212de6e2f1a0b82c0bc750fd8da688494ffd29c65700c63dce92",
     "static/result-disclosure.css": "219a461dcfb18765523fe52420266c849ccc1a2995e5b971790d55793f411ee9",
+    "static/result-swot.css": "fc8cf255a7b8e92565f72b9905d2c08b9b55355cabb0f1e9913cfd3cddbcb228",
     "static/roadmap-offer.mjs": "0594f638b0643ca7f876dbf21dccd481a231191f8c88ce217cbdbf25e68b6dad",
-    "static/runtime.mjs": "f5477532e6bf5e9ec30afea258e2b261289520cb1400a86fb010d59ed121f157",
-    "static/styles.css": "1bc3cac05da21ba6e477fb4a5c15860a4ce06fa3ac6d255bd2e75fa87c3c4f85",
+    "static/runtime.mjs": "cb53b51a8f9c0563c902fc68c302d91752acbe0967a58fa0f5d69f2e7f6d4d2d",
+    "static/styles.css": "d7b6740c3c9ffa3d040c9d4e391abb3f446ad8d54aef32ca7159ed88b73328b9",
+    "static/swot-view.mjs": "f4710722597725f4e6b4cdf1dc7898602062ae600ac2ecbed5e8e2e99651b11c",
+    "static/swot.mjs": "c21fd37d53aaabc86480b6f94e420734fa5cc524c9d4e4730ae3e740c84e934d",
     "static/ui.mjs": "41e87b64533ee4f71bec5f65176e6537bd312704e60521d44ce6a1b23b7c88a8",
-    "static/views.mjs": "f927f4ba0fcf028d2fa4fb33a85ca3578c5031aba868c3a15f75600b46bfcd9f"
+    "static/views.mjs": "0598120488cff57bf7000cc226a357d57bca3f1063069b9b04787e23bab3db94"
   }
 }

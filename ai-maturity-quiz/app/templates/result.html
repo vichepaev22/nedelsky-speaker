@@ -15,6 +15,11 @@
 3: [('Выберите процесс', 'Процесс и стоимость ручной работы'), ('Разделите решения', 'Границы автоматизации и контроля'), ('Проведите пилот', 'Оценка качества и экономии времени')],
 4: [('Определите границы', 'Процесс и понятные риски'), ('Задайте правила агенту', 'Полномочия, тесты и точки одобрения'), ('Измерьте эффект', 'Ошибки, стоимость и польза пилота')]
 } %}
+{% if static_export %}<section class="swot-section" aria-labelledby="swot-title" data-swot>
+  <div class="swot-heading"><div><p class="eyebrow">Что стоит за вашим результатом</p><h2 id="swot-title">Ваш SWOT по работе с ИИ</h2><p>Опора, пробелы, возможности и риски — на одном экране.</p></div><span class="swot-tag">По ответам · без нейросети</span></div>
+  <div class="swot-grid" data-swot-grid></div>
+  <p class="swot-note">Это SWOT вашей практики работы с ИИ. Для анализа бизнеса нужны сведения о продукте, клиентах, рынке и процессах.</p>
+</section>{% endif %}
 <details class="plan-disclosure" id="next-steps">
   <summary class="plan-summary"><h2 id="plan-title"><span>Три шага на ближайшие 7 дней</span><svg class="plan-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></h2></summary>
   <div class="plan-content">
