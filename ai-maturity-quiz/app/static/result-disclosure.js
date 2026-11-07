@@ -1,8 +1,11 @@
+import {createPlanEffects} from './plan-effects.mjs';
+
 // Native disclosure works without this optional, interruptible pointer animation.
 const disclosure=document.querySelector('.plan-disclosure');
 if(disclosure){
   const summary=disclosure.querySelector('.plan-summary');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const effects=createPlanEffects(disclosure);
   let animation=null,desiredOpen=disclosure.open,printing=false,restoreAfterPrint=false;
 
   function cancelAnimation(){
@@ -22,18 +25,21 @@ if(disclosure){
   }
   function change(open,instant=false){
     if(!animation&&disclosure.open===open){desiredOpen=open;return;}
+    if(!open)effects.clear();
     const start=disclosure.getBoundingClientRect().height;
     cancelAnimation();
     desiredOpen=open;
     if(instant||reduced.matches||typeof disclosure.animate!=='function'){
-      settle(open);return;
+      settle(open);
+      if(open)effects.play(false);
+      return;
     }
     disclosure.open=true;
     disclosure.style.removeProperty('height');
     const border=getComputedStyle(disclosure);
     const end=open?disclosure.getBoundingClientRect().height:
       summary.getBoundingClientRect().height+parseFloat(border.borderTopWidth)+parseFloat(border.borderBottomWidth);
-    if(Math.abs(end-start)<1){settle(open);return;}
+    if(Math.abs(end-start)<1){settle(open);if(open)effects.play(true);return;}
     disclosure.classList.add('is-moving');
     disclosure.classList.toggle('is-closing',!open);
     disclosure.style.height=`${start}px`;
@@ -42,7 +48,11 @@ if(disclosure){
       duration:260,easing:'cubic-bezier(.23,1,.32,1)',fill:'forwards'
     });
     animation=current;
-    current.onfinish=()=>{if(animation===current)settle(open);};
+    current.onfinish=()=>{
+      if(animation!==current)return;
+      settle(open);
+      if(open)effects.play(true);
+    };
   }
   function keyboard(){return document.body.classList.contains('keyboard-navigation');}
   summary.addEventListener('click',event=>{
@@ -58,14 +68,24 @@ if(disclosure){
   });
   disclosure.addEventListener('toggle',()=>{if(!animation)desiredOpen=disclosure.open;});
   document.addEventListener('keydown',()=>{if(animation)settle(desiredOpen);});
-  window.addEventListener('resize',()=>{if(animation)settle(desiredOpen);});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden&&animation)settle(desiredOpen);});
-  reduced.addEventListener('change',()=>{if(animation)settle(desiredOpen);});
-  window.addEventListener('pagehide',()=>settle(desiredOpen));
+  let layoutWidth=document.documentElement.clientWidth;
+  window.addEventListener('resize',()=>{
+    const width=document.documentElement.clientWidth;
+    if(width===layoutWidth)return;
+    layoutWidth=width;
+    if(animation){settle(desiredOpen);if(desiredOpen)effects.play(false);}
+    effects.settle();
+  });
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){if(animation)settle(desiredOpen);effects.settle();}
+  });
+  reduced.addEventListener('change',()=>{if(animation)settle(desiredOpen);effects.settle();});
+  window.addEventListener('pagehide',()=>{settle(desiredOpen);effects.settle();});
   window.addEventListener('beforeprint',()=>{
     if(printing)return;
     restoreAfterPrint=desiredOpen;
     printing=true;
+    effects.settle();
     settle(true);
   });
   window.addEventListener('afterprint',()=>{

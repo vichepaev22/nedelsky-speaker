@@ -165,3 +165,10 @@
 
   .result-shell :is(.level-card,.skills-card,.gate-note,.methodology,.offer-card,.product-suggestion,.result-save-panel,.offer-window,.offer-session) { box-shadow:none; }
 }
+
+/* The empty strip belongs to the result. Decorative particles stay clear of the footer. */
+.plan-landing { position:relative; height:80px; margin:8px 0 -8px; pointer-events:none; }
+.plan-ball { position:absolute; width:var(--plan-ball-size); height:var(--plan-ball-size); border-radius:50%; box-shadow:inset -2px -2px 0 #15171c0e; }
+.plan-disclosure .next-steps li { position:relative; isolation:isolate; }
+.plan-step-glow { position:absolute; inset:0; border-radius:inherit; background:#ffe7b938; box-shadow:inset 0 0 0 2px #c28b3a5c; opacity:0; pointer-events:none; }
+@media print { .plan-landing,.plan-step-glow { display:none!important; } }

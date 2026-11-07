@@ -19,6 +19,7 @@ if(card){
   const ordinary=card.querySelector('[data-consultation-ordinary]');
   const price=card.querySelector('[data-consultation-price]');
   const subtitle=card.querySelector('[data-consultation-subtitle]');
+  const timing=card.querySelector('[data-consultation-timing]');
   let interval=0;
   function stop(){clearInterval(interval);interval=0;}
   function update(){
@@ -33,6 +34,7 @@ if(card){
     }else{
       stop();price.textContent=offer?'Окно заявки закрыто':'Уточнить условия';
       subtitle.textContent='Напишите Максиму в Telegram';
+      timing.textContent='Время встречи согласуем в переписке.';
       const message=offer?'90 минут после теста истекли. Условия консультации можно обсудить в Telegram.':'Не удалось восстановить срок предложения. Уточните условия консультации в Telegram.';
       if(expired.textContent!==message)expired.textContent=message;
     }

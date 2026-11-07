@@ -1,12 +1,15 @@
+import {createPlanEffects} from './plan-effects.mjs';
 export function mountDisclosure() {
   const controller=new AbortController();
   let cleanup=()=>{};
   function listen(target,event,handler,options={}){target.addEventListener(event,handler,{...options,signal:controller.signal});}
+
 // Native disclosure works without this optional, interruptible pointer animation.
 const disclosure=document.querySelector('.plan-disclosure');
 if(disclosure){
   const summary=disclosure.querySelector('.plan-summary');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const effects=createPlanEffects(disclosure);
   let animation=null,desiredOpen=disclosure.open,printing=false,restoreAfterPrint=false;
 
   function cancelAnimation(){
@@ -26,18 +29,21 @@ if(disclosure){
   }
   function change(open,instant=false){
     if(!animation&&disclosure.open===open){desiredOpen=open;return;}
+    if(!open)effects.clear();
     const start=disclosure.getBoundingClientRect().height;
     cancelAnimation();
     desiredOpen=open;
     if(instant||reduced.matches||typeof disclosure.animate!=='function'){
-      settle(open);return;
+      settle(open);
+      if(open)effects.play(false);
+      return;
     }
     disclosure.open=true;
     disclosure.style.removeProperty('height');
     const border=getComputedStyle(disclosure);
     const end=open?disclosure.getBoundingClientRect().height:
       summary.getBoundingClientRect().height+parseFloat(border.borderTopWidth)+parseFloat(border.borderBottomWidth);
-    if(Math.abs(end-start)<1){settle(open);return;}
+    if(Math.abs(end-start)<1){settle(open);if(open)effects.play(true);return;}
     disclosure.classList.add('is-moving');
     disclosure.classList.toggle('is-closing',!open);
     disclosure.style.height=`${start}px`;
@@ -46,7 +52,11 @@ if(disclosure){
       duration:260,easing:'cubic-bezier(.23,1,.32,1)',fill:'forwards'
     });
     animation=current;
-    current.onfinish=()=>{if(animation===current)settle(open);};
+    current.onfinish=()=>{
+      if(animation!==current)return;
+      settle(open);
+      if(open)effects.play(true);
+    };
   }
   function keyboard(){return document.body.classList.contains('keyboard-navigation');}
   listen(summary,'click',event=>{
@@ -62,14 +72,24 @@ if(disclosure){
   });
   listen(disclosure,'toggle',()=>{if(!animation)desiredOpen=disclosure.open;});
   listen(document,'keydown',()=>{if(animation)settle(desiredOpen);});
-  listen(window,'resize',()=>{if(animation)settle(desiredOpen);});
-  listen(document,'visibilitychange',()=>{if(document.hidden&&animation)settle(desiredOpen);});
-  listen(reduced,'change',()=>{if(animation)settle(desiredOpen);});
-  listen(window,'pagehide',()=>settle(desiredOpen));
+  let layoutWidth=document.documentElement.clientWidth;
+  listen(window,'resize',()=>{
+    const width=document.documentElement.clientWidth;
+    if(width===layoutWidth)return;
+    layoutWidth=width;
+    if(animation){settle(desiredOpen);if(desiredOpen)effects.play(false);}
+    effects.settle();
+  });
+  listen(document,'visibilitychange',()=>{
+    if(document.hidden){if(animation)settle(desiredOpen);effects.settle();}
+  });
+  listen(reduced,'change',()=>{if(animation)settle(desiredOpen);effects.settle();});
+  listen(window,'pagehide',()=>{settle(desiredOpen);effects.settle();});
   listen(window,'beforeprint',()=>{
     if(printing)return;
     restoreAfterPrint=desiredOpen;
     printing=true;
+    effects.settle();
     settle(true);
   });
   listen(window,'afterprint',()=>{
@@ -77,7 +97,7 @@ if(disclosure){
     printing=false;
     settle(restoreAfterPrint);
   });
-  cleanup=()=>settle(desiredOpen);
+  cleanup=()=>{effects.clear();settle(desiredOpen);};
 }
 
   return ()=>{controller.abort();cleanup();};
