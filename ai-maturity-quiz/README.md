@@ -109,3 +109,8 @@ QUIZ-PLAN-GLASS-13 (26.10.2026): весь раскрывающийся план 
 
 
 QUIZ-RESULT-LIGHT-14 (26.10.2026): общие светлые кромки/мягкие тени на остальных карточках результата при точном сохранении их фонов, градиентов, рамок и текста. В плане13 свет слегка теплее и мягче; без персиковых заливок. Макет, subgrid, цены/ссылки, JS и основной тест прежние. Static CSS; print убирает новые тени.
+
+
+## QUIZ-POLISH-20 — approved whole-quiz finish, 7 November 2026
+
+The user accepted the make-interfaces-feel-better cover prototype and requested the same finish throughout the quiz. Shared interface.css applies the existing plain-CSS system: neutral answer surfaces, blue selection/focus, 44px touch controls, layered depth, matched SVG icons, stable numeric counters and readable wrapping. Informational cover examples and a finite greeting are scoped and disposed on SPA navigation. Questions remain routed pages, not the prototype's demo dialog. Existing score, SWOT evidence, scroll physics, optional journal consent, offers/deadlines, report and print rules stay unchanged. GitHub Pages only. Prototype reference: Playground/artifacts/ai-quiz-interface-polish-2026-11-06; no demo controls or synthetic data ship.

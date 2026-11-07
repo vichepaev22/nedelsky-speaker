@@ -4,6 +4,7 @@ import {initJournal} from './journal.mjs';
 import { ALL_QUESTIONS, LEVELS, DIMENSIONS, GATE_TEXT, GOALS, ROLE_CONTEXT, STEP_DETAILS } from './data.mjs';
 import { VIEWS } from './views.mjs';
 import { readSession, persistSession, freshSession, firstMissing, answerAt, evaluate } from './domain.mjs';
+import { mountCover } from './cover-route.mjs';
 import { mountUI } from './ui.mjs';
 import { mountChapter } from './chapter.mjs';
 import { mountDisclosure } from './disclosure.mjs';
@@ -94,7 +95,7 @@ function render(){
     else main.querySelector('[data-action=restart]')?.remove();
   }
   window.scrollTo({top:0,behavior:'instant'});
-  cleanups.push(mountUI(),mountChapter(),mountDisclosure(),mountOffers(),mountOffer(),mountConsultation());
+  cleanups.push(mountCover(),mountUI(),mountChapter(),mountDisclosure(),mountOffers(),mountOffer(),mountConsultation());
   journalScreen(result);
 }
 function journalScreen(result=null){

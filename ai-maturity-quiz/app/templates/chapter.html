@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% from "_icons.html" import icon %}
 {% block scripts %}<script type="module" src="/static/chapter-motion.js"></script>{% endblock %}
 {% block main_class %}chapter-shell{% endblock %}
 {% block content %}
@@ -9,8 +9,8 @@
   <div class="chapter-stage-spacer" aria-hidden="true"></div>
   <h1 tabindex="-1" data-ball-obstacle>{{ transition[0] }}</h1>
   <p class="lead" data-ball-obstacle>{{ transition[1] }}</p>
-  <a class="button primary" data-ball-obstacle href="/quiz/{{ next_step }}">Продолжить <span aria-hidden="true">→</span></a>
+  <a class="button primary" data-ball-obstacle href="/quiz/{{ next_step }}">Продолжить {{ icon("forward") }}</a>
   <p class="method-note" data-ball-obstacle>{% if number == 3 %}Осталось четыре ситуации. Без технического экзамена.{% else %}Отвечайте по своей реальной практике. Здесь нет «плохих» уровней.{% endif %}</p>
-  <p class="chapter-play-hint" data-ball-obstacle><span aria-hidden="true">↗</span> Листайте страницу вверх-вниз — шарики оживут.</p>
+  <p class="chapter-play-hint" data-ball-obstacle>{{ icon("external") }} Листайте страницу вверх-вниз — шарики оживут.</p>
 </section>
 {% endblock %}

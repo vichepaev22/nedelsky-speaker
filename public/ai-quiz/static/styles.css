@@ -99,7 +99,7 @@ svg { display:block; max-width:100%; }
 
 .primary { color:#fff; background:var(--ink); }
 
-.button:active { transform:scale(.98); }
+.button:active { transform:scale(.96); }
 
 .outline-button { border-color:var(--line-strong); background:#fff; color:var(--ink); }
 
@@ -327,7 +327,7 @@ progress::-moz-progress-bar { background:var(--ink); border-radius:4px; }
 
 .chapter-playground.motion-ready { inset:0; width:100%; height:100%; transform:none; display:block; overflow:hidden; contain:layout paint; border-radius:inherit; }
 
-.chapter-playground.motion-ready span { position:absolute; top:0; left:0; will-change:transform; }
+.chapter-playground.motion-ready span { position:absolute; top:0; left:0; }
 
 .result-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:32px; }
 

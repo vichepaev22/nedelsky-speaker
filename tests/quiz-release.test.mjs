@@ -38,3 +38,29 @@ test('scroll impulses reverse, stay capped, respect obstacles and settle on mobi
  for(let i=0;i<1400;i++){if(i<120&&i%4===0)balls=scrollImpulse(balls,i%8===0?45:-45);balls=stepBalls(balls,null,390,950,1/60,boxes);for(const b of balls){assert.ok(b.x>=14.99&&b.x<=375.01&&b.y>=14.99&&b.y<=935.01);assert.ok(Math.hypot(b.x-Math.max(50,Math.min(340,b.x)),b.y-Math.max(300,Math.min(380,b.y)))>=14.99);}}
  assert.ok(balls.every(b=>Math.hypot(b.vx,b.vy)<.35));
 });
+
+// Cover examples are informational and dispose their interactions on navigation.
+import {mountCover} from '../public/ai-quiz/static/cover-route.mjs';
+function coverFixture(){
+ const root=new EventTarget(),environment=new EventTarget(),reduced=new EventTarget();reduced.matches=false;environment.matchMedia=()=>reduced;
+ const choices=Array.from({length:4},()=>{const b=new EventTarget();b.attrs={};b.setAttribute=(key,value)=>b.attrs[key]=value;return b;});
+ const companion=new EventTarget(),classes=new Set();companion.classList={add:v=>classes.add(v),remove:v=>classes.delete(v),contains:v=>classes.has(v)};
+ const title={textContent:''},description={textContent:''};root.hidden=false;
+ root.querySelectorAll=()=>choices;root.querySelector=s=>s.endsWith('strong')?title:s.endsWith('span')?description:companion;
+ return {root,environment,reduced,choices,companion,title,description,dispose:()=>{}};
+}
+test('cover offers one example at a time and selection can be corrected without quiz state',()=>{
+ const f=coverFixture(),dispose=mountCover(f.root,f.environment);
+ for(const i of [3,1,2,0]){f.choices[i].dispatchEvent(new Event('click'));assert.deepEqual(f.choices.map(b=>b.attrs['aria-pressed']),[0,1,2,3].map(n=>String(n===i)));assert.ok(f.description.textContent.length>20);}
+ assert.match(f.description.textContent,/идею поста/);dispose();
+});
+test('cover cleanup removes listeners and ends the finite greeting',()=>{
+ const f=coverFixture(),dispose=mountCover(f.root,f.environment);f.companion.dispatchEvent(new Event('click'));assert.equal(f.companion.classList.contains('is-greeting'),true);assert.equal(f.title.textContent,'Идём в вашем темпе.');
+ dispose();assert.equal(f.companion.classList.contains('is-greeting'),false);f.choices[3].dispatchEvent(new Event('click'));assert.equal(f.choices[0].attrs['aria-pressed'],'true');f.companion.dispatchEvent(new Event('click'));assert.equal(f.companion.classList.contains('is-greeting'),false);
+});
+test('reduced/hidden/pagehide cover keeps a static greeting without ongoing motion',()=>{
+ const f=coverFixture(),dispose=mountCover(f.root,f.environment);f.reduced.matches=true;f.companion.dispatchEvent(new Event('click'));assert.equal(f.companion.classList.contains('is-greeting'),false);assert.equal(f.title.textContent,'Идём в вашем темпе.');
+ f.reduced.matches=false;f.companion.dispatchEvent(new Event('click'));f.environment.dispatchEvent(new Event('pagehide'));assert.equal(f.companion.classList.contains('is-greeting'),false);
+ f.companion.dispatchEvent(new Event('click'));f.root.hidden=true;f.root.dispatchEvent(new Event('visibilitychange'));assert.equal(f.companion.classList.contains('is-greeting'),false);dispose();
+});
+test('cover mount is a no-op on question/result screens',()=>{assert.doesNotThrow(()=>mountCover({querySelectorAll:()=>[]},{})());});

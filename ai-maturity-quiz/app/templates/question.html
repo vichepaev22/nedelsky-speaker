@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% from "_companion.html" import companion %}
+{% extends "base.html" %}{% from "_icons.html" import icon %}{% from "_companion.html" import companion %}
 {% block scripts %}{% if step == 3 and not selected %}<script type="module" src="/static/chapter-motion.js"></script>{% endif %}{% endblock %}
 {% block content %}
 {% if step == 3 and not selected %}
@@ -9,8 +9,8 @@
   <div class="chapter-stage-spacer" aria-hidden="true"></div>
   <h2 tabindex="-1" data-ball-obstacle>Знакомство пройдено.<br>Теперь — ваша практика.</h2>
   <p class="lead" data-ball-obstacle>Начнём с того, как вы ставите задачи нейросетям и проверяете ответы.</p>
-  <a class="button primary" data-ball-obstacle data-begin-chapter href="#question-stage">Начать тестирование <span aria-hidden="true">→</span></a>
-  <p class="chapter-play-hint" data-ball-obstacle><span aria-hidden="true">↗</span> Листайте страницу вверх-вниз — шарики оживут.</p>
+  <a class="button primary" data-ball-obstacle data-begin-chapter href="#question-stage">Начать тестирование {{ icon("forward") }}</a>
+  <p class="chapter-play-hint" data-ball-obstacle>{{ icon("external") }} Листайте страницу вверх-вниз — шарики оживут.</p>
 </section>
 {% endif %}
 <div class="quiz-layout" id="question-stage">
@@ -39,7 +39,7 @@
           {% for option in q.options %}<label class="answer-option"><input type="radio" name="option_id" value="{{ option.id }}" {% if selected == option.id %}checked{% endif %} required><span class="option-key" aria-hidden="true">{{ option.id }}</span><span class="option-copy">{{ option.text }}</span></label>{% endfor %}
         </fieldset>
         <p id="answer-error" class="error-text" role="alert">{{ error or '' }}</p>
-        <div class="question-actions"><a class="back-link" href="{% if step > 0 %}/quiz/{{ step-1 }}{% else %}/{% endif %}">← Назад</a><button class="button primary next-button" type="submit">{% if step == 18 %}Получить карту{% else %}Далее{% endif %} <span aria-hidden="true">→</span></button></div>
+        <div class="question-actions"><a class="back-link" href="{% if step > 0 %}/quiz/{{ step-1 }}{% else %}/{% endif %}">← Назад</a><button class="button primary next-button" type="submit">{% if step == 18 %}Получить карту{% else %}Далее{% endif %} {{ icon("forward") }}</button></div>
         <p class="answer-save" aria-live="polite">{% if selected %}Ваш ответ сохранён. Его можно изменить.{% else %}Не знаете? Выберите вариант, который ближе всего к вам.{% endif %}</p>
       </form>
     </section>

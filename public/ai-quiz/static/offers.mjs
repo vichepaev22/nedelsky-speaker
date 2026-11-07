@@ -26,6 +26,7 @@ if(section){
 
   },{passive:true});
 
+  listen(document,'visibilitychange',()=>{if(document.hidden)cancelMotion();});
   listen(reduced,'change',()=>{if(reduced.matches)cancelMotion();});
 
   if('IntersectionObserver' in window){
@@ -42,7 +43,7 @@ if(section){
 
         [{transform:'translateY(8px)'},{transform:'translateY(0)'}],
 
-        {duration:260,delay:i*40,easing:'cubic-bezier(.23,1,.32,1)'}
+        {duration:260,delay:i*40,easing:'cubic-bezier(.23,1,.32,1)',fill:'backwards'}
 
       ));
 

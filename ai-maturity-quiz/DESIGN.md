@@ -130,3 +130,8 @@ Breakpoints1020/760/400. Проверять320/390 и desktop, особенно 
 Эффект13 распространён на остальные карточки результата через один result-panel-depth (static box-shadow). Существующие backgrounds/foreground/borders остаются точными: голубая ступень, белые шкалы, лиловые предложения/сохранение. Вложенные карточки90минут/акции получили только слабую светлую кромку/тень. Без новых заливок/псевдоэлементов/слоёв над текстом; геометрия/subgrid прежние. В print эти тени отключаются.
 
 У плана13 свет14 чуть теплее: #f4f4f1/#ebece9 и слабый #fffcf5 блик68%, полупрозрачные бело-серые поверхности, мягче тени. Это заменяет холодную температуру13; насыщенные персиковые цвета не возвращаются. Текст и механика прежние. Только CSS, без blur/filter/библиотек/дополнительного JS. Основной тест11 остаётся следующим этапом.
+
+
+## QUIZ-POLISH-20 — approved whole-quiz finish, 7 November 2026
+
+The user accepted the make-interfaces-feel-better cover prototype and requested the same finish throughout the quiz. Shared interface.css applies the existing plain-CSS system: neutral answer surfaces, blue selection/focus, 44px touch controls, layered depth, matched SVG icons, stable numeric counters and readable wrapping. Informational cover examples and a finite greeting are scoped and disposed on SPA navigation. Questions remain routed pages, not the prototype's demo dialog. Existing score, SWOT evidence, scroll physics, optional journal consent, offers/deadlines, report and print rules stay unchanged. GitHub Pages only. Prototype reference: Playground/artifacts/ai-quiz-interface-polish-2026-11-06; no demo controls or synthetic data ship.
