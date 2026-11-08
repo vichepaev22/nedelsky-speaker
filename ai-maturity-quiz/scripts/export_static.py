@@ -103,7 +103,7 @@ for name in ['styles.css','offers.css','result-disclosure.css','favicon.svg','ch
 for name in ['runtime.mjs','domain.mjs','swot.mjs','swot-view.mjs','journal-core.mjs','journal.mjs','journal-config.mjs']:(assets/name).write_bytes((web/name).read_bytes())
 cover=cover.replace('<link rel="stylesheet" href="static/interface.css">','')
 cover=re.sub(r'<script\b[^>]*>.*?</script>','',cover,flags=re.S)
-cover=cover.replace('</head>','<meta name="quiz-build" content="quiz-2026-11-07-r21"><meta name="description" content="Бесплатная диагностика вашей практики работы с ИИ. 16 ситуаций, четыре направления и три шага на неделю."><link rel="stylesheet" href="static/offers.css"><link rel="stylesheet" href="static/result-disclosure.css"><link rel="stylesheet" href="static/result-swot.css"><link rel="stylesheet" href="static/journal.css"><link rel="stylesheet" href="static/interface.css"><script type="module" src="static/runtime.mjs"></script></head>')
+cover=cover.replace('</head>','<meta name="quiz-build" content="quiz-2026-11-07-r22"><meta name="description" content="Бесплатная диагностика вашей практики работы с ИИ. 16 ситуаций, четыре направления и три шага на неделю."><link rel="stylesheet" href="static/offers.css"><link rel="stylesheet" href="static/result-disclosure.css"><link rel="stylesheet" href="static/result-swot.css"><link rel="stylesheet" href="static/journal.css"><link rel="stylesheet" href="static/interface.css"><script type="module" src="static/runtime.mjs"></script></head>')
 cover=cover.replace('</body>','<div data-journal-root></div></body>')
 cover=cover.replace('<span>Ваш следующий шаг начинается здесь.</span>','<span><button class="journal-settings" type="button" data-journal-settings>Статистика посещений</button> · <a href="privacy.html">О данных</a></span>')
 cover=cover.replace('</body>', '<noscript><p class="notice">Для интерактивного теста включите JavaScript. Здесь нет регистрации и передачи ответов на сервер.</p></noscript></body>')
@@ -113,7 +113,7 @@ cover=cover.replace('<button class="button primary" type="submit">','<button cla
 (out/'.nojekyll').write_text('',encoding='utf-8')
 (out/'privacy.html').write_bytes((web/'privacy.html').read_bytes())
 manifest={str(p.relative_to(out)).replace('\\','/'):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(out.rglob('*')) if p.is_file() and p.name!='build-manifest.json'}
-(out/'build-manifest.json').write_text(json.dumps({'revision':'quiz-2026-11-07-r21','files':manifest},indent=2),encoding='utf-8')
+(out/'build-manifest.json').write_text(json.dumps({'revision':'quiz-2026-11-07-r22','files':manifest},indent=2),encoding='utf-8')
 assert not any('/answer/' in v['html'] for v in views['questions'])
 assert not any('csrf' in v['html'] for v in views['questions'])
 print(f'Exported {len(manifest)} static files, 19 questions, 3 chapters and 4 result variants.')

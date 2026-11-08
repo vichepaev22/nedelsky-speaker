@@ -14,6 +14,7 @@ if(card){
   const button=card.querySelector('[data-consultation-submit]');
   const clock=card.querySelector('[data-consultation-clock]');
   const windowNote=card.querySelector('[data-consultation-window]');
+  const clockLabel=card.querySelector('[data-consultation-clock-label]');
   const conditions=card.querySelector('[data-consultation-conditions]');
   const expired=card.querySelector('[data-consultation-expired]');
   const ordinary=card.querySelector('[data-consultation-ordinary]');
@@ -26,13 +27,17 @@ if(card){
     const state=consultationState(offer,Date.now(),confirmation.checked);
     button.disabled=!state.canApply;button.hidden=!state.active;
     confirmation.disabled=!state.active;conditions.hidden=!state.active;
-    windowNote.hidden=!state.active;expired.hidden=state.active;ordinary.hidden=state.active;
+    expired.hidden=state.active;ordinary.hidden=state.active;
+    windowNote.dataset.state=state.active?'active':offer?'expired':'unavailable';
+    clockLabel.textContent=state.active?'Осталось времени':offer?'Время истекло':'Отсчёт недоступен';
     if(state.active){
       const h=Math.floor(state.seconds/3600),m=Math.floor(state.seconds%3600/60),s=state.seconds%60;
       clock.textContent=[h,m,s].map(n=>String(n).padStart(2,'0')).join(':');
       price.textContent='Бесплатно';subtitle.textContent='за подписку на два канала';
     }else{
-      stop();price.textContent=offer?'Окно заявки закрыто':'Уточнить условия';
+      stop();
+      clock.textContent=offer?'00:00:00':'—:—:—';
+      price.textContent=offer?'Окно заявки закрыто':'Уточнить условия';
       subtitle.textContent='Напишите Максиму в Telegram';
       timing.textContent='Время встречи согласуем в переписке.';
       const message=offer?'90 минут после теста истекли. Условия консультации можно обсудить в Telegram.':'Не удалось восстановить срок предложения. Уточните условия консультации в Telegram.';

@@ -5,9 +5,15 @@
 .offers-heading h2 { font-size:30px; margin:0; letter-spacing:-.035em; }
 .offers-context { font-size:14px; color:var(--result-copy); margin:0 0 3px; }
 .offers-context strong { color:var(--ink); font-weight:650; }
-.offer-grid { display:grid; grid-template-columns:1fr 1fr; column-gap:24px; row-gap:0; align-items:stretch; }
+.offer-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:24px; row-gap:0; align-items:stretch; }
 .offer-card { display:grid; min-width:0; padding:28px; border-radius:16px; border:1px solid #bea8d6; background:var(--result-gradient-reflection); color:var(--result-ink); grid-template-rows:auto minmax(60px,auto) minmax(78px,auto) auto 110px auto 1fr auto; }
-@supports(grid-template-rows:subgrid) { .offer-card { grid-row:span 8; grid-template-rows:subgrid; } }
+@media(min-width:761px) {
+  @supports(grid-template-rows:subgrid) {
+    .roadmap-offer { grid-column:1; }
+    .consultation-offer { grid-column:2; }
+    .offer-card { grid-row:1 / span 8; grid-template-rows:subgrid; align-self:stretch; }
+  }
+}
 .consultation-offer { background:var(--result-gradient-support); border-color:#b4a5d5; color:var(--result-ink); }
 .offer-format { margin:0 0 14px; color:inherit; font-size:14px; font-weight:650; line-height:1.5; }
 .offer-card h3 { font-size:24px; line-height:1.25; letter-spacing:-.03em; margin:0 0 16px; font-weight:700; color:inherit; }
@@ -50,9 +56,14 @@
 
 /* Consultation19: keep the accepted palette and align both primary actions. */
 .offer-action-group { min-width:0; margin:20px 0 0; align-self:start; }
-@supports not (grid-template-rows:subgrid) {
-  .offer-grid { grid-template-columns:minmax(0,1fr); row-gap:20px; }
-  .offer-card { display:block; }
+@media(min-width:761px) {
+  @supports not (grid-template-rows:subgrid) {
+    .offer-card { display:flex; flex-direction:column; }
+    .offer-included { flex:1; }
+    .offer-action-group { align-self:stretch; }
+    .offer-footnote { min-height:42px; }
+    .offer-timing { min-height:63px; }
+  }
 }
 .consultation-condition-copy{font-size:15px;line-height:1.5;margin:0 0 12px}
 .consultation-channels{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
@@ -61,7 +72,10 @@
 .consultation-confirmation{display:flex;align-items:flex-start;gap:10px;padding:10px 0;min-height:44px;font-size:15px;line-height:1.5;cursor:pointer}
 .consultation-confirmation input{width:18px;height:18px;flex-shrink:0;margin:3px 0 0;accent-color:var(--result-button)}
 .consultation-confirmation-note{font-size:13px;line-height:1.5;margin:4px 0 0;color:inherit}
-.consultation-window { margin:16px 0 0; }
+.consultation-window { justify-content:space-between; flex-wrap:wrap; gap:6px 12px; margin:0; }
+.consultation-clock { font-size:clamp(1.45rem,2.1vw,1.85rem); line-height:1.12; letter-spacing:-.025em; }
+.consultation-window[data-state=expired] .consultation-clock,
+.consultation-window[data-state=unavailable] .consultation-clock { color:#6b5978; }
 .consultation-expired { font-size:14px; line-height:1.55; margin:0; color:inherit; }
 .offer-countdown [role=timer] { font-variant-numeric:tabular-nums; white-space:nowrap; }
 [data-consultation-clock]{font-variant-numeric:tabular-nums;white-space:nowrap}

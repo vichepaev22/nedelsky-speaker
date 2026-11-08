@@ -1,40 +1,175 @@
-const PALETTE = ['coral', 'lime', 'blue', 'violet'];
-const BALL_COUNT = 20;
+const COLORS = ['coral', 'lime', 'blue', 'violet'];
+const BALL_LIMIT = 40;
+const BALL_BATCH = 10;
+const STORAGE_KEY = 'nedelsky-quiz-side-balls-v1';
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const translate = (x, y) => `translate(${x}px, ${y}px)`;
 
-export function createPlanEffects(disclosure) {
+function createSideBalls(disclosure, summary, reduced) {
   const main = disclosure.closest('.result-shell');
+  const field = main.querySelector('[data-plan-landing]');
+  const completion = main.querySelector('[data-consultation-offer]')?.dataset.completedAt;
+  const rails = [false, true].map(right => {
+    const node = document.createElement('div');
+    node.className = 'plan-ball-rail';
+    field.append(node);
+    return {node, right, balls: []};
+  });
+  const running = new Map();
+  let count = 0;
+
+  function animate(ball, frames, options) {
+    const animation = ball.node.animate(frames, options);
+    running.set(ball, animation);
+    animation.onfinish = () => running.delete(ball);
+  }
+
+  function settle() {
+    for (const animation of running.values()) {
+      animation.onfinish = null;
+      animation.cancel();
+    }
+    running.clear();
+  }
+
+  function layout() {
+    const shell = main.getBoundingClientRect();
+    const lip = summary.getBoundingClientRect();
+    const pageWidth = document.documentElement.clientWidth;
+    for (const rail of rails) {
+      const width = Math.min(112, Math.floor((rail.right ? pageWidth - lip.right : lip.left) - 2));
+      const size = Math.min(40, width - 4);
+      const columns = Math.max(1, Math.floor((width - 2) / (size + 5)));
+      const pitch = size + 6;
+      const height = Math.ceil((BALL_LIMIT / 2) / columns) * pitch + 12;
+      Object.assign(rail, {width, height, size});
+      rail.node.hidden = size < 8;
+      if (rail.node.hidden) continue;
+      const left = (rail.right ? lip.right + 1 : lip.left - width - 1) - shell.left;
+      Object.assign(rail.node.style, {left: `${left}px`, width: `${width}px`, height: `${height}px`});
+      rail.balls.forEach((ball, index) => {
+        const cell = (width - 2) / columns;
+        ball.x = 1 + (index % columns) * cell + (cell - size) * ball.u;
+        ball.y = height - 9 - size - Math.floor(index / columns) * pitch - 5 * ball.v;
+        Object.assign(ball.node.style, {left: `${ball.x}px`, top: `${ball.y}px`});
+        ball.node.style.setProperty('--plan-ball-size', `${size}px`);
+      });
+    }
+  }
+
+  function append(number, withMotion) {
+    const added = [];
+    for (let index = count; index < number; index++) {
+      const rail = rails[index % 2];
+      const node = document.createElement('span');
+      node.className = 'plan-ball';
+      const color = COLORS[(Math.floor(index / 2) + (rail.right ? 2 : 0)) % COLORS.length];
+      node.style.backgroundColor = `var(--${color})`;
+      const ball = {node, u: Math.random(), v: Math.random(), x: 0, y: 0};
+      rail.balls.push(ball);
+      rail.node.append(node);
+      added.push({rail, ball});
+    }
+    count = number;
+    field.hidden = count === 0;
+    layout();
+    if (!withMotion) return;
+    const lipBottom = summary.getBoundingClientRect().bottom;
+    const railTops = new Map(rails.map(rail => [rail, rail.node.getBoundingClientRect().top]));
+    added.forEach(({rail, ball}, index) => {
+      if (rail.node.hidden) return;
+      const y = lipBottom - railTops.get(rail) - ball.y - rail.size / 2;
+      const x = (rail.width - rail.size - 2) * Math.random() + 1 - ball.x;
+      animate(ball, [
+        {transform: translate(x, y), opacity: 0},
+        {transform: translate(x, y + 16), opacity: 1, offset: .12},
+        {transform: translate(x * .6, y + 105), offset: .32},
+        {transform: translate(0, 0), offset: .88},
+        {transform: translate(0, -10), offset: .94},
+        {transform: translate(0, 0)},
+      ], {duration: 2250 + 380 * Math.random(), delay: index * 57, fill: 'backwards'});
+    });
+  }
+
+  function move(event) {
+    if (!count || event.pointerType !== 'mouse' || reduced.matches || document.hidden) return;
+    for (const rail of rails) {
+      if (rail.node.hidden) continue;
+      const rect = rail.node.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      if (x < -8 || x > rail.width + 8 || y < 0 || y > rail.height) continue;
+      const radius = rail.size / 2;
+      for (const ball of rail.balls) {
+        if (running.has(ball) || typeof ball.node.animate !== 'function') continue;
+        const dx = ball.x + radius - x;
+        const dy = ball.y + radius - y;
+        const distance = Math.hypot(dx, dy);
+        const reach = radius + 14;
+        if (distance > reach) continue;
+        const power = 16 + 24 * (1 - distance / reach);
+        const shiftX = clamp(ball.x + dx / Math.max(1, distance) * power, 1, rail.width - rail.size - 1) - ball.x;
+        const lift = Math.abs(dy) < 4 ? -power : dy / distance * power;
+        const shiftY = clamp(ball.y + lift, 0, rail.height - rail.size - 1) - ball.y;
+        animate(ball, [
+          {transform: translate(0, 0)},
+          {transform: translate(shiftX, shiftY), offset: .26},
+          {transform: translate(0, 0)},
+        ], {duration: 630, easing: 'cubic-bezier(.22,.61,.36,1)'});
+      }
+    }
+  }
+
+  if (completion) {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY));
+      if (saved?.completion === completion && Number.isInteger(saved.count) && saved.count > 0 && saved.count <= BALL_LIMIT) {
+        append(saved.count, false);
+      }
+    } catch { /* Decoration works without storage. */ }
+  }
+  window.addEventListener('pointermove', move, {passive: true});
+  return {
+    add(withMotion) {
+      if (count >= BALL_LIMIT) return;
+      append(Math.min(count + BALL_BATCH, BALL_LIMIT), withMotion);
+      if (completion) {
+        try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify({completion, count})); }
+        catch { /* The current result still keeps its balls. */ }
+      }
+    },
+    settle,
+    resize() { settle(); if (count) layout(); },
+    dispose() {
+      settle();
+      window.removeEventListener('pointermove', move);
+      field.replaceChildren();
+      field.hidden = true;
+    },
+  };
+}
+
+export function createPlanEffects(disclosure, reduced) {
   const summary = disclosure.querySelector('.plan-summary');
-  const landing = main.querySelector('[data-plan-landing]');
   const steps = [...disclosure.querySelectorAll('.next-steps li')];
-  const animations = new Set();
+  const balls = createSideBalls(disclosure, summary, reduced);
   let observer;
   let glow;
-
-  function animate(element, frames, options, finished) {
-    const animation = element.animate(frames, options);
-    animations.add(animation);
-    animation.onfinish = () => {
-      animations.delete(animation);
-      finished?.();
-    };
-  }
+  let animation;
+  let pause;
 
   function settle() {
     observer?.disconnect();
     observer = null;
-    for (const animation of animations) {
+    clearTimeout(pause);
+    if (animation) {
       animation.onfinish = null;
       animation.cancel();
+      animation = null;
     }
-    animations.clear();
     glow?.remove();
     glow = null;
-  }
-
-  function clear() {
-    settle();
-    landing.replaceChildren();
-    landing.hidden = true;
+    balls.settle();
   }
 
   function highlightNext(index) {
@@ -45,12 +180,15 @@ export function createPlanEffects(disclosure) {
       glow.className = 'plan-step-glow';
       glow.setAttribute('aria-hidden', 'true');
       step.append(glow);
-      animate(glow, [{opacity: 0}, {opacity: 1, offset: .36}, {opacity: 0}],
-        {duration: 660, easing: 'ease-in-out'}, () => {
-          glow.remove();
-          glow = null;
-          highlightNext(index + 1);
-        });
+      animation = glow.animate([
+        {opacity: 0}, {opacity: 1, offset: .15}, {opacity: 1, offset: .78}, {opacity: 0},
+      ], {duration: 1500, easing: 'ease-in-out'});
+      animation.onfinish = () => {
+        glow.remove();
+        glow = null;
+        animation = null;
+        if (index + 1 < steps.length) pause = setTimeout(() => highlightNext(index + 1), 500);
+      };
     }
     if (!('IntersectionObserver' in window)) {
       highlight();
@@ -66,71 +204,15 @@ export function createPlanEffects(disclosure) {
     observer.observe(step);
   }
 
-  function spill(withMotion) {
-    landing.hidden = false;
-    const floor = landing.getBoundingClientRect();
-    const lip = summary.getBoundingClientRect();
-    const shell = main.getBoundingClientRect();
-    const gutter = Math.min(lip.left - shell.left, shell.right - lip.right);
-    const span = Math.min(152, floor.width * .36);
-    const fragment = document.createDocumentFragment();
-    const flights = [];
-    const settled = [];
-
-    for (let index = 0; index < BALL_COUNT; index++) {
-      const right = index % 2 === 1;
-      const slot = Math.floor(index / 2);
-      const size = Math.round(Math.min(20, Math.max(7, gutter - 5)) * (.7 + Math.random() * .3));
-      let endX, endY;
-      for (let attempt = 0; attempt < 28; attempt++) {
-        const fromEdge = 2 + Math.random() * (span - size - 2);
-        endX = right ? floor.width - fromEdge - size : fromEdge;
-        endY = 22 + Math.random() * (51 - size);
-        const separated = settled.every(point => {
-          const radius = (size + point.size) / 2;
-          return Math.hypot(endX - point.x + size - radius, endY - point.y + size - radius) >= radius + 2;
-        });
-        if (separated) break;
-      }
-      settled.push({x:endX, y:endY, size});
-      const railOffset = (gutter - size) * (.22 + Math.random() * .51);
-      const originX = right ? lip.right + railOffset : lip.left - size - railOffset;
-      const x = originX - floor.left - endX;
-      const y = lip.bottom - size / 2 - floor.top - endY;
-      const ball = document.createElement('span');
-      ball.className = 'plan-ball';
-      ball.style.left = `${endX / floor.width * 100}%`;
-      ball.style.top = `${endY}px`;
-      ball.style.setProperty('--plan-ball-size', `${size}px`);
-      ball.style.backgroundColor = `var(--${PALETTE[(slot + (right ? 2 : 0)) % PALETTE.length]})`;
-      fragment.append(ball);
-      flights.push({ball, x, y});
-    }
-    landing.append(fragment);
-    if (!withMotion) return;
-
-    flights.forEach(({ball, x, y}, index) => {
-      const position = (left, top) => `translate(${left}px, ${top}px)`;
-      animate(ball, [
-        {transform: position(x, y), opacity: 0},
-        {transform: position(x, y + 14), opacity: 1, offset: .12},
-        {transform: position(x, y + 88), opacity: 1, offset: .31},
-        {transform: position(x, -26), opacity: 1, offset: .77},
-        {transform: position(0, 0), opacity: 1, offset: .89},
-        {transform: position(0, -7 - Math.random() * 5), opacity: 1, offset: .94},
-        {transform: position(0, 0), opacity: 1},
-      ], {duration: 1590 + Math.random() * 430, delay: index * 23, fill: 'backwards'});
-    });
-  }
-
   return {
     play(withMotion) {
-      clear();
-      const canAnimate = withMotion && !document.hidden && typeof landing.animate === 'function';
-      spill(canAnimate);
+      settle();
+      const canAnimate = withMotion && !reduced.matches && !document.hidden && typeof summary.animate === 'function';
+      balls.add(canAnimate);
       if (canAnimate) highlightNext(0);
     },
     settle,
-    clear,
+    resize() { settle(); balls.resize(); },
+    clear() { settle(); balls.dispose(); },
   };
 }

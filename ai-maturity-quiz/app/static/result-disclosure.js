@@ -5,7 +5,7 @@ const disclosure=document.querySelector('.plan-disclosure');
 if(disclosure){
   const summary=disclosure.querySelector('.plan-summary');
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const effects=createPlanEffects(disclosure);
+  const effects=createPlanEffects(disclosure,reduced);
   let animation=null,desiredOpen=disclosure.open,printing=false,restoreAfterPrint=false;
 
   function cancelAnimation(){
@@ -25,7 +25,7 @@ if(disclosure){
   }
   function change(open,instant=false){
     if(!animation&&disclosure.open===open){desiredOpen=open;return;}
-    if(!open)effects.clear();
+    if(!open)effects.settle();
     const start=disclosure.getBoundingClientRect().height;
     cancelAnimation();
     desiredOpen=open;
@@ -74,7 +74,7 @@ if(disclosure){
     if(width===layoutWidth)return;
     layoutWidth=width;
     if(animation){settle(desiredOpen);if(desiredOpen)effects.play(false);}
-    effects.settle();
+    effects.resize();
   });
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden){if(animation)settle(desiredOpen);effects.settle();}
