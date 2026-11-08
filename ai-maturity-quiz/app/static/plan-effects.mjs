@@ -36,9 +36,10 @@ function createSideBalls(disclosure, summary, reduced) {
     const shell = main.getBoundingClientRect();
     const lip = summary.getBoundingClientRect();
     const pageWidth = document.documentElement.clientWidth;
+    const ballDiameter = Number.parseFloat(getComputedStyle(main).getPropertyValue('--quiz-ball-diameter'));
     for (const rail of rails) {
       const width = Math.min(112, Math.floor((rail.right ? pageWidth - lip.right : lip.left) - 2));
-      const size = Math.min(40, width - 4);
+      const size = Math.min(ballDiameter, width - 4);
       const columns = Math.max(1, Math.floor((width - 2) / (size + 5)));
       const pitch = size + 6;
       const height = Math.ceil((BALL_LIMIT / 2) / columns) * pitch + 12;
