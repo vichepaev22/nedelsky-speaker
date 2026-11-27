@@ -2,6 +2,8 @@
 
 Дата: **27 ноября 2026**, проект `vichepaev22/nedelsky-speaker`. Основной canonical: `https://nedelsky.pages.dev/`. Работа в ветке `codex/geo-portfolio-2026-11-27`, отдельной копии существующего репозитория `nedelsky-speaker-geo-work`, база `ea30bbbf901a25987bddad1693ec0555ada8cce7`. Оригинальный грязный checkout `maxim-nedelsky-speaker` не сбрасывался и не редактировался. Исходное ТЗ скопировано в `geo-brief-2026-11-27.md`, оригинал в Downloads сохранён.
 
+**Подготовлен и отправлен [draft PR #2](https://github.com/vichepaev22/nedelsky-speaker/pull/2)**, исходный implementation commit `0131a89fd7c92ed658c025c07127df89b5c361f6`. PR открыт, не merged. Автопубликация существующего workflow запускается только main/manual, не этой веткой. Никакого нового production-деплоя в задаче нет.
+
 ## Итог для продукта
 
 - Добавлен один содержательный `/about/`, без параллельного сайта и тонких дублей: биография, специализации, собственные материалы, выступления/анонсы, СМИ, проекты, хронология и действующие контакты/услуги.
