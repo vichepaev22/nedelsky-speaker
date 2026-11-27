@@ -76,7 +76,7 @@ function ProjectVisual({ id }: { id: string }) {
     <div className="project-art project-art-websites">
       <div className="project-browser">
         <div className="browser-chrome"><i /><i /><i /><span>Личный сайт спикера</span></div>
-        <div className="browser-page"><div><span>Максим Недельский</span><strong>Знания,<br /> которые<br /> <em>становятся</em><br /> действиями</strong><b>Пригласить спикера ↗</b></div><img src={sitePath("/images/speaker/maxim-navy.png")} alt="Максим Недельский с микрофоном на макете сайта спикера" width="1023" height="1537" loading="lazy" /></div>
+        <div className="browser-page"><div><span>Максим Недельский</span><strong>Знания,<br /> которые<br /> <em>становятся</em><br /> действиями</strong><b>Пригласить спикера ↗</b></div><img src={sitePath("/images/speaker/maxim-navy-optimized.jpg")} alt="Максим Недельский с микрофоном на макете сайта спикера" width="1023" height="1537" loading="lazy" /></div>
       </div>
       <span className="project-art-note">Экспертиза → предложение → сайт</span>
     </div>

@@ -5,7 +5,7 @@ import { sitePath } from "./site-paths";
 
 const rows = [
   [{ href: "#partners", label: "Партнёры" }, { href: "#projects", label: "Проекты" }, { href: "#programs", label: "Программы" }, { href: "#cases", label: "Подход" }],
-  [{ href: "#about", label: "О спикере" }, { href: "#organizers", label: "Организаторам" }, { href: sitePath("/ai-for-business/"), label: "ИИ для бизнеса" }, { href: "#contact", label: "Связаться" }],
+  [{ href: sitePath("/about/"), label: "Обо мне" }, { href: "#organizers", label: "Организаторам" }, { href: sitePath("/ai-for-business/"), label: "ИИ для бизнеса" }, { href: "#contact", label: "Связаться" }],
 ];
 
 export function FooterNavigation() {

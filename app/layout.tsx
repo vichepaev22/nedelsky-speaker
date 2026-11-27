@@ -4,6 +4,8 @@ import "./project-refresh.css";
 import "./speaker-tools.css";
 import "./privacy.css";
 import "./quiz-entry.css";
+import "./about.css";
+import { personEntity } from "./person-data";
 import { PrivacyNotice } from "./PrivacyNotice";
 
 const siteUrl = "https://nedelsky.pages.dev/";
@@ -36,7 +38,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ru">
-      <body>{children}<PrivacyNotice /></body>
+      <body><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", ...personEntity() }).replaceAll("<", "\\u003c").replaceAll(">", "\\u003e").replaceAll("&", "\\u0026") }} />{children}<PrivacyNotice /></body>
     </html>
   );
 }

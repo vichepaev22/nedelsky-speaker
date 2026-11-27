@@ -1,5 +1,13 @@
 # Conversion update validation — 2026-09-26
 
+## GEO-PORTFOLIO-01 — 2026-11-27 (separate branch, not deployed)
+
+Source brief copied unchanged; original dirty checkout preserved. 28 sources reviewed, 19 public verified records in 14 event groups; 9 gated out. One source has unstable direct HTTPS (S03); S21 date deliberately omitted. `/about/` has source-linked biography, own materials, speaking/announcements, media, projects, dated timeline, contact; all text/links in initial HTML. One canonical Person across SSR and both static builds. Native links, accessible topic filter and no-JS fallback. Current accepted lightweight photos and single-host quiz paths preserved; no pricing/scoring/contact collection changes.
+
+Final local checks: TypeScript and ESLint passed; three builds passed; 68 Node tests + 5 journal Python unit tests passed; Playwright/isolated Edge: both mirrors × 320/390/768/1440 + both mirrors without JS, no overflow/console errors or warnings/local HTTP failures. Mobile menu, keyboard skip-link, filters and internal CTA passed. Screenshot review caught and fixed year wrapping. npm production audit: 0 vulnerabilities. Sandbox launch/TLS/tempdir errors were retried with scoped escalation, not bypassed by changing application safety. Full evidence, commands and limitations in `docs/geo-audit.md`.
+
+No new merge/deploy, external outreach, webmaster submission, IndexNow, analytics installation or Business Hub registration. AI-platform independent baseline not measured; not reported as zero visibility. See owner checklist/protocol before release. Earlier conversion validation below is historical, not proof of this branch's production state.
+
 Implemented in the existing AI page: task-to-solution hero and four-step chain; three situation cards; five factual outcomes per product before delivery; direct verified VK contact; URL-based selection and mobile fixed CTA. Existing program descriptions moved into details, stages/prices/limits retained. Desktop card rows (including individual outcomes) share a 16-row subgrid; existing palette/fonts/assets retained.
 
 Checks completed:

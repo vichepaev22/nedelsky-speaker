@@ -1,0 +1,651 @@
+{
+  "checkedAt": "2026-11-27",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Чек-лист участника госзакупок по 44-ФЗ",
+      "publisher": "Деловая среда",
+      "url": "https://cdn.dasreda.ru/storage-data/aa60821a-7456-4d09-b07a-a38eb0b6d457/chek-list_-_uchastnika_zakupok_44_fz.pdf",
+      "type": "author_work",
+      "topics": [
+        "procurement",
+        "business"
+      ],
+      "role": "Автор подписанного чек-листа",
+      "summary": "Краткая схема участия в закупке: от подготовки рабочего места до исполнения контракта. Исторический материал, не актуальная юридическая инструкция: нормы и требования перед применением нужно перепроверять.",
+      "claimIds": [
+        "full-name",
+        "procurement",
+        "author"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "checklist-44fz",
+      "format": "PDF · 7 страниц",
+      "httpStatus": 200,
+      "verification": "Полный текст PDF; на титуле ФИО, дата выпуска не указана. HTTP 200.",
+      "notes": "Не переносить старые телефоны, показатели побед и текущие юридические советы."
+    },
+    {
+      "id": "S02",
+      "title": "Самозанятых воронежцев пригласили поучаствовать в бесплатном образовательном онлайн-проекте",
+      "publisher": "РИА Воронеж",
+      "url": "https://riavrn.ru/news/samozanyatyh-voronezhcev-priglasili-pouchastvovat-v-besplatnom-obrazovatelnom-onlajn-proekte/",
+      "type": "speaking",
+      "topics": [
+        "ai",
+        "business",
+        "procurement"
+      ],
+      "publishedAt": "2024-10-24",
+      "year": 2024,
+      "role": "Спикер в анонсе образовательной программы",
+      "summary": "В анонсе центра «Мой бизнес» Максим представлен как специалист по госзакупкам и AI-консультант. Это объявление программы, а не отчёт о проведении каждого выступления.",
+      "claimIds": [
+        "ai",
+        "procurement",
+        "speaking",
+        "rosmol-2024"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "self-employed-2024",
+      "httpStatus": 200,
+      "verification": "Полный текст и HTTP 200, совпадение имени и профессионального контекста.",
+      "notes": "На странице erid: маркированный анонс, не независимая оценка квалификации. Статус Росмолодёжь только на дату анонса."
+    },
+    {
+      "id": "S03",
+      "title": "Молодёжь и предпринимателей Губкинского научили использовать в работе нейросети",
+      "publisher": "Вектор ТВ",
+      "url": "https://vektor-tv.ru/news/molodyezh-i-predprinimateley-gubkinskogo-nauchili-ispolzovat-v-rabote-neyroseti/",
+      "type": "speaking",
+      "topics": [
+        "ai",
+        "business"
+      ],
+      "publishedAt": "2025-05-23",
+      "year": 2025,
+      "role": "Предприниматель и федеральный спикер в репортаже",
+      "summary": "Репортаж о состоявшемся семинаре: участники работали в командах с кейсами применения нейросетей и защищали проекты.",
+      "claimIds": [
+        "ai",
+        "speaking"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "ai-gubkinsky-2025",
+      "verification": "Полная страница прочитана веб-инструментом, имя, дата и формат проверены. Прямой curl дважды timeout; финальная проверка 27.11 дала TLS SEC_E_WRONG_PRINCIPAL. Сертификат не игнорировался; нужен повторный контроль доступности перед релизом.",
+      "notes": "Не переносить неподтверждённое обещание трёхкратной производительности из цитаты. Повторить проверку доступности перед публикацией."
+    },
+    {
+      "id": "S04",
+      "title": "Подразделение «Сбербанка» может по концессии построить 9 школ в Перми",
+      "publisher": "РБК Пермь",
+      "url": "https://perm.rbc.ru/perm/freenews/606709f89a7947625137931e",
+      "type": "expert_comment",
+      "topics": [
+        "procurement",
+        "business"
+      ],
+      "publishedAt": "2021-04-02",
+      "year": 2021,
+      "role": "Приглашённый эксперт по госзакупкам, не автор статьи",
+      "summary": "Комментарий о региональном опыте государственно-частного партнёрства в материале о строительстве школ.",
+      "claimIds": [
+        "procurement"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "rbc-ppp-2021",
+      "httpStatus": 200,
+      "verification": "Дата в метаданных и видимом тексте совпадает; имя в экспертном комментарии, HTTP 200."
+    },
+    {
+      "id": "S05",
+      "title": "Презентация о региональных амбассадорах «Мой бизнес»",
+      "publisher": "Публичная документальная копия на prigams.ru",
+      "url": "https://www.prigams.ru/npa/msp/podderjka_i_razv_msp/16.pdf#page=55",
+      "type": "credential",
+      "topics": [
+        "business"
+      ],
+      "role": "Историческое упоминание амбассадора",
+      "summary": "Исторический документ; текущий статус не установлен.",
+      "claimIds": [
+        "full-name",
+        "ambassador-historical"
+      ],
+      "status": "review",
+      "sourceKind": "copy",
+      "httpStatus": 200,
+      "verification": "PDF доступен, текст/OCR и нумерация страницы расходятся. Нет установленной даты/оригинального издателя.",
+      "notes": "Не использовать для текущих титулов. Старые контакты не переносить."
+    },
+    {
+      "id": "S06",
+      "title": "Приказ ФАДМ №45 от 14.02.2024",
+      "publisher": "Копия на uiedu.ru",
+      "url": "https://uiedu.ru/wp-content/uploads/Prikaz__45_ot_14_02_2024_Ob_utverzhdenii_expertnogo_soveta_FADM.pdf",
+      "type": "credential",
+      "topics": [
+        "business"
+      ],
+      "year": 2024,
+      "role": "Предполагаемое включение в экспертный совет",
+      "summary": "Требуется первоисточник и полная проверка документа.",
+      "claimIds": [
+        "rosmol-2024"
+      ],
+      "status": "review",
+      "sourceKind": "copy",
+      "httpStatus": 200,
+      "verification": "Заголовки 200, передача оборвалась по timeout. Это не полная проверка PDF.",
+      "notes": "Не считать нынешний экспертный статус подтверждённым."
+    },
+    {
+      "id": "S07",
+      "title": "Стратегии работы НКО в госзакупках",
+      "publisher": "Центр развития НКО Ямала",
+      "url": "https://xn--80aa2afdei0l.xn--p1ai/projects/",
+      "type": "speaking",
+      "topics": [
+        "procurement"
+      ],
+      "year": 2020,
+      "role": "Спикер вебинара в программе инкубатора НКО",
+      "summary": "На странице организатора среди занятий первого потока 2020 года указан вебинар Максима о работе НКО с закупками.",
+      "claimIds": [
+        "procurement",
+        "speaking"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "organizer",
+      "eventGroupId": "nko-incubator-2020",
+      "httpStatus": 200,
+      "verification": "Полный контекст раздела инкубатора 2020–2021, имя и название занятия, HTTP 200.",
+      "notes": "Общий заголовок страницы не соответствует названию конкретного занятия; нельзя приписывать организацию всего проекта."
+    },
+    {
+      "id": "S08",
+      "title": "В ЯНАО прошла образовательная сессия акселератора «Формула роста»",
+      "publisher": "Ведомости · пресс-релиз",
+      "url": "https://www.vedomosti.ru/press_releases/2021/09/27/v-yanao-proshla-obrazovatelnaya-sessiya-akseleratora-formula-rosta",
+      "type": "press_release",
+      "topics": [
+        "business"
+      ],
+      "year": 2021,
+      "role": "Участник акселератора, руководитель школы IQ007",
+      "summary": "Пресс-релиз с комментарием Максима как участника обучения. Не свидетельствует, что он был спикером этой сессии.",
+      "claimIds": [
+        "iq007"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "growth-yanao-2021",
+      "httpStatus": 200,
+      "verification": "Полный текст и HTTP 200; тот же майский интенсив, что S09/S10.",
+      "notes": "Путь содержит 27 сентября, видимая дата — 24 мая 2021, событие 15–16 мая. Поэтому только год, без datePublished."
+    },
+    {
+      "id": "S09",
+      "title": "Предпринимательское обучение в акселераторе «Формула роста»",
+      "publisher": "Формула хороших дел",
+      "url": "https://www.formula-hd.ru/news/formula-rosta-yanao/",
+      "type": "project",
+      "topics": [
+        "business"
+      ],
+      "year": 2021,
+      "role": "Участник акселератора и руководитель IQ007",
+      "summary": "Публикация организатора о майской образовательной сессии для социальных предпринимателей с комментарием Максима.",
+      "claimIds": [
+        "iq007"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "organizer",
+      "eventGroupId": "growth-yanao-2021",
+      "httpStatus": 200,
+      "verification": "Полный текст прямого HTTP 200, совпадение роли и события с S08."
+    },
+    {
+      "id": "S10",
+      "title": "Growth Formula: English version",
+      "publisher": "Formula for Good Deeds",
+      "url": "https://www.formula-hd.ru/en/news/formula-rosta-yanao/",
+      "type": "project",
+      "topics": [
+        "business"
+      ],
+      "year": 2021,
+      "role": "Участник акселератора, английская версия",
+      "summary": "Английская версия публикации организатора использует написание Maxim Nedelsky. Это не отдельное событие.",
+      "claimIds": [
+        "iq007",
+        "latin-name"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "organizer",
+      "eventGroupId": "growth-yanao-2021",
+      "httpStatus": 200,
+      "verification": "HTTP 200, полное имя Maxim Nedelsky в английском тексте.",
+      "notes": "Не добавлять Maksim Nedelsky как подтверждённое используемое написание."
+    },
+    {
+      "id": "S11",
+      "title": "На Ямале в академии «Акуленок» учат плавать грудничков",
+      "publisher": "Вести Ямал",
+      "url": "https://vesti-yamal.ru/ru/vjesti_jamal/na_yamale_v_akademii_akulenok_uchat_plavat_grudnichkov/",
+      "type": "expert_comment",
+      "topics": [
+        "swimming"
+      ],
+      "publishedAt": "2025-01-16",
+      "year": 2025,
+      "role": "Тренер по плаванию, герой репортажа",
+      "summary": "Репортаж о занятиях в академии с комментарием Максима как тренера. Описывает работу на дату выхода материала.",
+      "claimIds": [
+        "akulenok"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "akulenok-2025",
+      "httpStatus": 200,
+      "verification": "Полный текст прямого HTTP 200, дата article:published_time и имя.",
+      "notes": "Без медицинских обещаний и утверждения о нынешнем перечне филиалов."
+    },
+    {
+      "id": "S12",
+      "title": "Академия плавания в Тарко-Сале",
+      "publisher": "Север-Пресс",
+      "url": "https://sever-press.ru/news/sport/v-tarko-sale-pojavilos-novoe-razvlechenie-dlja-malenkih-plovtsov/",
+      "type": "media",
+      "topics": [
+        "swimming"
+      ],
+      "publishedAt": "2025-01-15",
+      "year": 2025,
+      "role": "Куратор обучения на дату репортажа",
+      "summary": "Материал о работе академии; текущая доступность не подтверждена.",
+      "claimIds": [
+        "akulenok"
+      ],
+      "status": "broken",
+      "sourceKind": "publisher",
+      "eventGroupId": "akulenok-2025",
+      "httpStatus": 500,
+      "verification": "Полный архивный текст найден веб-поиском; текущий URL дважды 500.",
+      "notes": "Не публиковать сломанную ссылку до повторной проверки."
+    },
+    {
+      "id": "S13",
+      "title": "В Губкинском впервые пройдут межрегиональные соревнования по триатлону с «Забегом динозавров»",
+      "publisher": "МК Ямал",
+      "url": "https://www.mk-yamal.ru/sport/2023/07/10/v-gubkinskom-vpervye-proydut-mezhregionalnye-sorevnovaniya-po-triatlonu-s-zabegom-dinozavrov.html",
+      "type": "media",
+      "topics": [
+        "sport"
+      ],
+      "publishedAt": "2023-07-10",
+      "year": 2023,
+      "role": "Предприниматель, предложивший проведение соревнований",
+      "summary": "Публикация об инициативе Максима и подготовке межрегиональных соревнований. Анонс не подменяет отчёт об итогах.",
+      "claimIds": [
+        "triathlon"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "triathlon-2023",
+      "httpStatus": 200,
+      "verification": "Полный текст, имя и роль инициатора, HTTP 200."
+    },
+    {
+      "id": "S14",
+      "title": "В Губкинском впервые пройдут межрегиональные соревнования по триатлону",
+      "publisher": "Север-Пресс",
+      "url": "https://sever-press.ru/news/sport/v-gubkinskom-projdut-mezhregionalnye-sorevnovanija-po-triatlonu/",
+      "type": "media",
+      "topics": [
+        "sport"
+      ],
+      "publishedAt": "2023-07-10",
+      "year": 2023,
+      "role": "Автор инициативы соревнований",
+      "summary": "Вторая публикация о той же инициативе проведения соревнований, а не отдельный проект.",
+      "claimIds": [
+        "triathlon"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "triathlon-2023",
+      "httpStatus": 200,
+      "verification": "Полный текст прямого HTTP 200, дата и имя."
+    },
+    {
+      "id": "S15",
+      "title": "В ЯНАО появится своя федерация триатлона",
+      "publisher": "Север-Пресс",
+      "url": "https://sever-press.ru/news/sport/v-janao-pojavitsja-svoja-federatsija-triatlona/",
+      "type": "media",
+      "topics": [
+        "sport"
+      ],
+      "publishedAt": "2024-03-21",
+      "year": 2024,
+      "role": "Участник команды организаторов, названный в публикации",
+      "summary": "Представитель спортивного сообщества упоминает Максима среди организаторов. Текущий юридический статус и аккредитация из этой публикации не следуют.",
+      "claimIds": [
+        "triathlon"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "triathlon-community-2024",
+      "httpStatus": 200,
+      "verification": "Полный текст, имя в цитате; историческая роль ограничена 2024 годом.",
+      "notes": "Не переносить утверждение о регистрации на нынешнее юрлицо из S17: даты различаются."
+    },
+    {
+      "id": "S16",
+      "title": "Как развивается триатлон в стране и на Ямале?",
+      "publisher": "Север-Пресс",
+      "url": "https://sever-press.ru/narrative/intervju/na-jamale-aktivisty-sozdali-federatsiju-triatlona-eksperty-otsenili-razvitie-etogo-vida-sporta-v-regione/",
+      "type": "media",
+      "topics": [
+        "sport"
+      ],
+      "publishedAt": "2024-03-29",
+      "year": 2024,
+      "role": "Упоминание в интервью с представителями спортивного сообщества",
+      "summary": "Развёрнутый материал о развитии триатлона и региональной инициативе. Максим не является автором или единственным героем интервью.",
+      "claimIds": [
+        "triathlon"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "triathlon-community-2024",
+      "httpStatus": 200,
+      "verification": "Полный текст и имя в контексте создания сообщества, HTTP 200."
+    },
+    {
+      "id": "S17",
+      "title": "Карточка Федерации триатлона Ямала",
+      "publisher": "РБК Компании",
+      "url": "https://companies.rbc.ru/id/1258900000600-roo-yanao-federatsiya-triatlona-yamala/",
+      "type": "credential",
+      "topics": [
+        "sport"
+      ],
+      "year": 2025,
+      "role": "Предполагаемый учредитель по вторичному реестру",
+      "summary": "Требуются доступ к полному текущему реестру и юридическая актуализация.",
+      "claimIds": [
+        "triathlon-founder"
+      ],
+      "status": "review",
+      "sourceKind": "registry",
+      "httpStatus": 401,
+      "verification": "Прямой URL 401; фрагмент поиска не заменяет полный реестр. Ограничение не обходилось.",
+      "notes": "Не выводить юридический адрес или личные идентификаторы; основатель не равен президенту."
+    },
+    {
+      "id": "S18",
+      "title": "«Беги со мной»: спортивная акция привлекает всё больше ямальцев",
+      "publisher": "Ямал-Медиа",
+      "url": "https://yamal-media.ru/news/v-saleharde-proshel-ocherednoj-zabeg-uchastnikov-aktsii-begi-so-mnoj",
+      "type": "media",
+      "topics": [
+        "sport"
+      ],
+      "publishedAt": "2025-06-10",
+      "year": 2025,
+      "role": "Участник пробежек и развития регионального клуба",
+      "summary": "В материале Максим назван учредителем федерации триатлона и участником развития бегового клуба. Это описание на июнь 2025 года, не выписка из реестра.",
+      "claimIds": [
+        "triathlon-founder",
+        "running"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "running-2025",
+      "httpStatus": 200,
+      "verification": "Полный текст и HTTP 200; точно отделён журналистский титул от юридической проверки."
+    },
+    {
+      "id": "S19",
+      "title": "Онлайн-испытания «Ямал любит спорт»",
+      "publisher": "Пуровская медиагруппа",
+      "url": "https://purmedia.ru/novosti/sportsmeny-so-vseh-municipalitetov-yamala-prisoedinilis-k-onlayn-ispytaniyam-po-begu",
+      "type": "expert_comment",
+      "topics": [
+        "sport"
+      ],
+      "publishedAt": "2026-01-20",
+      "year": 2026,
+      "role": "Комментарий об идее челленджа",
+      "summary": "Полный текст найден, но текущая HTTPS-связь не установлена.",
+      "claimIds": [
+        "yamal-sport"
+      ],
+      "status": "review",
+      "sourceKind": "publisher",
+      "eventGroupId": "yamal-sport-2026",
+      "verification": "Веб-инструмент прочитал текст; curl TLS error 35 при двух проверках.",
+      "notes": "Не обходить проверку TLS; перед публичным выводом проверить доступность."
+    },
+    {
+      "id": "S20",
+      "title": "Ямальские спортсмены прошли в челлендже более восьми тысяч километров",
+      "publisher": "Север-Пресс",
+      "url": "https://sever-press.ru/news/sport/jamalskie-biznesmeny-v-chellendzhe-proshli-bolee-vosmi-tysjach-kilometrov/",
+      "type": "project",
+      "topics": [
+        "sport",
+        "business"
+      ],
+      "year": 2026,
+      "role": "Один из организаторов движения",
+      "summary": "Издание сообщает о 56 участниках, семи командах и 8164 километрах за 16 дней. Это итог конкретного челленджа, не текущая аудитория и не личный результат Максима.",
+      "claimIds": [
+        "yamal-sport"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "yamal-sport-2026",
+      "httpStatus": 200,
+      "verification": "Полный текст HTTP 200, имя среди организаторов, численные результаты и год в названии события."
+    },
+    {
+      "id": "S21",
+      "title": "На карте Ямала появится столица триатлона",
+      "publisher": "Ямал-Медиа",
+      "url": "https://yamal-media.ru/tv/intervju/na-karte-jamala-pojavitsja-stolitsa-triatlona",
+      "type": "expert_comment",
+      "topics": [
+        "sport",
+        "business"
+      ],
+      "role": "Герой интервью о подготовке спортивного проекта",
+      "summary": "Страница выпуска об инициативе социального предпринимателя Максима Недельского. Речь о подготовке соревнований, а не о доказанных итогах реализации.",
+      "claimIds": [
+        "triathlon"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "publisher",
+      "eventGroupId": "triathlon-interview",
+      "httpStatus": 200,
+      "verification": "Полное описание веб-инструментом и имя в HTML; финальный прямой HTTPS GET 27.11 вернул 200.",
+      "notes": "Видимая дата эфира 14.08.2026 противоречит datePublished 2023-03-16 в HTML. Не публиковать точную дату и не включать в датированную хронологию до уточнения."
+    },
+    {
+      "id": "S22",
+      "title": "Открытие бегового сезона в Губкинском",
+      "publisher": "Вектор ТВ",
+      "url": "https://vektor-tv.ru/news/v-gubkinskom-torzhestvenno-otkryli-begovoy-sezon/",
+      "type": "media",
+      "topics": [
+        "sport"
+      ],
+      "publishedAt": "2026-06-07",
+      "year": 2026,
+      "role": "Куратор пробежек на дату материала",
+      "summary": "Материал о беговом сезоне; текущий прямой доступ не подтверждён.",
+      "claimIds": [
+        "running"
+      ],
+      "status": "review",
+      "sourceKind": "publisher",
+      "verification": "Полный текст в веб-инструменте, прямой URL дважды timeout.",
+      "notes": "Текущее расписание не переносить."
+    },
+    {
+      "id": "S23",
+      "title": "Встреча губернатора с предпринимателями Губкинского",
+      "publisher": "Мужи-Информ",
+      "url": "https://muji-inform.ru/news/5496-dmitrii-artyuhov-vruchil-klyuchi-novoselam-i-osmotrel-obekty-v-gubkinskom.html",
+      "type": "media",
+      "topics": [
+        "sport",
+        "business"
+      ],
+      "year": 2026,
+      "role": "Предполагаемое участие в обсуждении спортивных инициатив",
+      "summary": "Необходим полный первичный материал.",
+      "claimIds": [
+        "yamal-sport"
+      ],
+      "status": "review",
+      "sourceKind": "publisher",
+      "verification": "Прямой URL timeout, веб-инструмент не извлёк страницу.",
+      "notes": "Не подменять исходный источник совпадающим поисковым фрагментом."
+    },
+    {
+      "id": "S24",
+      "title": "Копия «Инсайты и идеи участников премиум-встреч Деловой среды»",
+      "publisher": "blawg.ru",
+      "url": "https://blawg.ru/instrukcija/s-chego-nachat-vstrechu-s-nachinajushhim",
+      "type": "speaking",
+      "topics": [
+        "business"
+      ],
+      "year": 2023,
+      "role": "Модератор группы по пересказу сторонней копии",
+      "summary": "Оригинал на dasreda.ru пока не найден.",
+      "claimIds": [
+        "service-design"
+      ],
+      "status": "review",
+      "sourceKind": "copy",
+      "httpStatus": 200,
+      "verification": "Составная статья с заимствованными материалами, не оригинальная публикация Деловой среды.",
+      "notes": "Не считать собственным авторским произведением. Дополнительная копия bizpressa.ru тоже не первоисточник."
+    },
+    {
+      "id": "S25",
+      "title": "Лето без риска: вебинар о безопасном плавании",
+      "publisher": "Мой бизнес · Ямало-Ненецкий АО",
+      "url": "https://t.me/s/yamal_mb89/3367",
+      "type": "speaking",
+      "topics": [
+        "swimming"
+      ],
+      "publishedAt": "2026-06-08",
+      "year": 2026,
+      "role": "Анонсированный спикер, главный тренер академии на дату поста",
+      "summary": "Официальный канал анонсировал вебинар с Максимом и руководителем академии «Акулёнок». Анонс не доказывает фактическое проведение.",
+      "claimIds": [
+        "akulenok",
+        "speaking"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "organizer",
+      "eventGroupId": "swimming-webinar-2026",
+      "httpStatus": 200,
+      "verification": "В публичном HTML before=3385 найдены data-post yamal_mb89/3367 и datetime 2026-06-08. Пост и контекст совпадают. Финальный GET постоянного /3367 вернул 200.",
+      "notes": "Исходный URL ТЗ https://t.me/s/yamal_mb89?before=3385 заменён постоянным URL поста, без скопированных телефонов."
+    },
+    {
+      "id": "S26",
+      "title": "Кейс скорочтение",
+      "publisher": "PPT-Online",
+      "url": "https://ppt-online.org/574134",
+      "type": "author_work",
+      "topics": [
+        "business"
+      ],
+      "role": "ФИО в презентации, авторство не подтверждено",
+      "summary": "Нужны исходный файл, авторство и разрешение владельца.",
+      "claimIds": [
+        "iq007"
+      ],
+      "status": "owner_required",
+      "sourceKind": "copy",
+      "httpStatus": 200,
+      "verification": "Имя видно в тексте, но аккаунт загрузившего и права на презентацию не доказаны.",
+      "notes": "Не публиковать автоматически и не копировать иллюстрации/контакты."
+    },
+    {
+      "id": "S27",
+      "title": "Поддержка предпринимательства — «Формула роста»",
+      "publisher": "Формула хороших дел",
+      "url": "https://www.formula-hd.ru/enterprisers/",
+      "type": "project",
+      "topics": [
+        "business"
+      ],
+      "year": 2021,
+      "role": "Участник акселератора",
+      "summary": "Карточка организатора с отзывом Максима о программе. Дополнительное подтверждение того же этапа обучения.",
+      "claimIds": [
+        "iq007"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "organizer",
+      "eventGroupId": "growth-yanao-2021",
+      "httpStatus": 200,
+      "verification": "Прямой HTTP 200 и контекст «участник акселератора, Губкинский». Не самостоятельный кейс."
+    },
+    {
+      "id": "S28",
+      "title": "Сервис-дизайн и клиентский опыт: вебинар для предпринимателей",
+      "publisher": "Мой бизнес · Пермский край",
+      "url": "https://msppk.ru/events/servis-dizayn-ili-kak-sozdat-sarafannoe-radio-kotoroe-samo-budet-prodavat-vashi-uslugi/",
+      "type": "speaking",
+      "topics": [
+        "business"
+      ],
+      "year": 2023,
+      "role": "Спикер в программе вебинара на 4 декабря 2023",
+      "summary": "Страница организатора описывает модель сервиса, колесо баланса сервиса и практические задания с Максимом. Это программа мероприятия, не измерение результатов участников.",
+      "claimIds": [
+        "service-design",
+        "speaking"
+      ],
+      "status": "verified",
+      "verifiedAt": "2026-11-27",
+      "sourceKind": "organizer",
+      "eventGroupId": "service-design-perm-2023",
+      "httpStatus": 200,
+      "verification": "Дополнительный поиск Exa, полный прямой HTML HTTP 200, имя, роль и дата мероприятия.",
+      "notes": "Исторические титулы не переносить в настоящее время."
+    }
+  ]
+}

@@ -5,6 +5,9 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { defineConfig, type Plugin } from "vite";
 import Home from "./app/page";
+import { AboutPage, aboutTitle, aboutDescription } from "./app/AboutPage";
+import { aboutSchema } from "./app/portfolio";
+import { PERSON_ID, personEntity } from "./app/person-data";
 import { AiBusinessPage } from "./app/AiBusinessPage";
 import { SpeakerToolsPage } from "./app/SpeakerToolsPage";
 import { PrivacyPage } from "./app/PrivacyPage";
@@ -19,7 +22,7 @@ let siteBase = "/nedelsky-speaker/";
 let outputDirectory = resolve("pages-dist");
 const siteName = "Максим Недельский — бизнес-тренер и спикер";
 const siteDescription = "Практические выступления и корпоративные семинары об ИИ, сервис-дизайне, партнёрстве и развитии бизнеса.";
-let personId = `${siteOrigin}/#maxim-nedelsky`;
+const personId = PERSON_ID;
 const updatedAt = "2026-10-14";
 
 function escapeAttribute(value: string): string {
@@ -42,24 +45,7 @@ function schemaBlock(data: Record<string, unknown>): string {
 }
 
 function personSchema() {
-  return {
-    "@type": "Person",
-    "@id": personId,
-    name: "Максим Недельский",
-    url: `${siteOrigin}/`,
-    image: `${siteOrigin}/images/speaker/maxim-flags-navy.png`,
-    jobTitle: ["Бизнес-тренер", "Предприниматель", "Спикер"],
-    description: "Предприниматель, эксперт и практик по применению искусственного интеллекта, автоматизации и цифровых инструментов в бизнесе.",
-    sameAs: ["https://vk.ru/ndlsky"],
-    knowsAbout: [
-      "искусственный интеллект в бизнесе",
-      "автоматизация бизнес-процессов",
-      "сервис-дизайн",
-      "клиентский опыт",
-      "партнёрство",
-      "государственные закупки",
-    ],
-  };
+  return personEntity();
 }
 
 function homeSchema() {
@@ -222,7 +208,11 @@ function metaBlock({
 }
 
 function withSiteBase(content: string): string {
-  return content.replace(/\b(src|href)="\/(?!\/)/g, `$1="${siteBase}`);
+  return content
+    .replace(/\b(src|href)="\/(?!\/)/g, `$1="${siteBase}`)
+    .replace(/\bsrcSet="([^"]+)"/g, (_, candidates: string) =>
+      `srcSet="${candidates.replace(/(^|,\s*)\/(?!\/)/g, `$1${siteBase}`)}"`,
+    );
 }
 
 function staticMarkup(content: string): { preloads: string; root: string } {
@@ -281,6 +271,13 @@ function generateStaticRoutes(): Plugin {
       );
 
       writeFileSync(rootIndexPath, homeHtml, "utf8");
+
+      const aboutDirectory = resolve(outputDirectory, "about");
+      mkdirSync(aboutDirectory, { recursive: true });
+      writeFileSync(resolve(aboutDirectory, "index.html"), renderStaticPage(rootHtml, metaBlock({
+        title: aboutTitle, description: aboutDescription, url: `${siteOrigin}/about/`,
+        image: `${primaryOrigin}/images/speaker/maxim-navy-optimized.jpg`, schema: aboutSchema(),
+      }), renderToStaticMarkup(createElement(AboutPage))), "utf8");
 
       const privacyDirectory = resolve(outputDirectory, "legal", "privacy");
       const privacyUrl = `${siteOrigin}/legal/privacy/`;
@@ -372,7 +369,6 @@ function generateStaticRoutes(): Plugin {
 export default defineConfig(({ mode }) => {
   const isCloudflare = mode === "cloudflare";
   siteOrigin = isCloudflare ? "https://nedelsky.pages.dev" : githubOrigin;
-  personId = `${siteOrigin}/#maxim-nedelsky`;
   siteBase = isCloudflare ? "/" : "/nedelsky-speaker/";
   outputDirectory = resolve(isCloudflare ? "cloudflare-dist" : "pages-dist");
 
