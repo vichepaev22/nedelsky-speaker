@@ -188,7 +188,7 @@ export default function Home() {
           <h2>Эксперт, который <em>сам строит</em> то, о чём говорит</h2>
           <div className="about-text">
             <p>
-              Предприниматель, эксперт и практик в области искусственного интеллекта,
+              Максим Недельский — предприниматель, бизнес-тренер и спикер, эксперт и практик в области искусственного интеллекта,
               автоматизации и современных цифровых инструментов в бизнесе.
             </p>
             <p>
@@ -199,6 +199,13 @@ export default function Home() {
               Сегодня он внедряет ИИ в реальные процессы: работу с документами и данными,
               маркетинг, создание контента, аналитику, автоматизацию и разработку собственных AI-решений.
             </p>
+          </div>
+          <div className="about-text" id="media">
+            <h3>Публикации и подтверждение опыта</h3>
+            <p><a className="text-link" href="https://vektor-tv.ru/news/molodyezh-i-predprinimateley-gubkinskogo-nauchili-ispolzovat-v-rabote-neyroseti/" target="_blank" rel="noopener noreferrer">Вектор ТВ, 23 мая 2025</a> — практический семинар по нейросетям для предпринимателей и молодёжи Губкинского, работа с реальными кейсами.</p>
+            <p><a className="text-link" href="https://riavrn.ru/news/samozanyatyh-voronezhcev-priglasili-pouchastvovat-v-besplatnom-obrazovatelnom-onlajn-proekte/" target="_blank" rel="noopener noreferrer">РИА Воронеж</a> — участие в образовательном проекте для самозанятых в качестве эксперта по госзакупкам и ИИ-консультанта.</p>
+            <p><a className="text-link" href="https://vesti-yamal.ru/ru/vjesti_jamal/na_yamale_v_akademii_akulenok_uchat_plavat_grudnichkov/" target="_blank" rel="noopener noreferrer">Вести Ямал</a> — опыт работы тренером по плаванию в академии «Акулёнок».</p>
+            <p><a className="text-link" href="https://yamal-media.ru/tv/intervju/na-karte-jamala-pojavitsja-stolitsa-triatlona" target="_blank" rel="noopener noreferrer">Ямал-Медиа, 14 августа 2026</a> — интервью о развитии триатлона в Губкинском.</p>
           </div>
           <div className="credentials">
             <div><strong>Федеральный эксперт</strong><span>Росмолодёжь.Гранты</span></div>
