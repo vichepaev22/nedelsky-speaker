@@ -39,7 +39,7 @@ export default function Home() {
           { href: sitePath("/ai-for-business/#ai-products"), label: "Индивидуальная работа" },
           { href: sitePath("/speaker-tools/"), label: "Инструменты для спикера" },
           { href: "#projects", label: "Проекты" },
-          { href: sitePath("/about/"), label: "Обо мне" },
+          { href: sitePath("/about/"), label: "О спикере" },
           { href: "#organizers", label: "Организаторам" },
         ]}
       />
@@ -220,7 +220,7 @@ export default function Home() {
             <div><strong>Спортивные проекты</strong><span>Развитие триатлона на Ямале</span></div>
             <div><strong>Федеральный спикер</strong><span>Методолог образовательных программ</span></div>
           </div>
-          <p><a className="text-link" href={sitePath("/about/")}>Обо мне: публикации, выступления и источники →</a></p>
+          <a className="button button-outline about-more" href={sitePath("/about/")}>Подробнее о спикере <span aria-hidden="true">→</span></a>
         </div>
       </section>
 

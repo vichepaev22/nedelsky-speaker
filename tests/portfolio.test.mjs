@@ -50,6 +50,10 @@ for (const [directory, base] of [["pages-dist", "/nedelsky-speaker"], ["cloudfla
     assert.ok(!html.includes("Source not verified"));
     const home = readFileSync(new URL(`../${directory}/index.html`, import.meta.url), "utf8");
     assert.ok(home.includes(`href="${base}/about/"`));
+    assert.ok(home.includes(`href="${base}/about/">О спикере</a>`));
+    assert.ok(home.includes(`href="${base}/about/">Подробнее о спикере`));
+    assert.ok(html.includes(`href="${base}/#certificate-register"`));
+    assert.match(home, /id="certificate-register"[\s\S]*?<h3>Учёт справок клиентов<\/h3>[\s\S]*?DeepSeek[\s\S]*?подтверждает запись в реестр/);
     for (const path of ["index.html", "ai-for-business/index.html", "programs/service-design/index.html"]) {
       const page = readFileSync(new URL(`../${directory}/${path}`, import.meta.url), "utf8");
       const schema = JSON.parse(page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);

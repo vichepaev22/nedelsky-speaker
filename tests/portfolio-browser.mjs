@@ -55,6 +55,28 @@ try {
       if (await notice.isVisible()) await notice.click();
       await page.screenshot({ path: `outputs/geo/${mirror ? "github" : "cloudflare"}-${width}.png`, fullPage: true });
       if (!mirror && width === 1440) await page.screenshot({ path: "outputs/geo/about-desktop-preview.png" });
+      if (width === 390 || width === 1440) {
+        await page.getByRole("link", { name: "Посмотреть кейс" }).click();
+        assert.ok(page.url().endsWith("#certificate-register"));
+        const card = page.locator("#certificate-register");
+        await card.getByRole("heading", { name: "Учёт справок клиентов" }).waitFor();
+        assert.match(await card.textContent(), /DeepSeek/);
+        const box = await card.boundingBox();
+        assert.ok(box && box.x >= 0 && box.x + box.width <= width);
+        const menu = page.locator(".site-header .mobile-menu");
+        if (await menu.locator("summary").isVisible()) {
+          await menu.locator("summary").click();
+          await menu.getByRole("link", { name: "О спикере", exact: true }).click();
+        } else {
+          await page.locator(".site-header .desktop-nav").getByRole("link", { name: "О спикере", exact: true }).click();
+        }
+        await page.locator(".profile-filter").waitFor();
+        assert.ok(page.url().endsWith(`${mirror}/about/`));
+        await page.goto(`http://127.0.0.1:4191${mirror}/#about`);
+        await page.getByRole("link", { name: "Подробнее о спикере" }).click();
+        await page.locator(".profile-filter").waitFor();
+        assert.ok(page.url().endsWith(`${mirror}/about/`));
+      }
       assert.deepEqual(errors, [], "Console/page errors");
       assert.deepEqual(warnings, [], "Console warnings");
       assert.deepEqual(failed, [], "Failed HTTP responses");
