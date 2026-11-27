@@ -1,5 +1,15 @@
 # Сайт Максима Недельского
 
+## Страница опыта и публикаций (GEO-PORTFOLIO-01)
+
+Новый маршрут `/about/` подготовлен для обеих статических версий и SSR. Канонический сайт — `https://nedelsky.pages.dev/`; GitHub Pages остаётся зеркалом. PR не означает публикацию.
+
+- `content/evidence-register.json` — редакторский реестр, включая непубличные статусы. Не импортировать его в UI.
+- После проверки источников: `npm run portfolio:export`; `npm run portfolio:check` выполняется также перед сборками.
+- `npm run test:portfolio` — после обеих статических сборок; `tests/portfolio-browser.mjs` — отдельный локальный Playwright smoke-test (требует доступный Playwright/браузер, ничего не устанавливает).
+- `npm run preview:portfolio` — после сборок открывает только loopback `http://127.0.0.1:4191/about/` и `/nedelsky-speaker/about/`.
+- [Аудит и реальные ограничения](docs/geo-audit.md), [шаги владельца и репутационные черновики](docs/geo-owner-checklist.md), [протокол измерений](docs/geo-measurement-protocol.md).
+
 Публичная версия: <https://vichepaev22.github.io/nedelsky-speaker/>
 
 ## Как устроен лендинг

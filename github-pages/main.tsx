@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import Home from "../app/page";
+import { AboutPage, aboutTitle, aboutDescription } from "../app/AboutPage";
 import { AiBusinessPage } from "../app/AiBusinessPage";
 import { SpeakerToolsPage } from "../app/SpeakerToolsPage";
 import { ProgramPage } from "../app/ProgramPage";
@@ -11,6 +12,7 @@ import "../app/project-refresh.css";
 import "../app/speaker-tools.css";
 import "../app/privacy.css";
 import "../app/quiz-entry.css";
+import "../app/about.css";
 
 const baseSegments = import.meta.env.BASE_URL.split("/").filter(Boolean);
 const pathSegments = window.location.pathname.split("/").filter(Boolean);
@@ -21,6 +23,7 @@ const knownProgram = programs.find((program) => program.slug === programSlug);
 const isAiBusiness = relativeSegments[0] === "ai-for-business";
 const isSpeakerTools = relativeSegments[0] === "speaker-tools";
 const isPrivacy = relativeSegments[0] === "legal" && relativeSegments[1] === "privacy";
+const isAbout = relativeSegments[0] === "about";
 
 if (isAiBusiness) {
   document.title = "ИИ для бизнеса — индивидуальные программы · Максим Недельский";
@@ -30,6 +33,9 @@ if (isAiBusiness) {
 } else if (isSpeakerTools) {
   document.title = "Инструменты для спикера — таймер групповой работы · Максим Недельский";
   document.querySelector('meta[name="description"]')?.setAttribute("content", "Таймер для групповых упражнений: время, крупное задание, цифровой отсчёт и полноэкранный показ.");
+} else if (isAbout) {
+  document.title = aboutTitle;
+  document.querySelector('meta[name="description"]')?.setAttribute("content", aboutDescription);
 } else if (isPrivacy) {
   document.title = "Политика конфиденциальности · Максим Недельский";
 } else if (knownProgram) {
@@ -39,7 +45,7 @@ if (isAiBusiness) {
     ?.setAttribute("content", knownProgram.description);
 }
 
-const page = isAiBusiness
+const page = isAbout ? <AboutPage /> : isAiBusiness
   ? <AiBusinessPage />
   : isSpeakerTools
     ? <SpeakerToolsPage />

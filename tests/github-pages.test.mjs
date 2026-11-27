@@ -5,6 +5,37 @@ import test from "node:test";
 const outputRoot = new URL("../pages-dist/", import.meta.url);
 const primaryUrl = "https://nedelsky.pages.dev";
 
+test("homepage exposes the quiz link and uses lightweight hero photos before JavaScript", async () => {
+  const html = await readFile(new URL("index.html", outputRoot), "utf8");
+  const entry = html.match(/<div class="hero-quiz-entry">[\s\S]*?<\/div>/)?.[0] ?? "";
+  assert.match(entry, /href="https:\/\/vichepaev22\.github\.io\/nedelsky-speaker\/ai-quiz\/"[^>]*aria-describedby="hero-quiz-caption"/);
+  assert.match(entry, /id="hero-quiz-caption"[^>]*>Бесплатная диагностика/);
+  assert.match(entry, />Где я в ИИ\?/);
+  assert.doesNotMatch(html, /src="[^"]*\/images\/speaker\/maxim-(navy|coral)\.png"/);
+  for (const [tone, file, priority] of [["main", "maxim-navy", true], ["side", "maxim-coral", false]]) {
+    const photo = html.match(new RegExp(`<figure class="hero-${tone}-photo">[\\s\\S]*?</figure>`))?.[0] ?? "";
+    assert.ok(photo.includes('type="image/webp"'));
+    const webp = "/nedelsky-speaker/images/speaker/";
+    assert.ok(photo.includes(priority
+      ? `srcSet="${webp}maxim-navy-hero-480.webp 480w, ${webp}maxim-navy-hero.webp 1023w" sizes="`
+      : `srcSet="${webp}${file}-hero.webp"`));
+    assert.ok(photo.includes(`src="${webp}${file}-optimized.jpg"`));
+    assert.equal(photo.includes('fetchPriority="high"'), priority);
+    assert.match(photo, /width="1023" height="1537"/);
+    assert.doesNotMatch(photo, /loading="lazy"/);
+    const [modern, fallback, original] = await Promise.all([
+      readFile(new URL(`images/speaker/${file}-hero.webp`, outputRoot)),
+      readFile(new URL(`images/speaker/${file}-optimized.jpg`, outputRoot)),
+      readFile(new URL(`images/speaker/${file}.png`, outputRoot)),
+    ]);
+    assert.equal(modern.toString("ascii", 8, 12), "WEBP");
+    assert.equal(fallback.readUInt16BE(0), 0xffd8);
+    assert.ok(modern.length + fallback.length < original.length / 4);
+  }
+  await access(new URL("images/speaker/maxim-navy-hero-480.webp", outputRoot));
+  await access(new URL("ai-quiz/index.html", outputRoot));
+});
+
 test("privacy page and footer links preserve the repository base path", async () => {
   const policy = await readFile(new URL("legal/privacy/index.html", outputRoot), "utf8");
   assert.match(policy, /Недельский Максим Владимирович/);

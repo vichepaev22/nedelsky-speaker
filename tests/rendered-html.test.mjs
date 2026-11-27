@@ -56,6 +56,22 @@ test("server-renders speaker tools before JavaScript starts", async () => {
   assert.match(html, /Задание для группы/);
 });
 
+test("server renders about with source text and one stable Person before JavaScript", async () => {
+  const redirect = await render("/about/");
+  assert.equal(redirect.status, 308);
+  assert.ok(redirect.headers.get("location")?.endsWith("/about"));
+  const response = await render("/about");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Авторские материалы/);
+  assert.match(html, /data-source-id="S28"/);
+  assert.match(html, /https:\/\/nedelsky.pages.dev\/about\//);
+  const scripts = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(match => JSON.parse(match[1]));
+  const nodes = scripts.flatMap(script => script["@graph"] ?? [script]);
+  assert.equal(nodes.filter(node => node["@type"] === "Person").length, 1);
+  assert.equal(nodes.find(node => node["@type"] === "ProfilePage").mainEntity["@id"], "https://nedelsky.pages.dev/#maxim-nedelsky");
+});
+
 for (const [slug, heading] of [
   ["ai-business", "ИИ для роста бизнеса"],
   ["service-design", "Сервис-дизайн и клиентский опыт"],

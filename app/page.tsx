@@ -39,7 +39,7 @@ export default function Home() {
           { href: sitePath("/ai-for-business/#ai-products"), label: "Индивидуальная работа" },
           { href: sitePath("/speaker-tools/"), label: "Инструменты для спикера" },
           { href: "#projects", label: "Проекты" },
-          { href: "#about", label: "О спикере" },
+          { href: sitePath("/about/"), label: "О спикере" },
           { href: "#organizers", label: "Организаторам" },
         ]}
       />
@@ -57,7 +57,12 @@ export default function Home() {
               <a className="button button-coral" href="#contact">Пригласить спикера <span>↘</span></a>
               <a className="button button-outline" href={sitePath("/ai-for-business/")}>Решить задачу с ИИ <span aria-hidden="true">↗</span></a>
             </div>
-            <div className="hero-quiz-entry"><a className="hero-quiz-link" href="https://vichepaev22.github.io/nedelsky-speaker/ai-quiz/">Где я в ИИ?<span aria-hidden="true">↗</span></a><span className="hero-quiz-caption">Бесплатная диагностика · 5–7 минут</span></div>
+            <div className="hero-quiz-entry">
+              <a className="hero-quiz-link" href="https://vichepaev22.github.io/nedelsky-speaker/ai-quiz/" aria-describedby="hero-quiz-caption">
+                Где я в ИИ?<span aria-hidden="true">↗</span>
+              </a>
+              <span className="hero-quiz-caption" id="hero-quiz-caption">Бесплатная диагностика · 5–7 минут</span>
+            </div>
             <a className="hero-program-link text-link" href="#programs">Смотреть программы <span aria-hidden="true">↓</span></a>
             <dl className="hero-facts" aria-label="Ключевые факты">
               <div><dt>8+ лет</dt><dd>в бизнесе и общественных проектах</dd></div>
@@ -69,10 +74,20 @@ export default function Home() {
           <div className="hero-visual" aria-label="Максим Недельский выступает перед аудиторией">
             <div className="hero-stamp">MAXIM<br />NEDELSKY<span>●</span></div>
             <figure className="hero-main-photo">
-              <img src={sitePath("/images/speaker/maxim-navy.png")} alt="Максим Недельский выступает с микрофоном" width="1023" height="1537" />
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet={`${sitePath("/images/speaker/maxim-navy-hero-480.webp")} 480w, ${sitePath("/images/speaker/maxim-navy-hero.webp")} 1023w`}
+                  sizes="(max-width: 620px) calc(95vw - 53px), (max-width: 960px) min(80vw, 606px), min(44vw, 621px)"
+                />
+                <img src={sitePath("/images/speaker/maxim-navy-optimized.jpg")} alt="Максим Недельский выступает с микрофоном" width="1023" height="1537" fetchPriority="high" />
+              </picture>
             </figure>
             <figure className="hero-side-photo">
-              <img src={sitePath("/images/speaker/maxim-coral.png")} alt="Максим Недельский ведёт выступление" width="1023" height="1537" />
+              <picture>
+                <source type="image/webp" srcSet={sitePath("/images/speaker/maxim-coral-hero.webp")} />
+                <img src={sitePath("/images/speaker/maxim-coral-optimized.jpg")} alt="Максим Недельский ведёт выступление" width="1023" height="1537" />
+              </picture>
             </figure>
             <p className="hero-caption">выступления,<br />которые запускают изменения</p>
             <span className="hero-orbit orbit-one" aria-hidden="true" />
@@ -180,7 +195,7 @@ export default function Home() {
 
       <section className="about-section" id="about">
         <div className="about-photo">
-          <img src={sitePath("/images/speaker/maxim-coral.png")} alt="Максим Недельский во время делового выступления" width="1023" height="1537" loading="lazy" />
+          <img src={sitePath("/images/speaker/maxim-coral-optimized.jpg")} alt="Максим Недельский во время делового выступления" width="1023" height="1537" loading="lazy" />
           <p>Максим<br />Недельский</p>
         </div>
         <div className="about-copy">
@@ -201,10 +216,11 @@ export default function Home() {
             </p>
           </div>
           <div className="credentials">
-            <div><strong>Федеральный эксперт</strong><span>Росмолодёжь.Гранты</span></div>
-            <div><strong>Учредитель</strong><span>Федерации триатлона Ямала</span></div>
+            <div><strong>Опыт экспертизы</strong><span>Росмолодёжь.Гранты · в программе 2024 года</span></div>
+            <div><strong>Спортивные проекты</strong><span>Развитие триатлона на Ямале</span></div>
             <div><strong>Федеральный спикер</strong><span>Методолог образовательных программ</span></div>
           </div>
+          <a className="button button-outline about-more" href={sitePath("/about/")}>Подробнее о спикере <span aria-hidden="true">→</span></a>
         </div>
       </section>
 

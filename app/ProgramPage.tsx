@@ -40,6 +40,7 @@ export function ProgramPage({ program }: { program: Program }) {
           { href: "#formats", label: "Форматы" },
           { href: "#content", label: "Программа" },
           { href: "#result", label: "Результат" },
+          { href: sitePath("/about/"), label: "Обо мне" },
         ]}
       />
 

@@ -30,6 +30,13 @@ const projects = [
     result: "Этот сайт — пример: адаптивные страницы, выбор формата и понятный путь к обсуждению задачи.",
     href: sitePath("/ai-for-business/?product=ai-transformation#details-ai-transformation"), cta: "Обсудить свой сайт", external: false,
   },
+  {
+    id: "certificate-register", category: "MAX · автоматизация документооборота", name: "Учёт справок клиентов", title: "От фотографии справки до записи в реестре",
+    task: "Автоматизировать учёт справок в академии плавания «Акулёнок»: сократить ручной ввод и упростить контроль сроков.",
+    solution: "Бот в MAX использует DeepSeek для бюджетного распознавания данных с фото. Сотрудник проверяет извлечённые поля и подтверждает запись в реестр.",
+    result: "Рабочий внутренний инструмент: руководитель видит записи и сроки действия справок в одном реестре. Бот помогает вести учёт, а не оценивает медицинское содержание документов.",
+    href: "#contact", cta: "Обсудить похожую автоматизацию", external: false,
+  },
 ];
 
 const projectExtraLinks: Record<string, { href: string; label: string }[]> = {
@@ -38,6 +45,18 @@ const projectExtraLinks: Record<string, { href: string; label: string }[]> = {
 };
 
 function ProjectVisual({ id }: { id: string }) {
+  if (id === "certificate-register") {
+    return (
+      <div className="project-art project-art-certificates" aria-hidden="true">
+        <div className="certificate-illustration">
+          <div className="certificate-sheet"><span>Фото справки</span><i /><i /><i /></div>
+          <span className="certificate-arrow">→</span>
+          <div className="certificate-record"><span>MAX · DeepSeek</span><strong>Запись в реестре</strong><small>✓ Подтверждено сотрудником</small></div>
+        </div>
+        <span className="project-art-note">Фото → распознавание → подтверждение → учёт</span>
+      </div>
+    );
+  }
   if (id === "tempo") {
     return (
       <div className="project-art project-art-tempo" aria-hidden="true">
@@ -76,7 +95,7 @@ function ProjectVisual({ id }: { id: string }) {
     <div className="project-art project-art-websites">
       <div className="project-browser">
         <div className="browser-chrome"><i /><i /><i /><span>Личный сайт спикера</span></div>
-        <div className="browser-page"><div><span>Максим Недельский</span><strong>Знания,<br /> которые<br /> <em>становятся</em><br /> действиями</strong><b>Пригласить спикера ↗</b></div><img src={sitePath("/images/speaker/maxim-navy.png")} alt="Максим Недельский с микрофоном на макете сайта спикера" width="1023" height="1537" loading="lazy" /></div>
+        <div className="browser-page"><div><span>Максим Недельский</span><strong>Знания,<br /> которые<br /> <em>становятся</em><br /> действиями</strong><b>Пригласить спикера ↗</b></div><img src={sitePath("/images/speaker/maxim-navy-optimized.jpg")} alt="Максим Недельский с микрофоном на макете сайта спикера" width="1023" height="1537" loading="lazy" /></div>
       </div>
       <span className="project-art-note">Экспертиза → предложение → сайт</span>
     </div>
@@ -93,7 +112,7 @@ export function ProjectPortfolio() {
       </div>
       <div className="project-grid">
         {projects.map((project) => (
-          <article className={`project-card project-${project.id}`} key={project.id}>
+          <article id={project.id === "certificate-register" ? project.id : undefined} className={`project-card project-${project.id}`} key={project.id}>
             <ProjectVisual id={project.id} />
             <div className="project-copy">
               <p className="project-category">{project.category}</p>
